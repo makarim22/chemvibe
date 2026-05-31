@@ -1,0 +1,135 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net - deny all by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Auth and core security primitives
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Validation blueprints for incoming entities
+    function isValidUser(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() <= 128
+        && data.email is string && data.email.size() <= 256;
+    }
+
+    function isValidPublicProfile(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() <= 128;
+    }
+
+    function isValidPublicActivity(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.userId is string && data.userId.size() <= 128
+        && data.userName is string && data.userName.size() <= 128
+        && data.activityType is string && data.activityType.size() <= 64
+        && data.title is string && data.title.size() <= 200;
+    }
+
+    function isValidAnnouncement(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.title is string && data.title.size() <= 200
+        && data.content is string && data.content.size() <= 5000
+        && data.category is string && (data.category == 'tugas' || data.category == 'pengumuman' || data.category == 'materi')
+        && data.authorName is string && data.authorName.size() <= 128
+        && data.timestamp is string && data.timestamp.size() <= 128;
+    }
+
+    function isValidFlashcard(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.category is string && data.category.size() <= 128
+        && data.question is string && data.question.size() <= 2000
+        && data.answer is string && data.answer.size() <= 4000
+        && (!('hint' in data) || (data.hint is string && data.hint.size() <= 1000));
+    }
+
+    function isValidVerifiedBadge(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.userId is string && data.userId.size() <= 128
+        && data.badgeId is string && data.badgeId.size() <= 128
+        && data.points is number
+        && data.timestamp is number
+        && data.signature is string && data.signature.size() <= 256;
+    }
+
+    // Match rules for the users and progress collections
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+
+      // Subcollection for cryptographically verified badges
+      match /verified_badges/{badgeId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(badgeId) && isValidVerifiedBadge(incoming());
+        allow delete: if isOwner(userId);
+      }
+
+      // Subcollection for custom flashcards
+      match /flashcards/{flashcardId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(flashcardId) && isValidFlashcard(incoming());
+        allow delete: if isOwner(userId);
+      }
+
+      // Subcollection for specific activities
+      match /activities/{activityId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(activityId) && incoming().userId == request.auth.uid;
+        allow update: if false; // Activities are immutable history logs
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // Public achievements profiles for the global leaderboard (Zero-Trust PII Isolation)
+    match /public_profiles/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isOwner(userId) && isValidId(userId) && isValidPublicProfile(incoming());
+      allow delete: if isOwner(userId);
+    }
+
+    // Global real-time activity feed (Chronological academic logs ledger)
+    match /public_activities/{activityId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(activityId) && incoming().userId == request.auth.uid && isValidPublicActivity(incoming());
+      allow update, delete: if false; // Activities are immutable historical logs
+    }
+
+    // Class announcements collection for Teacher Console integration
+    match /class_announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && isValidId(announcementId) && isValidAnnouncement(incoming());
+      allow delete: if isSignedIn() && isValidId(announcementId);
+    }
+
+    // Classrooms collection
+    match /classrooms/{classroomId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isSignedIn() && isValidId(classroomId);
+    }
+
+    // Student virtual lab reports collection
+    match /student_reports/{reportId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isSignedIn() && isValidId(reportId);
+    }
+  }
+}

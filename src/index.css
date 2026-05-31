@@ -1,0 +1,1403 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-alkali-metals: #ef4444;
+  --color-alkaline-earth: #f97316;
+  --color-transition-metals: #facc15;
+  --color-post-transition: #22c55e;
+  --color-metalloids: #06b6d4;
+  --color-nonmetals: #3b82f6;
+  --color-noble-gases: #a855f7;
+  --color-lanthanides: #ec4899;
+
+  --color-surface-container: #1c1b1b;
+  --color-surface-container-high: #2b2a2a;
+
+  /* Custom utility shades used throughout the virtual laboratory layout files to support perfect dark/light-mode contrast levels */
+  --color-slate-450: #94a3b8;
+  --color-slate-550: #64748b;
+  --color-slate-655: #475569;
+  --color-slate-850: #0f172a;
+  --color-slate-905: #020617;
+  --color-slate-920: #070d19;
+  --color-sky-505: #0ea5e9;
+  --color-emerald-505: #10b981;
+  --color-indigo-550: #6366f1;
+  --color-zinc-555: #71717a;
+}
+
+@layer base {
+  body {
+    background-color: #020617; /* slate-950 */
+    color: #cbd5e1; /* slate-300 */
+    background-image: 
+      linear-gradient(to right, rgba(14, 116, 144, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(14, 116, 144, 0.05) 1px, transparent 1px);
+    background-size: 2rem 2rem;
+  }
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.65); /* slate-900 with opacity */
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700 border */
+}
+
+.glow-blue {
+  box-shadow: 0 0 25px rgba(20, 184, 166, 0.2); /* teal-500 glow */
+}
+
+.glow-teal {
+  box-shadow: 0 0 25px rgba(20, 184, 166, 0.25); /* teal-500 glow */
+}
+
+.glow-purple {
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.2); /* indigo-500 glow */
+}
+
+.card-perspective {
+  perspective: 1000px;
+}
+
+.card-inner {
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.card-flip {
+  transform: rotateY(180deg);
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* ==========================================
+   LIGHT MODE STYLING & CORE COLOR OVERRIDES
+   ========================================== */
+body.light-mode {
+  background-color: #f8fafc; /* slate-50 */
+  color: #1e293b; /* slate-800 - Enhanced WCAG contrast */
+  background-image: 
+    linear-gradient(to right, rgba(14, 116, 144, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 116, 144, 0.04) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+}
+
+/* Base text contrast correction */
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode h5,
+body.light-mode h6,
+body.light-mode strong {
+  color: #020617 !important; /* slate-950 - Strong typography contrast */
+}
+
+body.light-mode select,
+body.light-mode input,
+body.light-mode textarea {
+  background-color: #ffffff !important;
+  color: #020617 !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode p,
+body.light-mode span,
+body.light-mode li,
+body.light-mode td {
+  color: #334155; /* slate-700 - Highly accessible text reading contrast */
+}
+
+/* Exclusions to protect Interactive Simulation Viewports from high-light washing */
+body.light-mode #molecule-3d-viewport,
+body.light-mode .molecule-3d-viewport,
+body.light-mode #bohr-orbital-matrix,
+body.light-mode .bohr-orbital-matrix,
+body.light-mode #flame-burner-viewport,
+body.light-mode .flame-burner-viewport,
+body.light-mode #bohr-excitation-viewport,
+body.light-mode .bohr-excitation-viewport {
+  background-color: #ffffff !important; /* Preserves rich visual contrast for glow vectors */
+  border-color: #cbd5e1 !important;
+  color: #1e293b !important;
+}
+
+body.light-mode #molecule-3d-viewport button,
+body.light-mode .molecule-3d-viewport button {
+  background-color: rgba(15, 23, 42, 0.85) !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.light-mode #bohr-orbital-matrix .rounded-full,
+body.light-mode .bohr-orbital-matrix .rounded-full {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+body.light-mode #bohr-orbital-matrix .border-dashed,
+body.light-mode .bohr-orbital-matrix .border-dashed {
+  background-color: rgba(56, 189, 248, 0.05) !important;
+  border-color: rgba(56, 189, 248, 0.45) !important;
+}
+
+body.light-mode #bohr-orbital-matrix span,
+body.light-mode .bohr-orbital-matrix span {
+  color: #38bdf8 !important;
+}
+
+body.light-mode #flame-burner-viewport span,
+body.light-mode .flame-burner-viewport span,
+body.light-mode #bohr-excitation-viewport span,
+body.light-mode .bohr-excitation-viewport span {
+  color: #94a3b8 !important;
+}
+
+/* Navigation items hover & active states */
+body.light-mode aside {
+  background-color: rgba(241, 245, 249, 0.4) !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode header {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode header .text-white,
+body.light-mode header .text-slate-100,
+body.light-mode header .text-slate-200 {
+  color: #0f172a !important;
+}
+
+/* Core Dashboard & General Cards */
+body.light-mode .glass-panel {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(226, 232, 240, 0.85) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+/* Prevent text overrides in custom color highlights */
+body.light-mode .text-teal-400,
+body.light-mode .text-teal-450 {
+  color: #0d9488 !important; /* teal-600 */
+}
+
+body.light-mode .text-indigo-400 {
+  color: #4f46e5 !important; /* indigo-600 */
+}
+
+body.light-mode .text-emerald-400 {
+  color: #16a34a !important; /* emerald-600 */
+}
+
+body.light-mode .text-rose-400,
+body.light-mode .text-rose-450 {
+  color: #e11d48 !important; /* rose-600 */
+}
+
+body.light-mode .text-sky-400 {
+  color: #0284c7 !important; /* sky-600 */
+}
+
+body.light-mode .text-amber-400,
+body.light-mode .text-amber-500 {
+  color: #b45309 !important; /* amber-700 */
+}
+
+body.light-mode .text-cyan-400 {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+/* Background Overrides */
+body.light-mode .bg-slate-950,
+body.light-mode .bg-zinc-950,
+body.light-mode .bg-neutral-950 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+
+body.light-mode .bg-slate-900,
+body.light-mode .bg-zinc-900 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode .bg-slate-950\/30,
+body.light-mode .bg-slate-950\/40,
+body.light-mode .bg-slate-950\/50,
+body.light-mode .bg-slate-950\/60,
+body.light-mode .bg-slate-950\/70,
+body.light-mode .bg-slate-950\/80,
+body.light-mode .bg-slate-950\/85,
+body.light-mode .bg-slate-950\/90,
+body.light-mode .bg-slate-950\/95,
+body.light-mode .bg-slate-900\/30,
+body.light-mode .bg-slate-900\/40,
+body.light-mode .bg-slate-900\/50,
+body.light-mode .bg-slate-900\/60,
+body.light-mode .bg-slate-900\/70,
+body.light-mode .bg-slate-900\/80,
+body.light-mode .bg-slate-900\/90,
+body.light-mode .bg-zinc-950\/20,
+body.light-mode .bg-zinc-950\/30,
+body.light-mode .bg-zinc-950\/40,
+body.light-mode .bg-zinc-950\/50,
+body.light-mode .bg-zinc-950\/60,
+body.light-mode .bg-zinc-950\/75,
+body.light-mode .bg-zinc-950\/80,
+body.light-mode .bg-zinc-950\/90,
+body.light-mode .bg-zinc-900\/20,
+body.light-mode .bg-zinc-900\/30,
+body.light-mode .bg-zinc-900\/40,
+body.light-mode .bg-zinc-900\/50,
+body.light-mode .bg-zinc-900\/55,
+body.light-mode .bg-zinc-900\/60,
+body.light-mode .bg-zinc-900\/70,
+body.light-mode .bg-zinc-900\/80,
+body.light-mode .bg-zinc-900\/90,
+body.light-mode .bg-slate-950\/65,
+body.light-mode .bg-slate-950\/95,
+body.light-mode .bg-black\/20,
+body.light-mode .bg-black\/40,
+body.light-mode .bg-black\/65,
+body.light-mode .bg-black\/60 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(226, 232, 240, 0.95) !important;
+  color: #334155 !important;
+}
+
+body.light-mode .border-slate-800,
+body.light-mode .border-slate-850,
+body.light-mode .border-slate-900,
+body.light-mode .border-zinc-900,
+body.light-mode .border-zinc-800,
+body.light-mode .border-zinc-700,
+body.light-mode .border-slate-700,
+body.light-mode .border-white\/5,
+body.light-mode .border-slate-800\/80,
+body.light-mode .border-slate-800\/40,
+body.light-mode .border-slate-700\/80 {
+  border-color: #cbd5e1 !important;
+}
+
+/* Light mode specific element text shades contrast fixer */
+body.light-mode .text-slate-100,
+body.light-mode .text-zinc-100,
+body.light-mode .text-neutral-100,
+body.light-mode .text-slate-200,
+body.light-mode .text-zinc-200,
+body.light-mode .text-neutral-200 {
+  color: #1e293b !important; /* slate-800 */
+}
+
+body.light-mode .text-slate-300,
+body.light-mode .text-zinc-350,
+body.light-mode .text-zinc-300,
+body.light-mode .text-neutral-300 {
+  color: #334155 !important; /* slate-700 */
+}
+
+body.light-mode .text-slate-400,
+body.light-mode .text-zinc-400,
+body.light-mode .text-neutral-400 {
+  color: #475569 !important; /* slate-600 */
+}
+
+body.light-mode .text-slate-500,
+body.light-mode .text-zinc-500,
+body.light-mode .text-neutral-500 {
+  color: #64748b !important; /* slate-500 */
+}
+
+/* Custom selection/active state element wrapping blocks in light mode */
+body.light-mode .bg-pink-500\/10.text-white {
+  background-color: rgba(236, 72, 153, 0.15) !important;
+  color: #be185d !important; /* pink-700 for top legibility! */
+}
+body.light-mode .bg-cyan-500\/10.text-white {
+  background-color: rgba(6, 182, 212, 0.15) !important;
+  color: #0891b2 !important; /* cyan-700 for top legibility! */
+}
+body.light-mode .bg-teal-500\/10.text-white {
+  background-color: rgba(13, 148, 136, 0.15) !important;
+  color: #0f766e !important; /* teal-700 for top legibility! */
+}
+
+/* Navigation items styling */
+body.light-mode nav button:hover {
+  background-color: rgba(226, 232, 240, 0.6) !important;
+  color: #0f172a !important;
+}
+
+body.light-mode nav button.bg-slate-800 {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* Flashcard Styles */
+body.light-mode .flex.items-center.justify-center.bg-slate-950 {
+  background-color: #ffffff !important;
+}
+
+/* Periodic Table Theme adjustments */
+body.light-mode .grid.grid-cols-18 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  border-radius: 1rem;
+  padding: 1.5rem !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03) !important;
+}
+
+body.light-mode .aspect-square.rounded.border {
+  background-color: #f8fafc;
+  color: #334155 !important;
+  border-color: rgba(203, 213, 225, 0.4) !important;
+}
+
+body.light-mode .aspect-square.rounded.border:hover {
+  filter: brightness(0.96);
+}
+
+body.light-mode .aspect-square.rounded.border.border-nonmetals {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  color: #1e3a8a !important;
+}
+
+body.light-mode .aspect-square.rounded.border.border-alkali-metals {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  color: #7f1d1d !important;
+}
+
+body.light-mode .aspect-square.rounded.border.border-alkaline-earth {
+  background-color: rgba(249, 115, 22, 0.1) !important;
+  color: #7c2d12 !important;
+}
+
+body.light-mode .aspect-square.rounded.border.border-transition-metals {
+  background-color: rgba(202, 138, 4, 0.1) !important;
+  color: #713f12 !important;
+}
+
+body.light-mode .aspect-square.rounded.border.border-post-transition {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  color: #14532d !important;
+}
+
+body.light-mode .aspect-square.rounded.border.border-metalloids {
+  background-color: rgba(6, 182, 212, 0.1) !important;
+  color: #164e63 !important;
+}
+
+body.light-mode .aspect-square.rounded.border.border-noble-gases {
+  background-color: rgba(168, 85, 247, 0.1) !important;
+  color: #581c87 !important;
+}
+
+body.light-mode .aspect-square.rounded.border.border-pink-500\/40 {
+  background-color: rgba(236, 72, 153, 0.1) !important;
+  color: #831843 !important;
+}
+
+body.light-mode .aspect-square.rounded.border.border-purple-500\/40 {
+  background-color: rgba(147, 51, 234, 0.1) !important;
+  color: #581c87 !important;
+}
+
+/* Atom Builder Simulation */
+body.light-mode .bg-orange-950\/20,
+body.light-mode .bg-orange-950\/30,
+body.light-mode .bg-orange-950\/45,
+body.light-mode .bg-orange-950\/60,
+body.light-mode .bg-orange-950\/80 {
+  background-color: rgba(254, 243, 199, 0.8) !important;
+}
+
+body.light-mode .bg-sky-950\/20,
+body.light-mode .bg-sky-950\/50,
+body.light-mode .bg-sky-950\/60 {
+  background-color: rgba(224, 242, 254, 0.8) !important;
+}
+
+body.light-mode .bg-teal-950\/20,
+body.light-mode .bg-cyan-950\/20,
+body.light-mode .bg-cyan-950\/60 {
+  background-color: rgba(204, 251, 241, 0.8) !important;
+}
+
+body.light-mode .bg-zinc-800 {
+  background-color: #cbd5e1 !important;
+  color: #1e293b !important;
+}
+
+body.light-mode .bg-zinc-900\/40 {
+  background-color: rgba(241, 245, 249, 0.85) !important;
+}
+
+/* Fix CSS Selector matching with compiled class attributes instead of invalid className */
+body.light-mode div[class*="border-rose-500/30"] {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(225, 29, 72, 0.05) !important;
+}
+
+body.light-mode div[class*="border-sky-500/30"] {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.05) !important;
+}
+
+body.light-mode div[class*="border-teal-500/30"] {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.05) !important;
+}
+
+body.light-mode .w-36.h-4.rounded-full {
+  background-color: rgba(148, 163, 184, 0.15) !important;
+  border-color: rgba(148, 163, 184, 0.3) !important;
+}
+
+/* Charts and graphics panels */
+body.light-mode .recharts-cartesian-grid-horizontal line,
+body.light-mode .recharts-cartesian-grid-vertical line {
+  stroke: #e2e8f0 !important;
+}
+
+body.light-mode .recharts-text {
+  fill: #475569 !important;
+}
+
+body.light-mode .recharts-legend-item-text {
+  color: #1e293b !important;
+}
+
+/* Dropdown selections & buttons */
+body.light-mode .absolute.top-11.right-0.w-60.bg-slate-950,
+body.light-mode .absolute.top-12.left-0.w-64.bg-slate-950 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+}
+
+body.light-mode .absolute.top-11.right-0.w-60.bg-slate-950 button {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+body.light-mode .bg-teal-500\/10 {
+  background-color: rgba(13, 148, 136, 0.12) !important;
+}
+
+/* ========================================================
+   VSEPR GEOMETRY & CHEMICAL EQUILIBRIUM LIGHT MODE ADJUSTMENTS
+   ======================================================== */
+
+/* General Range input sliders (Tracks & Thumbs) */
+body.light-mode input[type="range"] {
+  background-color: #cbd5e1 !important; /* solid slate-300 track */
+}
+
+/* Molecule Database grid / list items inside VSEPR */
+body.light-mode .bg-zinc-900\/40.border-zinc-900,
+body.light-mode .bg-zinc-900\/40 {
+  background-color: #f1f5f9 !important; /* solid light gray */
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+body.light-mode .bg-zinc-800\/80 {
+  background-color: #e2e8f0 !important;
+  color: #475569 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Inactive button highlights or selectors inside database */
+body.light-mode .bg-zinc-900 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #1e293b !important;
+}
+
+body.light-mode .bg-zinc-900:hover, 
+body.light-mode .bg-zinc-900\/40:hover, 
+body.light-mode .hover\:border-zinc-800:hover, 
+body.light-mode .hover\:border-zinc-750:hover {
+  background-color: #e2e8f0 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+/* Active Highlight on Database Option */
+body.light-mode .bg-yellow-500\/10.border-yellow-500\/80.text-white {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: #f59e0b !important;
+  color: #b45309 !important; /* High contrast amber-700 text */
+}
+
+/* VSEPR detailed parameter blocks (Steric state container details) */
+body.light-mode .bg-zinc-950\/60 {
+  background-color: #f1f5f9 !important; /* Slate-100 background for nested grids */
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+body.light-mode .bg-zinc-950\/60 .text-white,
+body.light-mode .bg-zinc-950\/60 span.text-sm.font-black,
+body.light-mode .bg-zinc-950\/60 span.text-white,
+body.light-mode .bg-zinc-950\/60 span {
+  color: #0f172a !important; /* Full contrast dark slate labels */
+}
+
+body.light-mode .border-zinc-850 {
+  border-color: #cbd5e1 !important;
+}
+
+/* VSEPR 3D Render quick selector control */
+body.light-mode .bg-zinc-950\/80 {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Tweak angle / warning box background */
+body.light-mode .bg-zinc-950\/50,
+body.light-mode .bg-zinc-950\/40 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Base card body adjustments (Like Flashcards back panel or active elements) */
+body.light-mode div.bg-zinc-950.border-2,
+body.light-mode div.bg-zinc-900.border-2 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Settings, sliders and toggle buttons inside Physical Lab Settings */
+body.light-mode .glass-panel.rounded-2xl.p-6.space-y-6.border-slate-700 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05) !important;
+}
+
+body.light-mode .bg-slate-850,
+body.light-mode .border-slate-850 {
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode .bg-teal-500 {
+  background-color: #0d9488 !important; /* solid beautiful high-contrast teal-650 */
+}
+
+body.light-mode .bg-slate-800 {
+  background-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* ANKI FLASHCARD VIEW OVERRIDES ON LIGHT MODE */
+
+/* Front card (Question face) text readability */
+body.light-mode .card-inner div.bg-zinc-900.border-2 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04) !important;
+}
+
+body.light-mode .card-inner div.bg-zinc-900.border-2 .text-white {
+  color: #1e293b !important;
+}
+
+/* Back card (Answer/Explanation face) customization */
+body.light-mode .card-inner div.bg-zinc-950.border-2 {
+  background-color: #fffbeb !important; /* soft amber-50 background look for the answer face */
+  border-color: #fca5a5 !important;
+  box-shadow: 0 10px 30px rgba(180, 83, 9, 0.06) !important;
+}
+
+body.light-mode .card-inner div.bg-zinc-950.border-2 .text-amber-100 {
+  color: #78350f !important; /* High contrast amber-900 for complete clarity in light scale */
+}
+
+/* Evaluation rated buttons (Again, Hard, Good, Easy) inside cards list in light mode */
+body.light-mode .bg-red-500\/10.border-red-500\/40 {
+  background-color: #fee2e2 !important;
+  border-color: #fca5a5 !important;
+  color: #991b1b !important;
+}
+
+body.light-mode .bg-orange-500\/10.border-orange-500\/40 {
+  background-color: #fef3c7 !important;
+  border-color: #fcd34d !important;
+  color: #92400e !important;
+}
+
+body.light-mode .bg-blue-500\/10.border-blue-500\/40 {
+  background-color: #dbeafe !important;
+  border-color: #93c5fd !important;
+  color: #1e40af !important;
+}
+
+body.light-mode .bg-green-500\/10.border-green-500\/40 {
+  background-color: #d1fae5 !important;
+  border-color: #6ee7b7 !important;
+  color: #065f46 !important;
+}
+
+body.light-mode .bg-red-500\/10.border-red-500\/40:hover {
+  background-color: #fca5a5 !important;
+  color: #7f1d1d !important;
+}
+
+body.light-mode .bg-orange-500\/10.border-orange-500\/40:hover {
+  background-color: #fcd34d !important;
+  color: #78350f !important;
+}
+
+body.light-mode .bg-blue-500\/10.border-blue-500\/40:hover {
+  background-color: #93c5fd !important;
+  color: #1e3a8a !important;
+}
+
+body.light-mode .bg-green-500\/10.border-green-500\/40:hover {
+  background-color: #6ee7b7 !important;
+  color: #064e3b !important;
+}
+
+/* Hint box drawer inside Flashcards */
+body.light-mode .bg-zinc-900\/60.border-zinc-800 {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+body.light-mode .text-amber-200 {
+  color: #b45309 !important; /* solid amber-700 */
+}
+
+/* Equilibrium page: Chemical reactions and sliders manipulation panel */
+body.light-mode .bg-zinc-950\/35 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode .bg-zinc-950\/30 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Custom Beakers & Syringes glassware look */
+body.light-mode .relative.w-44.h-52.bg-zinc-950\/30,
+body.light-mode .relative.w-36.h-56.bg-zinc-950\/30 {
+  background-color: rgba(224, 242, 254, 0.5) !important; /* Beautiful light-sky-50 fluid look */
+  border-color: #94a3b8 !important;
+  box-shadow: inset 0 2px 10px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Syringe rubber plunger */
+body.light-mode .absolute.top-0.inset-x-0.bg-zinc-900 {
+  background-color: #64748b !important; /* Slate-500 */
+  border-bottom-color: #475569 !important; /* Elegant rubber rim */
+}
+
+/* Le Chatelier dynamic feedback banners */
+body.light-mode .bg-red-500\/10.border.border-red-500\/35.text-red-400 {
+  background-color: #fee2e2 !important; /* solid red-100 */
+  border-color: #fca5a5 !important;
+  color: #991b1b !important; /* high-contrast red-800 */
+}
+
+body.light-mode .bg-emerald-500\/10.border.border-emerald-500\/35.text-emerald-400 {
+  background-color: #d1fae5 !important; /* solid emerald-100 */
+  border-color: #6ee7b7 !important;
+  color: #065f46 !important; /* high-contrast green-800 */
+}
+
+body.light-mode .bg-yellow-500\/10.border.border-yellow-500\/35.text-yellow-400 {
+  background-color: #fef3c7 !important; /* solid amber-100 */
+  border-color: #fcd34d !important;
+  color: #92400e !important; /* high-contrast amber-800 */
+}
+
+/* Audio sonification alert block */
+body.light-mode .bg-yellow-950\/10 {
+  background-color: #fffbeb !important; /* amber-50 */
+  border-color: #fde68a !important;
+  color: #78350f !important;
+}
+
+/* Complex NaF ligand wrapper block */
+body.light-mode .bg-red-950\/15 {
+  background-color: #fef2f2 !important; /* red-50 */
+  border-color: #fecaca !important;
+  color: #991b1b !important;
+}
+
+/* All headers and specific text contrasts inside these dashboards */
+body.light-mode .text-zinc-300,
+body.light-mode .text-slate-350,
+body.light-mode .text-zinc-400 {
+  color: #334155 !important; /* Slate-700 font readability */
+}
+
+body.light-mode .text-zinc-500 {
+  color: #475569 !important; /* Slate-600 */
+}
+
+body.light-mode .text-cyan-400 {
+  color: #0891b2 !important; /* cyan-700 */
+}
+
+body.light-mode .text-purple-400,
+body.light-mode .text-violet-400 {
+  color: #6d28d9 !important; /* purple-700 */
+}
+
+body.light-mode .text-yellow-500 {
+  color: #92400e !important; /* amber-800 */
+}
+
+body.light-mode .text-orange-400,
+body.light-mode .text-orange-550 {
+  color: #c2410c !important; /* orange-700 */
+}
+
+body.light-mode .text-amber-400,
+body.light-mode .text-amber-500 {
+  color: #b45309 !important; /* amber-700 */
+}
+
+body.light-mode .accent-orange-550::-webkit-slider-thumb {
+  background: #ea580c !important;
+}
+
+body.light-mode .accent-yellow-550::-webkit-slider-thumb {
+  background: #d97706 !important;
+}
+
+/* ========================================================
+   ORGANIC LAB & MACROMOLECULE LAB LIGHT MODE ADJUSTMENTS
+   ======================================================== */
+
+/* Active / selected states for buttons in Carbon lab & Macromolecules lab */
+body.light-mode .bg-zinc-805,
+body.light-mode button.bg-zinc-808,
+body.light-mode .bg-zinc-800.border-teal-500,
+body.light-mode .bg-zinc-805.border-teal-500 {
+  background-color: rgba(13, 148, 136, 0.15) !important; /* light teal accent */
+  border-color: #0d9488 !important;
+  color: #0f766e !important; /* dark teal-700 */
+}
+
+/* Macromolecules tab active status */
+body.light-mode button.bg-zinc-800.text-orange-400 {
+  background-color: rgba(249, 115, 22, 0.15) !important; /* soft orange */
+  border-color: #f97316 !important;
+  color: #c2410c !important; /* orange-700 */
+}
+
+/* Base inactive/normal button override for carbon & macromolecules */
+body.light-mode .bg-zinc-950.border-zinc-850,
+body.light-mode .bg-zinc-950.border-zinc-900 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+body.light-mode .bg-zinc-950.border-zinc-850:hover,
+body.light-mode .bg-zinc-950.border-zinc-900:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #1e293b !important;
+}
+
+/* Specific border color corrections */
+body.light-mode .border-zinc-905,
+body.light-mode .border-zinc-850,
+body.light-mode .border-zinc-900,
+body.light-mode .border-zinc-800 {
+  border-color: #cbd5e1 !important;
+}
+
+/* Secondary glass-panel & containers holding items in organic lab */
+body.light-mode .bg-slate-900\/45,
+body.light-mode .bg-slate-900\/40 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* Reaction tube area container */
+body.light-mode .lg\:col-span-7.bg-zinc-950 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Lab synthesis beaker look */
+body.light-mode .w-24.h-32.border-2 {
+  background-color: rgba(224, 242, 254, 0.35) !important; /* glass look */
+  border-color: #94a3b8 !important;
+  box-shadow: inset 0 2px 10px rgba(15, 23, 42, 0.05) !important;
+}
+
+/* Macromolecules test-tubes rack layout glass look */
+body.light-mode .w-16.h-40.border-4 {
+  background-color: rgba(224, 242, 254, 0.3) !important; /* glassware transparent fluid look */
+  border-color: #94a3b8 !important;
+}
+
+body.light-mode .bg-zinc-900\/30 {
+  background-color: rgba(241, 245, 249, 0.5) !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Macromolecule selected sample filter categorization cards */
+body.light-mode button.bg-zinc-800.border-orange-500\/40 {
+  background-color: rgba(249, 115, 22, 0.12) !important;
+  border-color: #f97316 !important;
+  color: #c2410c !important;
+}
+
+/* Macromolecule quiz block selections */
+body.light-mode .bg-zinc-950\/40.border-zinc-900 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Question list selections for organic chemistry labs cards */
+body.light-mode #quiz-question-screen {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05) !important;
+}
+
+body.light-mode #quiz-question-screen .text-orange-450 {
+  color: #ea580c !important; /* solid orange-600 */
+}
+
+/* Highlight tags container corrections */
+body.light-mode .bg-teal-500\/5,
+body.light-mode .bg-teal-500\/10 {
+  background-color: rgba(13, 148, 136, 0.1) !important;
+}
+
+body.light-mode .bg-orange-400\/5,
+body.light-mode .bg-orange-400\/10,
+body.light-mode .bg-orange-500\/10 {
+  background-color: rgba(249, 115, 22, 0.1) !important;
+}
+
+/* ========================================================
+   BUILD AN ATOM SIMULATOR LIGHT MODE ADJUSTMENTS
+   ======================================================== */
+
+/* Main sandbox/free experiment and challenges switcher tabs */
+body.light-mode .bg-slate-850 {
+  background-color: #0f172a !important; /* solid charcoal-slate dark mode style for active tab */
+  color: #ffffff !important;
+}
+
+body.light-mode button.text-slate-400 {
+  color: #475569 !important; /* solid readable gray for inactive tab text */
+}
+
+body.light-mode button.text-slate-400:hover {
+  color: #0f172a !important;
+  background-color: rgba(226, 232, 240, 0.7) !important;
+}
+
+/* Stability Badge stamps (INTI STABIL / TIDAK STABIL) */
+body.light-mode .bg-emerald-950\/90 {
+  background-color: #d1fae5 !important; /* solid light green background */
+  border-color: #10b981 !important;
+  color: #065f46 !important; /* high-contrast forest green label */
+}
+
+body.light-mode .bg-emerald-950\/90 span.bg-emerald-400 {
+  background-color: #10b981 !important;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6) !important;
+}
+
+body.light-mode .bg-amber-950\/90 {
+  background-color: #fef3c7 !important; /* solid light premium yellow */
+  border-color: #f59e0b !important;
+  color: #92400e !important; /* high-contrast dark amber-800 text */
+}
+
+body.light-mode .bg-amber-950\/90 span.bg-amber-400 {
+  background-color: #f59e0b !important;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6) !important;
+}
+
+/* Base slate-950 layout panels container & control zones (like Bohr ring metadata inside left canvas) */
+body.light-mode .bg-slate-950\/95,
+body.light-mode .bg-slate-950\/90,
+body.light-mode .bg-slate-950\/70,
+body.light-mode .bg-slate-950\/60,
+body.light-mode .bg-slate-950\/40,
+body.light-mode .bg-slate-950\/35,
+body.light-mode .bg-slate-950\/30,
+body.light-mode .bg-slate-950\/25,
+body.light-mode .bg-slate-950\/20,
+body.light-mode .bg-slate-952\/20 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+body.light-mode .bg-slate-950 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #1e293b !important;
+}
+
+/* High contrast particle count descriptors (Protons / Neutrons / Electrons labels) */
+body.light-mode .text-rose-300 {
+  color: #b91c1c !important; /* high-contrast solid red-700 label */
+}
+
+body.light-mode .text-sky-300 {
+  color: #0369a1 !important; /* high-contrast solid sky-700 label */
+}
+
+body.light-mode .text-cyan-300 {
+  color: #0e7490 !important; /* high-contrast solid cyan-700 label */
+}
+
+body.light-mode .text-rose-400 {
+  color: #991b1b !important; /* solid red-800 title tag */
+}
+
+body.light-mode .text-sky-450 {
+  color: #075985 !important; /* solid sky-800 title tag */
+}
+
+body.light-mode .text-cyan-400 {
+  color: #155e75 !important; /* solid cyan-800 title tag */
+}
+
+/* Sisa: proton, neutron, electron labels containers */
+body.light-mode .bg-rose-950\/50,
+body.light-mode .bg-rose-955\/50,
+body.light-mode .bg-rose-950\/60 {
+  background-color: #fee2e2 !important; /* clear light red */
+  border-color: #fca5a5 !important;
+}
+
+body.light-mode .bg-sky-950\/50,
+body.light-mode .bg-sky-955\/50,
+body.light-mode .bg-sky-950\/60 {
+  background-color: #dbeafe !important; /* clear light sky-blue */
+  border-color: #93c5fd !important;
+}
+
+body.light-mode .bg-teal-950\/50,
+body.light-mode .bg-teal-955\/50,
+body.light-mode .bg-cyan-950\/60 {
+  background-color: #ccfbf1 !important; /* clear light teal/cyan */
+  border-color: #99f6e4 !important;
+}
+
+/* Control buttons inside core panels */
+body.light-mode .bg-slate-900 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+body.light-mode .bg-slate-900:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Interactive particle control area hover styles overrides */
+body.light-mode .hover\:bg-rose-950\/50:hover {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+  border-color: #ef4444 !important;
+}
+
+body.light-mode .hover\:bg-sky-950\/50:hover {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+  border-color: #3b82f6 !important;
+}
+
+body.light-mode .hover\:bg-cyan-950\/50:hover {
+  background-color: #ccfbf1 !important;
+  color: #0f766e !important;
+  border-color: #0d9488 !important;
+}
+
+/* Subtitles / texts */
+body.light-mode .text-slate-350,
+body.light-mode .text-slate-400,
+body.light-mode .text-slate-500 {
+  color: #475569 !important;
+}
+
+body.light-mode .border-slate-800,
+body.light-mode .border-slate-900,
+body.light-mode .border-slate-850 {
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode .border-slate-705\/80,
+body.light-mode .border-slate-700\/80 {
+  border-color: #94a3b8 !important;
+}
+
+/* ========================================================
+   STANDARD NUCLIDE NOTATION INTERACTIVE WIDGET LIGHT MODE
+   ======================================================== */
+
+body.light-mode .bg-slate-905\/40 {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode .font-serif.text-slate-200 {
+  color: #020617 !important;
+}
+
+body.light-mode .font-serif.text-slate-200 .text-white {
+  color: #020617 !important;
+}
+
+body.light-mode .bg-slate-950\/45 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode .text-slate-500 {
+  color: #475569 !important;
+}
+
+/* ========================================================
+   VSEPR FORMULA INTERACTIVE WIDGET LIGHT MODE
+   ======================================================== */
+
+body.light-mode .text-cyan-450 {
+  color: #084f5e !important; /* high-contrast safe dark cyan */
+}
+
+body.light-mode .text-cyan-400 {
+  color: #0891b2 !important; /* bright distinct cyan-600 */
+}
+
+body.light-mode .bg-zinc-805.text-white {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode .text-violet-400 {
+  color: #6d28d9 !important; /* standard safe purple-750 */
+}
+
+body.light-mode .text-violet-500 {
+  color: #5b21b6 !important;
+}
+
+body.light-mode .text-amber-400 {
+  color: #ea580c !important; /* high-contrast readable amber-orange */
+}
+
+
+/* ========================================================
+   SCIENCE LAWS POPUP DRAWER/MODAL LIGHT MODE
+   ======================================================== */
+
+body.light-mode .science-laws-modal {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+body.light-mode .science-laws-modal h3 {
+  color: #0f172a !important;
+}
+
+body.light-mode .science-laws-modal p {
+  color: #475569 !important;
+}
+
+body.light-mode .select-tabs {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode .select-tabs button {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+body.light-mode .select-tabs button:hover {
+  color: #0f172a !important;
+  background-color: #e2e8f0 !important;
+}
+
+/* Tab Active overrides */
+body.light-mode .select-tabs button.bg-teal-500 {
+  background-color: #0d9488 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+body.light-mode .science-law-card {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode .science-law-card:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+}
+
+body.light-mode .card-title {
+  color: #0369a1 !important; /* dark slate/ocean header */
+}
+
+body.light-mode .card-formulator {
+  color: #64748b !important;
+}
+
+body.light-mode .card-description {
+  color: #334155 !important;
+}
+
+body.light-mode .card-lab-tag {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+body.light-mode .category-badge {
+  background-color: rgba(13, 148, 136, 0.1) !important;
+  border-color: rgba(13, 148, 136, 0.3) !important;
+  color: #0d9488 !important;
+}
+
+body.light-mode .formula-viewport {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-mode .formula-viewport code {
+  color: #0369a1 !important; /* contrast mathematical styling */
+}
+
+body.light-mode .teacher-note-card {
+  background-color: #f0fdf4 !important;
+  border-color: #bbf7d0 !important;
+  color: #166534 !important;
+}
+
+body.light-mode .student-note-card {
+  background-color: #eef2ff !important;
+  border-color: #c7d2fe !important;
+  color: #3c0d93 !important;
+}
+
+body.light-mode .science-laws-footer {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+body.light-mode .active-mode-label {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+body.light-mode .mode-toggle-footer-btn {
+  color: #0284c7 !important;
+}
+
+body.light-mode .mode-toggle-footer-btn:hover {
+  color: #0369a1 !important;
+}
+
+/* ========================================================
+   ROOT CONTAINER BACKGROUND RESOLUTION FOR LIGHT MODE
+   ======================================================== */
+body.light-mode div.min-h-screen.bg-slate-950 {
+  background-color: transparent !important;
+}
+
+/* ========================================================
+   @MEDIA PRINT LAYOUT FOR VIRTUAL LAB REPORT TO PDF
+   ======================================================== */
+@media print {
+  /* Setup clean A4 layout pages */
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm;
+  }
+
+  /* Root variables resets for ink efficiency */
+  body, html, #root {
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #000000 !important;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  /* 1. HIDE ALL NAVIGATION ELEMENTS AND MENUS */
+  aside,
+  header,
+  footer,
+  nav,
+  button,
+  select,
+  .print\:hidden,
+  /* Desktop collapsed control nodes */
+  div[title="Tampilkan Menu"],
+  div[title="Buka Menu"] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 2. MAIN CONTAINER EXPANSION */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* 3. REPORT WORKSPACE SPECIFICS */
+  .unique-report-workspace {
+    background: #ffffff !important;
+    color: #000000 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  /* Hide compile/editing toolbox (left hand column) */
+  .unique-report-workspace .lg\:col-span-4 {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Make document paper occupy 100% printable span width */
+  .unique-report-workspace .lg\:col-span-8 {
+    grid-column: span 12 / span 12 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Style sheet container directly */
+  .unique-report-workspace .bg-slate-950 {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Highlight borders printed cleanly */
+  .print\:border-black {
+    border-color: #000000 !important;
+  }
+
+  .print\:text-black {
+    color: #000000 !important;
+  }
+
+  /* Table overrides */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1.5rem 0 !important;
+  }
+
+  th {
+    background-color: #f1f5f9 !important;
+    color: #000000 !important;
+    font-weight: 800 !important;
+    border: 1px solid #000000 !important;
+    padding: 8px !important;
+  }
+
+  td {
+    color: #000000 !important;
+    background: transparent !important;
+    border: 1px solid #7f7f7f !important;
+    padding: 8px !important;
+  }
+
+  /* Dynamic inputs elements look like static plain text */
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    border: none !important;
+    background: transparent !important;
+    color: #000000 !important;
+    outline: none !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    font-weight: bold !important;
+    width: 100% !important;
+    padding: 0 !important;
+    resize: none !important;
+    box-shadow: none !important;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  /* Specific headings and structures */
+  h1, h2, h3, h4, h5 {
+    color: #000000 !important;
+    font-weight: 800 !important;
+  }
+
+  /* Line details under header paper */
+  .border-double {
+    border-style: double !important;
+    border-color: #000000 !important;
+  }
+
+  /* Break avoidance to look completely professional */
+  tr {
+    page-break-inside: avoid !important;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid !important;
+  }
+}
+
+
+
+
+

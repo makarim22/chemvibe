@@ -1,0 +1,6 @@
+{
+  "name": "ChemVibe",
+  "description": "An interactive cosmic chemistry dashboard and virtual laboratory simulating elements, orbital bonding, molecular geometry, stoichiometry, titration metrics, buffer systems, salt hydrolysis, solubility products, Ksp precipitation, colloid Tyndall effects, electrolysis Faraday law, and flame test element excitation wavelengths.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
