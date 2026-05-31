@@ -41,6 +41,7 @@ import { UserAccount } from '../types';
 
 interface AcidBaseIntroLabProps {
   currentUser: UserAccount | null;
+  theme?: 'dark' | 'light';
 }
 
 // ==========================================
@@ -236,7 +237,7 @@ const ACID_BASE_QUIZ = [
   }
 ];
 
-export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps) {
+export default function AcidBaseIntroLab({ currentUser, theme = 'dark' }: AcidBaseIntroLabProps) {
   const [activeTab, setActiveTab] = useState<'theory' | 'extractor' | 'scale' | 'phCalc' | 'quiz'>('theory');
 
   // ==========================================
@@ -455,10 +456,14 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
   };
 
   return (
-    <div id="acid-base-root-panel" className="w-full min-h-[calc(100vh-4rem)] p-4 md:p-8 space-y-6 bg-slate-950 text-slate-200">
+    <div id="acid-base-root-panel" className={`w-full min-h-[calc(100vh-4rem)] p-4 md:p-8 space-y-6 ${theme === 'dark' ? 'bg-slate-950 text-slate-200' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* Upper Branding Banner */}
-      <div className="relative p-6 md:p-8 rounded-2xl bg-gradient-to-r from-teal-950/40 via-indigo-950/15 to-slate-900 border border-teal-900/30 overflow-hidden shadow-xl">
+      <div className={`relative p-6 md:p-8 rounded-2xl border overflow-hidden shadow-xl ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-r from-teal-950/40 via-indigo-950/15 to-slate-900 border-teal-900/30' 
+          : 'bg-gradient-to-r from-teal-50 via-indigo-50 to-white border-teal-200'
+      }`}>
         <div className="absolute right-0 top-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl -z-10 pointer-events-none" />
         <div className="absolute left-1/4 bottom-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-2xl -z-10 pointer-events-none" />
         
@@ -482,57 +487,57 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
             </p>
           </div>
 
-          <div className="flex gap-2 shrink-0 bg-slate-950/85 p-1.5 rounded-xl border border-slate-900 overflow-x-auto w-full md:w-auto">
+          <div className={`flex flex-col gap-2 p-1 rounded-xl border w-full md:w-56 shrink-0 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-200 border-slate-300'}`}>
             <button
               onClick={() => setActiveTab('theory')}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase transition-all tracking-wider whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left ${
                 activeTab === 'theory'
                   ? 'bg-gradient-to-r from-teal-500/20 to-indigo-500/20 text-teal-400 border border-teal-555/40'
-                  : 'text-zinc-455 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-455 hover:text-white' : 'text-slate-700 hover:text-slate-900')
               }`}
             >
               1. Teori Dasar
             </button>
             <button
               onClick={() => setActiveTab('extractor')}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase transition-all tracking-wider whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left ${
                 activeTab === 'extractor'
                   ? 'bg-gradient-to-r from-teal-500/20 to-indigo-500/20 text-teal-400 border border-teal-555/40'
-                  : 'text-zinc-455 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-455 hover:text-white' : 'text-slate-700 hover:text-slate-900')
               }`}
             >
               2. Lab Ekstraksi
             </button>
             <button
               onClick={() => setActiveTab('scale')}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase transition-all tracking-wider whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left ${
                 activeTab === 'scale'
                   ? 'bg-gradient-to-r from-teal-500/20 to-indigo-505/20 text-teal-400 border border-teal-555/40'
-                  : 'text-zinc-455 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-455 hover:text-white' : 'text-slate-700 hover:text-slate-900')
               }`}
             >
               3. Spektrum Warna pH
             </button>
             <button
               onClick={() => setActiveTab('phCalc')}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase transition-all tracking-wider whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left ${
                 activeTab === 'phCalc'
                   ? 'bg-gradient-to-r from-teal-500/20 to-indigo-505/20 text-teal-400 border border-teal-555/40'
-                  : 'text-zinc-455 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-455 hover:text-white' : 'text-slate-700 hover:text-slate-900')
               }`}
             >
               4. Kalkulator pH
             </button>
             <button
               onClick={() => setActiveTab('quiz')}
-              className={`px-2.5 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase transition-all tracking-wider relative whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left relative ${
                 activeTab === 'quiz'
                   ? 'bg-gradient-to-r from-teal-500/20 to-indigo-500/20 text-teal-400 border border-teal-555/40'
-                  : 'text-zinc-455 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-455 hover:text-white' : 'text-slate-700 hover:text-slate-900')
               }`}
             >
               Pilar Kuis
-              <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-teal-500 animate-ping" />
+              <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
             </button>
           </div>
         </div>
@@ -545,7 +550,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Theory selector sidebar menu */}
-          <div className="lg:col-span-4 bg-slate-900/40 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-4">
+          <div className={`lg:col-span-4 border rounded-2xl p-5 md:p-6 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="space-y-1">
               <span className="text-[10px] font-mono text-teal-400 font-bold uppercase tracking-wider block">Theoretical Base</span>
               <h3 className="text-base font-sans font-bold text-white flex items-center gap-1.5">
@@ -626,7 +631,9 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           {/* Interactive Simulation Panel */}
           <div className="lg:col-span-8 flex flex-col space-y-4">
             
-            <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-5 md:p-6 flex-1 flex flex-col justify-between min-h-[440px] relative overflow-hidden">
+            <div className={`border rounded-2xl p-5 md:p-6 flex-1 flex flex-col justify-between min-h-[440px] relative overflow-hidden ${
+              theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-white border-slate-200'
+            }`}>
               <div className="absolute right-0 top-0 w-80 h-80 bg-teal-500/5 rounded-full blur-2xl -z-10 pointer-events-none" />
 
               {/* Header inside sim */}
@@ -640,7 +647,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   </h4>
                 </div>
 
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-950 text-indigo-400 border border-slate-800">
+                <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold text-indigo-400 border ${theme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                   {theorySubTab.toUpperCase()} ENGINE
                 </span>
               </div>
@@ -650,7 +657,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div className="space-y-1">
                       <span className="text-[10px] font-mono text-teal-400 uppercase block font-bold">1. Sifat Larutan:</span>
-                      <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-900 gap-1">
+                      <div className={`flex p-1 rounded-xl border gap-1 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                         <button
                           onClick={() => {
                             setArrheniusType('acid');
@@ -678,7 +685,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
 
                     <div className="space-y-1">
                       <span className="text-[10px] font-mono text-teal-400 uppercase block font-bold">2. Kekuatan Elektrolit:</span>
-                      <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-900 gap-1">
+                      <div className={`flex p-1 rounded-xl border gap-1 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                         <button
                           onClick={() => {
                             setArrheniusStrength('strong');
@@ -720,7 +727,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
 
                   {/* Partial Ionization (Weak) Slider */}
                   {arrheniusStrength === 'weak' && (
-                    <div className="p-3 bg-slate-950 rounded-xl border border-slate-900/60 space-y-1.5">
+                    <div className={`p-3 rounded-xl border space-y-1.5 ${theme === 'dark' ? 'bg-slate-950 border-slate-900/60' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="flex justify-between items-center text-[10.5px] font-mono">
                         <span className="text-zinc-400">Derajat Ionisasi Larutan Lemah (α):</span>
                         <strong className="text-amber-400">{(arrheniusAlpha * 100).toFixed(0)}%</strong>
@@ -732,7 +739,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                         step="0.05"
                         value={arrheniusAlpha}
                         onChange={(e) => setArrheniusAlpha(parseFloat(e.target.value))}
-                        className="w-full accent-amber-500 h-1.5 bg-slate-900 rounded-lg cursor-pointer"
+                        className={`w-full accent-amber-500 h-1.5 rounded-lg cursor-pointer ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                       />
                       <p className="text-[9.5px] text-zinc-500 leading-tight">
                         *Ostwald: Hanya sebagian kecil senyawa terurai menjadi H⁺/OH⁻. Sisanya tetap melayang sebagai senyawa utuh terhidrasi.
@@ -743,10 +750,10 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   {/* Dual Container Layout for Beaker & Equation */}
                   <div className="flex flex-col md:flex-row gap-4 items-stretch">
                     {/* Chemical Equation Box */}
-                    <div className="flex-1 p-4 bg-slate-950 rounded-2xl border border-slate-900 flex flex-col justify-between font-mono text-[11px] space-y-3">
+                    <div className={`flex-1 p-4 rounded-2xl border flex flex-col justify-between font-mono text-[11px] space-y-3 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <div>
                         <span className="text-[9px] text-teal-400 font-extrabold uppercase block mb-1">Persamaan Ionisasi Arrhenius:</span>
-                        <div className="p-2.5 bg-slate-900/60 rounded-xl border border-slate-850 text-white text-xs leading-relaxed">
+                        <div className={`p-2.5 rounded-xl border text-xs leading-relaxed ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850 text-white' : 'bg-slate-100/60 border-slate-300 text-slate-900'}`}>
                           {arrheniusType === 'acid' ? (
                             arrheniusStrength === 'strong' ? (
                               <span>HCl(aq) → H⁺(aq) + Cl⁻(aq) <br/><strong className="text-teal-400 text-[10px] block mt-1">(Ionisasi 100% sempurna)</strong></span>
@@ -782,7 +789,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                     </div>
 
                     {/* Beaker representation */}
-                    <div className="w-full md:w-64 h-64 bg-slate-950/80 rounded-2xl border border-slate-900 p-4 overflow-hidden flex flex-col justify-end shadow-xl relative shrink-0">
+                    <div className={`w-full md:w-64 h-64 rounded-2xl border p-4 overflow-hidden flex flex-col justify-end shadow-xl relative shrink-0 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
                       <span className="absolute left-3 top-3 text-[8px] font-mono text-zinc-650">BEAKER ARRHENIUS SHOT</span>
                       
                       {/* Water background */}
@@ -801,7 +808,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                             initial={{ y: -30, opacity: 0 }}
                             animate={{ y: 20, opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="absolute inset-x-0 top-1/4 mx-auto w-40 p-2 bg-slate-900 border border-slate-800 rounded-xl text-center text-xs font-mono"
+                            className={`absolute inset-x-0 top-1/4 mx-auto w-40 p-2 border rounded-xl text-center text-xs font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
                           >
                             <span className="text-[9px] text-zinc-500 uppercase block mb-0.5">Zat Sebelum Larut:</span>
                             <div className="text-sm font-black text-rose-450">
@@ -829,11 +836,11 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                               ) : (
                                 <>
                                   {/* Weak Acid (Mostly undissociated molecules) */}
-                                  <motion.div animate={{ y: [100, 120, 105, 100], x: [60, 80, 50, 60] }} transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }} className="absolute w-15 h-8 rounded-xl bg-slate-900 border border-amber-500/30 text-zinc-350 flex flex-col items-center justify-center font-mono text-[8px] leading-none">
+                                  <motion.div animate={{ y: [100, 120, 105, 100], x: [60, 80, 50, 60] }} transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }} className={`absolute w-15 h-8 rounded-xl border border-amber-500/30 text-zinc-350 flex flex-col items-center justify-center font-mono text-[8px] leading-none ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                     <span>CH₃COOH</span>
                                     <span className="text-[6px] text-zinc-500 mt-0.5">Molekul Utuh</span>
                                   </motion.div>
-                                  <motion.div animate={{ y: [140, 125, 150, 140], x: [120, 100, 130, 120] }} transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }} className="absolute w-15 h-8 rounded-xl bg-slate-900 border border-amber-500/30 text-zinc-350 flex flex-col items-center justify-center font-mono text-[8px] leading-none">
+                                  <motion.div animate={{ y: [140, 125, 150, 140], x: [120, 100, 130, 120] }} transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }} className={`absolute w-15 h-8 rounded-xl border border-amber-500/30 text-zinc-350 flex flex-col items-center justify-center font-mono text-[8px] leading-none ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                     <span>CH₃COOH</span>
                                   </motion.div>
 
@@ -856,17 +863,17 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                               ) : (
                                 <>
                                   {/* Weak Base NH3 (Hydrated/Unprotonated) */}
-                                  <motion.div animate={{ y: [95, 115, 100, 95], x: [55, 75, 45, 55] }} transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }} className="absolute w-12 h-8 rounded-xl bg-slate-900 border border-indigo-500/35 text-zinc-350 flex flex-col items-center justify-center font-mono text-[8px] leading-tight">
+                                  <motion.div animate={{ y: [95, 115, 100, 95], x: [55, 75, 45, 55] }} transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }} className={`absolute w-12 h-8 rounded-xl border border-indigo-500/35 text-zinc-350 flex flex-col items-center justify-center font-mono text-[8px] leading-tight ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                     <span>NH₃</span>
                                     <span className="text-[6px] text-zinc-550 mt-0.5">molekul</span>
                                   </motion.div>
-                                  <motion.div animate={{ y: [135, 115, 145, 135], x: [130, 110, 140, 130] }} transition={{ repeat: Infinity, duration: 5.2, ease: 'easeInOut' }} className="absolute w-12 h-8 rounded-xl bg-slate-900 border border-indigo-500/35 text-zinc-350 flex flex-col items-center justify-center font-mono text-[8px] leading-tight">
+                                  <motion.div animate={{ y: [135, 115, 145, 135], x: [130, 110, 140, 130] }} transition={{ repeat: Infinity, duration: 5.2, ease: 'easeInOut' }} className={`absolute w-12 h-8 rounded-xl border border-indigo-500/35 text-zinc-350 flex flex-col items-center justify-center font-mono text-[8px] leading-tight ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                     <span>NH₃</span>
                                   </motion.div>
 
                                   {/* Weak Base single dissociation pair */}
                                   <motion.div animate={{ y: [75, 90, 80, 75], x: [135, 155, 125, 135] }} transition={{ repeat: Infinity, duration: 3.4, ease: 'easeInOut' }} className="absolute w-7 h-7 rounded-full bg-indigo-500/20 border border-indigo-505/40 text-indigo-400 flex items-center justify-center font-mono text-[8px] font-bold">OH⁻</motion.div>
-                                  <motion.div animate={{ y: [105, 90, 115, 105], x: [25, 40, 20, 25] }} transition={{ repeat: Infinity, duration: 4.4, ease: 'easeInOut' }} className="absolute w-10 h-6 bg-slate-900 border border-slate-800 text-teal-400 flex items-center justify-center font-mono text-[7px]">NH₄⁺</motion.div>
+                                  <motion.div animate={{ y: [105, 90, 115, 105], x: [25, 40, 20, 25] }} transition={{ repeat: Infinity, duration: 4.4, ease: 'easeInOut' }} className={`absolute w-10 h-6 border text-teal-400 flex items-center justify-center font-mono text-[7px] ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>NH₄⁺</motion.div>
                                 </>
                               )
                             )}
@@ -885,12 +892,12 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   <div className="flex flex-col gap-3 w-full md:w-56">
                     <div className="space-y-1">
                       <span className="text-[10px] font-mono text-cyan-405 block uppercase">Reaksi Setimbang:</span>
-                      <div className="font-mono bg-slate-950 p-2 text-xs rounded-lg border border-slate-900 leading-relaxed">
+                      <div className={`font-mono p-2 text-xs rounded-lg border leading-relaxed ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                         NH₃ + H₂O ⇌ <strong className="text-rose-405 font-bold">NH₄⁺</strong> + <strong className="text-cyan-405 font-bold">OH⁻</strong>
                       </div>
                     </div>
 
-                    <div className="p-3 bg-slate-950 rounded-xl space-y-1.5 border border-slate-900 text-[11px] leading-relaxed text-zinc-400">
+                    <div className={`p-3 rounded-xl space-y-1.5 border text-[11px] leading-relaxed ${theme === 'dark' ? 'bg-slate-950 border-slate-900 text-zinc-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                       <p>🎓 Air (H₂O) mendermakan atau membuang kation hidroniumnya ke amonia.</p>
                       <ul className="list-disc pl-4 space-y-0.5">
                         <li>H₂O bertindak sebagai <strong className="text-rose-450">Donor H⁺ (Asam)</strong></li>
@@ -909,13 +916,13 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   </div>
 
                   {/* Visualizing Proton hopping directly in organic structure blocks */}
-                  <div className="relative w-76 h-64 bg-slate-950 rounded-2xl border border-slate-900 p-4 flex flex-col justify-between overflow-hidden">
+                  <div className={`relative w-76 h-64 rounded-2xl border p-4 flex flex-col justify-between overflow-hidden ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="absolute right-3 top-3 text-[8px] font-mono text-zinc-650">Skema Orbital Proton</span>
 
                     <div className="flex-1 flex items-center justify-around relative">
                       
                       {/* Left molecule: NH3 (Base) */}
-                      <div className="flex flex-col items-center relative p-2.5 bg-slate-900/50 border border-slate-800/60 rounded-xl w-32">
+                      <div className={`flex flex-col items-center relative p-2.5 border rounded-xl w-32 ${theme === 'dark' ? 'bg-slate-900/50 border-slate-800/60' : 'bg-slate-100/50 border-slate-300'}`}>
                         <span className="text-[9px] font-mono text-cyan-400 tracking-wider mb-2">
                           {bronstedSimState === 'reactants' ? 'Basa (NH₃)' : 'Asam Konj (NH₄⁺)'}
                         </span>
@@ -926,9 +933,9 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                           <span className="text-zinc-500 text-xs font-mono">• •</span>
                           {/* Attached Hydrogen atoms */}
                           <div className="flex flex-col gap-0.5">
-                            <span className="text-[9px] text-zinc-400 bg-slate-950 px-1 py-0.5 rounded">H</span>
-                            <span className="text-[9px] text-zinc-400 bg-slate-950 px-1 py-0.5 rounded">H</span>
-                            <span className="text-[9px] text-zinc-400 bg-slate-950 px-1 py-0.5 rounded">H</span>
+                            <span className={`text-[9px] px-1 py-0.5 rounded ${theme === 'dark' ? 'text-zinc-400 bg-slate-950' : 'text-slate-600 bg-slate-100'}`}>H</span>
+                            <span className={`text-[9px] px-1 py-0.5 rounded ${theme === 'dark' ? 'text-zinc-400 bg-slate-950' : 'text-slate-600 bg-slate-100'}`}>H</span>
+                            <span className={`text-[9px] px-1 py-0.5 rounded ${theme === 'dark' ? 'text-zinc-400 bg-slate-950' : 'text-slate-600 bg-slate-100'}`}>H</span>
                           </div>
                         </div>
 
@@ -959,7 +966,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                       </div>
 
                       {/* Right molecule: H2O (Acid) */}
-                      <div className="flex flex-col items-center relative p-2.5 bg-slate-900/50 border border-slate-800/60 rounded-xl w-28">
+                      <div className={`flex flex-col items-center relative p-2.5 border rounded-xl w-28 ${theme === 'dark' ? 'bg-slate-900/50 border-slate-800/60' : 'bg-slate-100/50 border-slate-300'}`}>
                         <span className="text-[9px] font-mono text-rose-400 tracking-wider mb-2">
                           {bronstedSimState === 'reactants' ? 'Asam (H₂O)' : 'Basa Konj (OH⁻)'}
                         </span>
@@ -969,7 +976,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                           
                           {bronstedSimState === 'reactants' ? (
                             <div className="flex flex-col gap-0.5">
-                              <span className="text-[9px] text-zinc-400 bg-slate-950 px-1 py-0.5 rounded">H</span>
+                              <span className={`text-[9px] px-1 py-0.5 rounded ${theme === 'dark' ? 'text-zinc-400 bg-slate-950' : 'text-slate-600 bg-slate-100'}`}>H</span>
                               {/* The jumping hydrogen */}
                               <motion.span
                                 layoutId="jumpingProton"
@@ -979,7 +986,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                               </motion.span>
                             </div>
                           ) : (
-                            <span className="text-[9px] text-zinc-400 bg-slate-950 px-1 py-0.5 rounded">H</span>
+                            <span className={`text-[9px] px-1 py-0.5 rounded ${theme === 'dark' ? 'text-zinc-400 bg-slate-950' : 'text-slate-600 bg-slate-100'}`}>H</span>
                           )}
                         </div>
                       </div>
@@ -1004,12 +1011,12 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   <div className="flex flex-col gap-3 w-full md:w-56">
                     <div className="space-y-1">
                       <span className="text-[10px] font-mono text-amber-500 block uppercase">Pembentukan Adduct:</span>
-                      <div className="font-mono bg-slate-950 p-2 text-xs rounded-lg border border-slate-900 leading-relaxed">
+                      <div className={`font-mono p-2 text-xs rounded-lg border leading-relaxed ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                         BF₃ + NH₃ → <strong className="text-amber-400 font-bold">F₃B←NH₃</strong>
                       </div>
                     </div>
 
-                    <div className="p-3 bg-slate-950 rounded-xl space-y-1.5 border border-slate-900 text-[11px] leading-relaxed text-zinc-400">
+                    <div className={`p-3 rounded-xl space-y-1.5 border text-[11px] leading-relaxed ${theme === 'dark' ? 'bg-slate-950 border-slate-900 text-zinc-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                       <p>✨ Boron di BF₃ kehilangan kestabilan oktet (hanya memiliki 6 elektron valensi terluar).</p>
                       <p>Amonia (NH₃) memberikan Pasangan Elektron Bebasnya untuk digunakan bersama.</p>
                     </div>
@@ -1025,7 +1032,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   </div>
 
                   {/* Drawing representation of coordinate covalent bond */}
-                  <div className="relative w-80 h-64 bg-slate-950 rounded-2xl border border-slate-900 p-4 flex flex-col justify-between overflow-hidden">
+                  <div className={`relative w-80 h-64 rounded-2xl border p-4 flex flex-col justify-between overflow-hidden ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="absolute right-3 top-3 text-[8px] font-mono text-zinc-650">Lewis Orbital Shell</span>
 
                     <div className="flex-1 flex items-center justify-center relative">
@@ -1033,7 +1040,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                       {/* Left: BF3 (Lewis Acid - Empty box) */}
                       <motion.div
                         animate={lewisSimState === 'separate' ? { x: -30 } : { x: -10 }}
-                        className="flex flex-col items-center bg-slate-900/40 p-2 rounded-xl border border-slate-800/80 w-32 relative"
+                        className={`flex flex-col items-center p-2 rounded-xl border w-32 relative ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800/80' : 'bg-slate-100/40 border-slate-300'}`}
                       >
                         <span className="text-[8px] font-mono text-amber-500 uppercase mb-1">BF₃ (AKSEPTOR PEB)</span>
                         <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-300">
@@ -1080,7 +1087,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                       {/* Right: NH3 (Lewis Base - Lone pair) */}
                       <motion.div
                         animate={lewisSimState === 'separate' ? { x: 30 } : { x: 10 }}
-                        className="flex flex-col items-center bg-slate-900/40 p-2 rounded-xl border border-slate-800/80 w-32"
+                        className={`flex flex-col items-center p-2 rounded-xl border w-32 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800/80' : 'bg-slate-100/40 border-slate-300'}`}
                       >
                         <span className="text-[8px] font-mono text-teal-400 uppercase mb-1">NH₃ (DONOR PEB)</span>
                         <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-300">
@@ -1111,7 +1118,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
               )}
 
               {/* Footer explanation box */}
-              <div className="p-3 bg-slate-950/80 border border-slate-900/60 rounded-xl flex items-start gap-2 text-xs text-zinc-400 mt-2">
+              <div className={`p-3 border rounded-xl flex items-start gap-2 text-xs mt-2 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900/60 text-zinc-400' : 'bg-slate-100/80 border-slate-300 text-slate-600'}`}>
                 <Info className="w-4 h-4 text-teal-450 shrink-0 mt-0.5 animate-pulse" />
                 <div>
                   <h5 className="font-sans font-bold text-white mb-0.5">Penjelasan Konsep Kimia XI</h5>
@@ -1134,7 +1141,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Plant Source Selection and Mortar controls */}
-          <div className="lg:col-span-5 bg-slate-900/25 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-6">
+          <div className={`lg:col-span-5 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/25 border-slate-900' : 'bg-white border-slate-200'}`}>
             
             <div className="space-y-1">
               <span className="text-[10px] font-mono text-teal-400 font-bold uppercase tracking-wider block">Plant Pigment Harvester</span>
@@ -1162,11 +1169,11 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                     className={`p-3 text-left rounded-xl border transition-all relative overflow-hidden flex flex-col justify-between min-h-[100px] cursor-pointer ${
                       isActive 
                         ? 'border-teal-500 bg-teal-950/20 text-white shadow-md' 
-                        : 'border-slate-800 bg-slate-900/40 text-slate-350 hover:border-slate-700 hover:bg-slate-900/60'
+                        : (theme === 'dark' ? 'border-slate-800 bg-slate-900/40 text-slate-350 hover:border-slate-700 hover:bg-slate-900/60' : 'border-slate-200 bg-slate-100 text-slate-700 hover:border-slate-300 hover:bg-slate-200')
                     }`}
                   >
                     <div className="flex justify-between items-start w-full">
-                      <span className="text-xs font-sans font-bold block leading-tight text-white">{ind.name}</span>
+                      <span className={`text-xs font-sans font-bold block leading-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{ind.name}</span>
                       <span className="text-[8px] font-mono text-zinc-600 italic">Class XI</span>
                     </div>
 
@@ -1183,7 +1190,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
             </div>
 
             {/* Simulated Extraction Stage (Steps) */}
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-900 space-y-4">
+            <div className={`p-4 rounded-xl border space-y-4 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'}`}>
               
               <div className="flex justify-between items-center border-b border-slate-900 pb-2">
                 <span className="text-[10px] font-mono text-zinc-450 uppercase">Progres Ekstraksi Pigmen</span>
@@ -1193,7 +1200,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
               {/* STEP 1: Chop/Assemble screen */}
               {extractorStep === 1 && (
                 <div className="space-y-3">
-                  <p className="text-[11px] text-zinc-400 leading-normal">
+                  <p className={`text-[11px] leading-normal ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-600'}`}>
                     Letakkan lembar/daun dari bahan <strong>{activeIndicator.name}</strong> ke dalam cawan porselen mortir abu-abu.
                   </p>
                   <button
@@ -1211,11 +1218,11 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                 <div className="space-y-3">
                   <div className="flex justify-between items-center text-[11px] font-mono">
                     <span className="text-zinc-550">Lumatkan &amp; Haluskan:</span>
-                    <span className="text-zinc-300 font-bold">{grindingProgress}%</span>
+                    <span className={`font-bold ${theme === 'dark' ? 'text-zinc-300' : 'text-slate-800'}`}>{grindingProgress}%</span>
                   </div>
 
                   {/* Progress bar of grinding */}
-                  <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                  <div className={`w-full h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                     <motion.div 
                       className="h-full bg-gradient-to-r from-teal-505 to-indigo-500"
                       animate={{ width: `${grindingProgress}%` }}
@@ -1254,9 +1261,9 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   <div className="p-3 bg-teal-950/10 border border-teal-500/20 rounded-lg flex items-center justify-between">
                     <div>
                       <span className="text-[10px] font-mono text-teal-400 font-bold uppercase block">EKSTRAK FILTRAT SIAP</span>
-                      <p className="text-[11px] text-zinc-300 font-mono">Indikator {activeIndicator.name} murni</p>
+                      <p className={`text-[11px] font-mono ${theme === 'dark' ? 'text-zinc-300' : 'text-slate-700'}`}>Indikator {activeIndicator.name} murni</p>
                     </div>
-                    <div className="w-7 h-7 flex items-center justify-center rounded-full bg-slate-900">
+                    <div className={`w-7 h-7 flex items-center justify-center rounded-full ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                       <Droplet className="w-4 h-4 text-teal-400" />
                     </div>
                   </div>
@@ -1264,7 +1271,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   <div className="flex gap-2 text-xs font-mono">
                     <button
                       onClick={handleResetExtractor}
-                      className="flex-1 py-1.5 bg-slate-905 hover:bg-slate-800 border border-slate-850 text-zinc-300 rounded-lg cursor-pointer transition-all uppercase text-[10.5px]"
+                      className={`flex-1 py-1.5 hover:bg-slate-800 border text-zinc-300 rounded-lg cursor-pointer transition-all uppercase text-[10.5px] ${theme === 'dark' ? 'bg-slate-905 border-slate-850' : 'bg-slate-100 border-slate-300'}`}
                     >
                       Bikin Ekstrak Baru
                     </button>
@@ -1277,7 +1284,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
             {/* Reaction Logs panel */}
             <div className="space-y-2">
               <span className="text-[10px] font-mono text-zinc-550 block uppercase">Lembar Data Eksperimen</span>
-              <div className="p-3 bg-slate-950 rounded-xl border border-slate-900 font-mono text-[10.5px] space-y-1 h-[140px] overflow-y-auto block leading-relaxed text-zinc-400">
+              <div className={`p-3 rounded-xl border font-mono text-[10.5px] space-y-1 h-[140px] overflow-y-auto block leading-relaxed ${theme === 'dark' ? 'bg-slate-950 border-slate-900 text-zinc-400' : 'bg-white border-slate-200 text-slate-700'}`}>
                 {reactionLogs.map((log, idx) => (
                   <div key={idx} className={idx === 0 ? 'text-teal-405 font-bold border-l-2 border-teal-500/50 pl-2' : 'pl-2 text-zinc-550'}>
                     {log}
@@ -1291,7 +1298,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           {/* Test tube rack visual simulator */}
           <div className="lg:col-span-7 flex flex-col gap-4">
             
-            <div className="bg-slate-900/35 border border-slate-900 rounded-2xl p-6 flex flex-col justify-between space-y-5 flex-1 min-h-[460px] relative overflow-hidden">
+            <div className={`border rounded-2xl p-6 flex flex-col justify-between space-y-5 flex-1 min-h-[460px] relative overflow-hidden ${theme === 'dark' ? 'bg-slate-900/35 border-slate-900' : 'bg-white border-slate-200'}`}>
               <div className="absolute right-0 bottom-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl -z-10 pointer-events-none" />
 
               <div className="flex justify-between items-start border-b border-slate-800/40 pb-3">
@@ -1305,7 +1312,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
 
                 <div className="flex items-center gap-1.5">
                   <span className="text-[10px] font-mono text-zinc-500">Filtrat:</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-950 text-emerald-450 border border-slate-900">
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold text-emerald-450 border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     {activeIndicator.name}
                   </span>
                 </div>
@@ -1313,7 +1320,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
 
               {!extractionCompleted ? (
                 /* Prompt to extract first before testing */
-                <div className="flex-1 flex flex-col justify-center items-center text-center p-8 border border-dashed border-slate-800 rounded-xl bg-slate-950/20">
+                <div className={`flex-1 flex flex-col justify-center items-center text-center p-8 border border-dashed rounded-xl ${theme === 'dark' ? 'border-slate-800 bg-slate-950/20' : 'border-slate-300 bg-slate-100/20'}`}>
                   <HelpCircle className="w-10 h-10 text-zinc-650 mb-3.5" />
                   <h5 className="font-sans font-bold text-white text-sm mb-1">Mulai Ekstraksi Lebih Dulu</h5>
                   <p className="text-xs text-zinc-500 max-w-sm leading-relaxed">
@@ -1324,12 +1331,12 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                 /* Interactive test tubes rack representation */
                 <div className="flex-1 flex flex-col justify-between space-y-6 pt-2">
                   
-                  <div className="text-[11px] text-zinc-400 italic leading-relaxed text-center bg-slate-950 border border-slate-920/20 p-2.5 rounded-xl">
+                  <div className={`text-[11px] italic leading-relaxed text-center border p-2.5 rounded-xl ${theme === 'dark' ? 'text-zinc-400 bg-slate-950 border-slate-920/20' : 'text-slate-600 bg-slate-100 border-slate-300'}`}>
                     💡 <strong>Cara Pengujian:</strong> Klik tombol <strong className="text-teal-400">"Teteskan Indikator"</strong> di bawah masing-masing tabung reaksi berisi larutan uji untuk mengamati secara langsung warna baru pigmen {activeIndicator.pigment} dalam berbagai rentang pH.
                   </div>
 
                   {/* The Row of 7 Test Tubes */}
-                  <div className="grid grid-cols-7 gap-3.5 relative py-6 bg-slate-905/30 px-3 border border-slate-900/60 rounded-2xl shadow-inner flex-1 items-end min-h-[220px]">
+                  <div className={`grid grid-cols-7 gap-3.5 relative py-6 px-3 border rounded-2xl shadow-inner flex-1 items-end min-h-[220px] ${theme === 'dark' ? 'bg-slate-905/30 border-slate-900/60' : 'bg-slate-100/30 border-slate-300'}`}>
                     
                     {HOUSEHOLD_SOLUTIONS.map((sol) => {
                       const tubeState = tubePouredStates[sol.id] || 'empty';
@@ -1356,7 +1363,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                       return (
                         <div key={sol.id} className="flex flex-col items-center space-y-3 group relative cursor-help">
                           {/* Tube hover info popup stats */}
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-32 p-2 bg-slate-950/90 border border-slate-800 text-[10px] font-mono leading-normal rounded shadow-xl hidden group-hover:block z-30 pointer-events-none">
+                          <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-32 p-2 border text-[10px] font-mono leading-normal rounded shadow-xl hidden group-hover:block z-30 pointer-events-none ${theme === 'dark' ? 'bg-slate-950/90 border-slate-800' : 'bg-slate-100/90 border-slate-300'}`}>
                             <span className="font-bold text-white block truncate">{sol.name}</span>
                             <span className="text-zinc-450 block truncate">Formula: {sol.chemicalFormula}</span>
                             <span className="text-teal-400 font-bold block">pH: {sol.actualPH}</span>
@@ -1371,7 +1378,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                           </div>
 
                           {/* The 3D Glass Tube Body */}
-                          <div className="w-9 h-32 border-l-2 border-r-2 border-b-4 border-slate-700 bg-slate-900/10 rounded-b-2xl relative overflow-hidden flex flex-col justify-end shadow-inner">
+                          <div className={`w-9 h-32 border-l-2 border-r-2 border-b-4 border-slate-700 rounded-b-2xl relative overflow-hidden flex flex-col justify-end shadow-inner ${theme === 'dark' ? 'bg-slate-900/10' : 'bg-slate-100/10'}`}>
                             {/* Graduation marks */}
                             <div className="absolute right-0.5 top-6 bottom-4 w-1.5 flex flex-col justify-between text-[5px] font-mono text-slate-700 pointer-events-none">
                               <span>-</span>
@@ -1448,7 +1455,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           TAB 3: pH COLOR SPECTRUM COMPASS (SLIDER)
           ========================================== */}
       {activeTab === 'scale' && (
-        <div className="bg-slate-900/30 border border-slate-908 rounded-2xl p-5 md:p-8 space-y-8">
+        <div className={`border rounded-2xl p-5 md:p-8 space-y-8 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-908' : 'bg-slate-100/30 border-slate-300'}`}>
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/60 pb-4">
             <div className="space-y-1">
@@ -1463,7 +1470,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
             </div>
 
             {/* pH Value display card */}
-            <div className="flex items-center gap-3 bg-slate-950 p-3 rounded-xl border border-slate-910 shrink-0 select-none">
+            <div className={`flex items-center gap-3 p-3 rounded-xl border shrink-0 select-none ${theme === 'dark' ? 'bg-slate-950 border-slate-910' : 'bg-slate-100 border-slate-300'}`}>
               <span className="text-[10px] font-mono text-zinc-500 uppercase">Input pH:</span>
               <span className="text-3xl font-mono font-black text-white px-2 tracking-tighter" style={{ color: sliderPH > 7 ? '#818cf8' : sliderPH < 7 ? '#f43f5e' : '#14b8a6' }}>
                 {sliderPH.toFixed(1)}
@@ -1477,7 +1484,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           </div>
 
           {/* Large Slider control bar */}
-          <div className="bg-slate-955 p-6 rounded-2xl border border-slate-905 flex flex-col md:flex-row items-center gap-6">
+          <div className={`p-6 rounded-2xl border flex flex-col md:flex-row items-center gap-6 ${theme === 'dark' ? 'bg-slate-955 border-slate-905' : 'bg-slate-100 border-slate-300'}`}>
             <div className="text-left w-full md:w-36 shrink-0 font-mono text-xs">
               <span className="text-[10px] text-zinc-550 uppercase font-black block">Atur Nilai H⁺</span>
               <span className="text-zinc-300 font-sans font-bold text-sm leading-normal">Geser pH Slider:</span>
@@ -1491,7 +1498,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                 step="0.5"
                 value={sliderPH}
                 onChange={(e) => setSliderPH(parseFloat(e.target.value))}
-                className="w-full h-2.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-teal-400"
+                className={`w-full h-2.5 rounded-lg appearance-none cursor-pointer accent-teal-400 ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
               />
               {/* Scale numbers under tick */}
               <div className="flex justify-between text-[9px] font-mono text-zinc-550 px-1">
@@ -1508,7 +1515,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             
             {/* 1. Universal Indicator standard laboratory representation */}
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-920 flex flex-col justify-between min-h-[140px] shadow-sm">
+            <div className={`p-4 rounded-2xl border flex flex-col justify-between min-h-[140px] shadow-sm ${theme === 'dark' ? 'bg-slate-950 border-slate-920' : 'bg-slate-100 border-slate-300'}`}>
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <span className="text-[8px] font-mono text-zinc-550 uppercase">SINTETIK LABORATORIUM</span>
@@ -1525,7 +1532,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
             </div>
 
             {/* 2. Litmus Paper */}
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-920 flex flex-col justify-between min-h-[140px] shadow-sm">
+            <div className={`p-4 rounded-2xl border flex flex-col justify-between min-h-[140px] shadow-sm ${theme === 'dark' ? 'bg-slate-950 border-slate-920' : 'bg-slate-100 border-slate-300'}`}>
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <span className="text-[8px] font-mono text-zinc-550 uppercase">STANDARD LITMUS PAPER</span>
@@ -1555,7 +1562,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
             {NATURAL_INDICATORS.map((ind) => {
               const info = getPHColorDetails(ind.id, sliderPH);
               return (
-                <div key={ind.id} className="p-4 rounded-2xl bg-slate-950 border border-slate-910 flex flex-col justify-between min-h-[140px] hover:border-slate-800 transition-all">
+                <div key={ind.id} className={`p-4 rounded-2xl border flex flex-col justify-between min-h-[140px] transition-all ${theme === 'dark' ? 'bg-slate-950 border-slate-910 hover:border-slate-800' : 'bg-slate-100 border-slate-300 hover:border-slate-400'}`}>
                   <div className="flex justify-between items-start mb-1">
                     <div>
                       <span className="text-[8px] font-mono text-zinc-500 uppercase">EKSTRAK ALAMI PIGMEN</span>
@@ -1582,7 +1589,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           </div>
 
           {/* Quick chemistry lesson about litmus & synthetic pH */}
-          <div className="p-4 rounded-2xl bg-slate-905 border border-slate-850/30 text-xs leading-relaxed text-zinc-400">
+          <div className={`p-4 rounded-2xl border text-xs leading-relaxed ${theme === 'dark' ? 'bg-slate-905 border-slate-850/30 text-zinc-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
             <h5 className="font-sans font-bold text-white text-sm mb-1.5 flex items-center gap-1.5">
               <Info className="w-4 h-4 text-teal-400" />
               Mengapa Trayek Warna Berbeda?
@@ -1599,7 +1606,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           TAB 3.5: HIGH SCHOOL pH CALCULATOR
           ========================================== */}
       {activeTab === 'phCalc' && (
-        <div id="ph-calc-panel" className="bg-slate-900/30 border border-slate-900 rounded-2xl p-5 md:p-8 space-y-6">
+        <div id="ph-calc-panel" className={`border rounded-2xl p-5 md:p-8 space-y-6 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}>
           <div className="border-b border-slate-800/60 pb-4">
             <span className="text-[10px] font-mono text-teal-400 font-bold uppercase tracking-wider block mb-1">Materi Stoikiometri Larutan Asam Basa</span>
             <h3 className="text-lg font-sans font-bold text-white flex items-center gap-2">
@@ -1612,7 +1619,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            <div id="calculator-inputs-card" className="lg:col-span-12 xl:col-span-5 bg-slate-950 p-5 rounded-2xl border border-slate-900 space-y-5 flex flex-col justify-between">
+            <div id="calculator-inputs-card" className={`lg:col-span-12 xl:col-span-5 p-5 rounded-2xl border space-y-5 flex flex-col justify-between ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
               <div className="space-y-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-mono text-zinc-450 block font-bold uppercase">1. Pilih Preset Larutan Kimia:</label>
@@ -1664,7 +1671,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                         setCalcPkaPkbSlider(3.36);
                       }
                     }}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white font-mono focus:border-teal-500 focus:ring-1 focus:ring-teal-500 cursor-pointer text-zinc-300"
+                    className={`w-full border rounded-xl p-2.5 text-xs font-mono focus:border-teal-500 focus:ring-1 focus:ring-teal-500 cursor-pointer text-zinc-300 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                   >
                     <option value="custom">-- Kustom / Atur Sendiri --</option>
                     <optgroup label="Asam Kuat (Ionisasi Sempurna)">
@@ -1742,7 +1749,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   </div>
                 </div>
 
-                <div className="space-y-1.5 p-3.5 bg-slate-900/40 border border-slate-900 rounded-xl">
+                <div className={`space-y-1.5 p-3.5 border rounded-xl ${theme === 'dark' ? 'bg-slate-900/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div className="flex justify-between items-center text-[10.5px] font-mono">
                     <span className="text-zinc-400 font-bold">3. Molaritas Larutan (M) :</span>
                     <strong className="text-teal-400">{calcConcentration.toFixed(4)} M</strong>
@@ -1758,7 +1765,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                       setCalcConcentration(parseFloat(e.target.value));
                       setCalcActivePreset('custom');
                     }}
-                    className="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-teal-400"
+                    className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-teal-400 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}
                   />
                   <div className="flex justify-between text-[8px] font-mono text-zinc-650 leading-tight">
                     <span>Sangat Encer (0.0001 M)</span>
@@ -1767,12 +1774,12 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                 </div>
 
                 {(calcSolType === 'strongAcid' || calcSolType === 'strongBase') ? (
-                  <div className="space-y-1.5 p-3 bg-slate-900/40 border border-slate-900 rounded-xl">
+                  <div className={`space-y-1.5 p-3 border rounded-xl ${theme === 'dark' ? 'bg-slate-900/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex justify-between items-center text-[10.5px] font-mono">
                       <span className="text-zinc-440 font-bold">4. Jumlah Valensi Ion (a / b) :</span>
                       <strong className="text-rose-400">{calcValence} Ion H⁺/OH⁻</strong>
                     </div>
-                    <div className="flex bg-slate-950 p-1 rounded-lg gap-1 border border-slate-850">
+                    <div className={`flex p-1 rounded-lg gap-1 border ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                       {[1, 2, 3].map((val) => (
                         <button
                           key={val}
@@ -1790,7 +1797,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-1.5 p-3.5 bg-slate-955 border border-slate-900 rounded-xl">
+                  <div className={`space-y-1.5 p-3.5 border rounded-xl ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <div className="flex justify-between items-center text-[10.5px] font-mono">
                       <span className="text-zinc-440 font-bold">4. Nilai Tetapan Disosiasi (pKₐ / pK₆) :</span>
                       <strong className="text-amber-400">{calcPkaPkbSlider.toFixed(2)}</strong>
@@ -1806,7 +1813,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                         setCalcPkaPkbSlider(parseFloat(e.target.value));
                         setCalcActivePreset('custom');
                       }}
-                      className="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                      className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-amber-500 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}
                     />
                     <div className="flex justify-between text-[8px] font-mono text-zinc-555 leading-none">
                       <span>Kuat/Kecil (pK<sub>a</sub>=1)</span>
@@ -1827,14 +1834,14 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                   setCalcValence(1);
                   setCalcActivePreset('custom');
                 }}
-                className="w-full py-1.5 border border-slate-900 bg-slate-900/20 hover:bg-slate-900 text-zinc-400 hover:text-white rounded-lg text-xs font-mono transition-colors uppercase cursor-pointer"
+                className={`w-full py-1.5 border rounded-lg text-xs font-mono transition-colors uppercase cursor-pointer ${theme === 'dark' ? 'border-slate-900 bg-slate-900/20 hover:bg-slate-900 text-zinc-400 hover:text-white' : 'border-slate-300 bg-slate-100/20 hover:bg-slate-200 text-slate-600 hover:text-slate-900'}`}
               >
                 Reset Setelan Larutan
               </button>
             </div>
 
             <div className="lg:col-span-12 xl:col-span-7 flex flex-col md:flex-row gap-4 items-stretch">
-              <div id="calculator-blackboard-log" className="flex-1 bg-slate-955 border border-slate-900 rounded-2xl p-4 md:p-5 flex flex-col justify-between font-mono text-[11px] leading-relaxed relative overflow-hidden shadow-inner space-y-4">
+              <div id="calculator-blackboard-log" className={`flex-1 border rounded-2xl p-4 md:p-5 flex flex-col justify-between font-mono text-[11px] leading-relaxed relative overflow-hidden shadow-inner space-y-4 ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="absolute right-2 top-2 text-[7.5px] font-medium text-zinc-700 tracking-wider">BOARD PERHITUNGAN XI</span>
 
                 <div className="space-y-3">
@@ -1861,7 +1868,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
 
                     <div className="space-y-1">
                       <span className="text-[8px] text-zinc-550 block font-bold uppercase">Langkah 2: Menghitung Konsentrasi Ion Akhir</span>
-                      <div className="p-2 bg-slate-900 border border-slate-850/60 rounded-lg text-white">
+                      <div className={`p-2 border rounded-lg ${theme === 'dark' ? 'bg-slate-900 border-slate-850/60 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}>
                         {calcSolType === 'strongAcid' && (
                           <span>
                             [H⁺] = {calcValence} × {calcConcentration.toFixed(4)} M <br/>
@@ -1930,11 +1937,11 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
                 )}
               </div>
 
-              <div id="calculator-beaker-preview" className="w-full md:w-52 bg-slate-950 border border-slate-900 rounded-2xl p-4 flex flex-col justify-between items-stretch overflow-hidden relative shrink-0 shadow-lg select-none">
+              <div id="calculator-beaker-preview" className={`w-full md:w-52 border rounded-2xl p-4 flex flex-col justify-between items-stretch overflow-hidden relative shrink-0 shadow-lg select-none ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="text-[7.5px] font-mono text-zinc-550 uppercase text-center block tracking-wide mb-1 font-sans">Prediksi Kualitatif Lakmus</span>
                 
                 <div className="flex-1 flex flex-col items-center justify-center relative min-h-[140px]">
-                  <div className="w-24 h-32 border-l-2 border-r-2 border-b-4 border-slate-800 rounded-b-xl relative bg-slate-900/10 flex flex-col justify-end overflow-hidden">
+                  <div className={`w-24 h-32 border-l-2 border-r-2 border-b-4 rounded-b-xl relative flex flex-col justify-end overflow-hidden ${theme === 'dark' ? 'border-slate-800 bg-slate-900/10' : 'border-slate-300 bg-slate-100/10'}`}>
                     <div className="absolute left-1 inset-y-0 flex flex-col justify-between text-[5px] text-zinc-750 pointer-events-none py-4 font-mono">
                       <span>- 100 mL</span>
                       <span>- 50 mL</span>
@@ -2067,7 +2074,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
           TAB 4: INTEGRATED CHEMISTRY QUIZ
           ========================================== */}
       {activeTab === 'quiz' && (
-        <div className="max-w-2xl mx-auto bg-slate-900/35 border border-slate-900 rounded-2xl p-6 space-y-6">
+        <div className={`max-w-2xl mx-auto border rounded-2xl p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/35 border-slate-900' : 'bg-slate-100/35 border-slate-300'}`}>
           
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div className="space-y-1">
@@ -2088,7 +2095,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
             /* Active Question Panel */
             <div className="space-y-6">
               
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-900">
+              <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="text-[10.5px] font-mono text-teal-400 block font-bold mb-1">PERTANYAAN:</span>
                 <p className="text-sm font-sans leading-relaxed text-white">
                   {ACID_BASE_QUIZ[quizIdx].question}
@@ -2189,7 +2196,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
               </div>
 
               {/* Score ring detail */}
-              <div className="bg-slate-950 w-44 mx-auto p-4 rounded-2xl border border-slate-905 font-mono">
+              <div className={`w-44 mx-auto p-4 rounded-2xl border font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-905' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="text-[10px] text-zinc-500 uppercase block">SKOR ANDA:</span>
                 <span className="text-4xl font-black text-teal-400">{quizScore} / 100</span>
                 <span className="text-[10px] text-zinc-400 block mt-1.5">
@@ -2199,7 +2206,7 @@ export default function AcidBaseIntroLab({ currentUser }: AcidBaseIntroLabProps)
 
               <button
                 onClick={resetQuiz}
-                className="px-5 py-2.5 bg-slate-905 hover:bg-slate-800 text-teal-405 border border-slate-850 text-xs font-mono font-bold uppercase rounded-xl cursor-pointer transition-all"
+                className={`px-5 py-2.5 hover:bg-slate-800 text-teal-405 border text-xs font-mono font-bold uppercase rounded-xl cursor-pointer transition-all ${theme === 'dark' ? 'bg-slate-905 border-slate-850' : 'bg-slate-100 border-slate-300'}`}
               >
                 Ulangi Ujian Kuis
               </button>

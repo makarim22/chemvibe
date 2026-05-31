@@ -34,6 +34,7 @@ import { UserAccount } from '../types';
 
 interface ElementReactivityLabProps {
   currentUser: UserAccount | null;
+  theme: 'dark' | 'light';
 }
 
 // Compact Data Modeling with Programmatic Helpers to keep file concise & high-performance
@@ -642,7 +643,7 @@ class SynthSounds {
   }
 }
 
-export default function ElementReactivityLab({ currentUser }: ElementReactivityLabProps) {
+export default function ElementReactivityLab({ currentUser, theme = 'dark' }: ElementReactivityLabProps) {
   const [activeTab, setActiveTab] = useState<'alkali' | 'period3' | 'halogen' | 'transition' | 'quiz'>('alkali');
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
 
@@ -1122,10 +1123,14 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
   };
 
   return (
-    <div id="chem-laboratory-reactivity-panel" className="w-full min-h-[calc(100vh-4rem)] p-4 md:p-8 space-y-6 bg-slate-950 text-slate-100 font-sans leading-relaxed">
+    <div id="chem-laboratory-reactivity-panel" className={`w-full min-h-[calc(100vh-4rem)] p-4 md:p-8 space-y-6 ${theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} font-sans leading-relaxed`}>
       
       {/* Upper Unified Visual Banner */}
-      <div className="relative p-6 md:p-8 rounded-2xl bg-gradient-to-r from-slate-900 via-cyan-950/20 to-emerald-950/10 border border-slate-800 shadow-2xl overflow-hidden">
+      <div className={`relative p-6 md:p-8 rounded-2xl border shadow-2xl overflow-hidden ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-r from-slate-900 via-cyan-950/20 to-emerald-950/10 border-slate-800' 
+          : 'bg-white border-slate-200'
+      }`}>
         <div className="absolute right-0 top-0 w-80 h-80 bg-teal-500/5 rounded-full blur-3xl pointer-events-none -translate-y-12" />
         <div className="absolute left-1/3 bottom-0 w-60 h-60 bg-purple-500/5 rounded-full blur-3xl pointer-events-none translate-y-12" />
         
@@ -1181,7 +1186,9 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
           </div>
 
           {/* Core Lab Route Selector Tabs */}
-          <div className="flex gap-2 p-1 bg-slate-900 rounded-xl border border-slate-800 overflow-x-auto w-full md:w-auto shrink-0">
+          <div className={`flex flex-col gap-2 p-1 rounded-xl border w-full md:w-56 shrink-0 ${
+            theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-200 border-slate-300'
+          }`}>
             {(['alkali', 'period3', 'halogen', 'transition', 'quiz'] as const).map((tab) => {
               const tabLabels: Record<string, string> = {
                 alkali: '💧 Hidrolisis 1A/2A',
@@ -1197,10 +1204,10 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                     setActiveTab(tab);
                     SynthSounds.playTick();
                   }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all tracking-wide whitespace-nowrap cursor-pointer ${
+                  className={`px-3 py-2 rounded-lg text-xs font-mono font-bold transition-all tracking-wide text-left cursor-pointer ${
                     activeTab === tab
                       ? 'bg-gradient-to-r from-cyan-550 to-emerald-555 text-slate-950 shadow-md transform scale-102 font-black'
-                      : 'text-zinc-400 hover:text-white'
+                      : (theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-slate-600 hover:text-slate-900')
                   }`}
                 >
                   {tabLabels[tab]}
@@ -1218,7 +1225,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Reactive parameters controls */}
-          <div className="lg:col-span-5 bg-slate-900/40 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-6">
+          <div className={`lg:col-span-5 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="space-y-1">
               <span className="text-[10px] font-mono text-cyan-400 font-extrabold uppercase block">Parameter Kinetika Reaksi</span>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -1253,7 +1260,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                     >
                       <div className="flex items-center justify-between w-full">
                         <span className="font-mono text-lg font-black">{metal.symbol}</span>
-                        <span className="text-[7.5px] font-mono px-1 rounded bg-slate-950 border border-slate-800 text-zinc-400 font-bold uppercase">
+                        <span className={`text-[7.5px] font-mono px-1 rounded border font-bold uppercase ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-zinc-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                           {metal.group.slice(0, 7)}
                         </span>
                       </div>
@@ -1368,7 +1375,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
 
               <button
                 onClick={resetAlkaliEksperimen}
-                className="px-4 py-3 bg-slate-900 hover:bg-slate-800 text-zinc-300 font-mono text-xs rounded-xl border border-slate-800 transition-all cursor-pointer"
+                className={`px-4 py-3 hover:bg-slate-800 text-zinc-300 font-mono text-xs rounded-xl border transition-all cursor-pointer ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
                 title="Reset Beaker & Cairan"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -1376,7 +1383,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
             </div>
 
             {/* Dynamic Formula Panel */}
-            <div className="p-3 bg-slate-950/80 rounded-xl border border-slate-900 space-y-1 font-mono text-xs">
+            <div className={`p-3 rounded-xl border space-y-1 font-mono text-xs ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
               <span className="text-[10px] text-zinc-500 block uppercase font-bold">Persamaan Hidrolisis Reduktor ({alkaliMedia === 'asam' ? 'Suasana Asam' : alkaliMedia === 'basa' ? 'Suasana Basa' : 'Air Murni'}):</span>
               <p className="text-cyan-400 font-black leading-relaxed">
                 {alkaliMedia === 'asam' 
@@ -1392,7 +1399,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
           {/* Interactive Beaker Visual Simulation Canvas */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             
-            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[420px] relative overflow-hidden">
+            <div className={`border rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[420px] relative overflow-hidden ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
               <div className="absolute inset-0 bg-gradient-radial from-cyan-500/0 via-transparent to-slate-950/25 pointer-events-none" />
               
               <div className="flex justify-between items-start flex-wrap gap-2">
@@ -1424,7 +1431,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                 {/* 1. Digital Telemetry Diagnostics Side-Bar */}
                 <div className="md:col-span-4 flex flex-col justify-center gap-3">
                   {/* Gauge 1: Thermometer */}
-                  <div className="p-3 bg-slate-950/90 rounded-xl border border-slate-850 flex items-center gap-3 relative">
+                  <div className={`p-3 rounded-xl border flex items-center gap-3 relative ${theme === 'dark' ? 'bg-slate-950/90 border-slate-850' : 'bg-slate-100/90 border-slate-300'}`}>
                     <div className="p-2 bg-rose-500/5 rounded-lg text-rose-450">
                       <Thermometer className="w-5 h-5 animate-pulse" />
                     </div>
@@ -1435,7 +1442,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                   </div>
 
                   {/* Gauge 2: Gas Sensor */}
-                  <div className="p-3 bg-slate-950/90 rounded-xl border border-slate-850 flex items-center gap-3 relative">
+                  <div className={`p-3 rounded-xl border flex items-center gap-3 relative ${theme === 'dark' ? 'bg-slate-950/90 border-slate-850' : 'bg-slate-100/90 border-slate-300'}`}>
                     <div className="p-2 bg-cyan-500/5 rounded-lg text-cyan-405 font-mono text-xs font-black">
                       H₂
                     </div>
@@ -1446,7 +1453,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                   </div>
 
                   {/* Gauge 3: pH Indicator bar */}
-                  <div className="p-3 bg-slate-950/90 rounded-xl border border-slate-850 flex items-center gap-3 relative">
+                  <div className={`p-3 rounded-xl border flex items-center gap-3 relative ${theme === 'dark' ? 'bg-slate-950/90 border-slate-850' : 'bg-slate-100/90 border-slate-300'}`}>
                     <div className="p-2 bg-pink-500/5 rounded-lg text-pink-450 font-mono text-xs font-black">
                       pH
                     </div>
@@ -1475,7 +1482,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                 <div className="md:col-span-8 flex items-center justify-center relative min-h-[200px] border-l border-slate-900/40 md:pl-4">
                   
                   {/* Glass Beaker representation */}
-                  <div className="w-48 h-44 border-b-8 border-l-4 border-r-4 border-slate-700 bg-slate-900/10 rounded-b-3xl relative flex flex-col justify-end overflow-hidden shadow-2xl">
+                  <div className={`w-48 h-44 border-b-8 border-l-4 border-r-4 border-slate-700 rounded-b-3xl relative flex flex-col justify-end overflow-hidden shadow-2xl ${theme === 'dark' ? 'bg-slate-900/10' : 'bg-slate-100/10'}`}>
                     
                     {/* Tick markings on side */}
                     <div className="absolute left-2.5 top-6 bottom-4 w-1 bg-slate-650/15 opacity-40 flex flex-col justify-between text-[6px] font-mono text-zinc-650">
@@ -1565,7 +1572,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               </div>
 
               {/* Bottom live analysis event ledger */}
-              <div className="p-3.5 bg-slate-950 border border-slate-900 rounded-xl space-y-1.5 font-mono text-xs text-left">
+              <div className={`p-3.5 border rounded-xl space-y-1.5 font-mono text-xs text-left ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="text-[9px] text-zinc-550 block font-black uppercase">LAPORAN OBSERVASI LAB ALKALI:</span>
                 <div className="max-h-[70px] overflow-y-auto space-y-1 pr-1">
                   {alkaliEventLog.map((log, lIdx) => (
@@ -1584,7 +1591,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
 
             {/* Microscopic Zoom Frame Molecular Microscope Overlay */}
             {zoomMicroOn && (
-              <div className="bg-slate-900/15 border border-slate-900 rounded-2xl p-4 space-y-3 relative overflow-hidden">
+              <div className={`border rounded-2xl p-4 space-y-3 relative overflow-hidden ${theme === 'dark' ? 'bg-slate-900/15 border-slate-900' : 'bg-slate-100/15 border-slate-300'}`}>
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white flex items-center gap-1.5">
                     <Eye className="w-4 h-4 text-emerald-400 animate-pulse" />
@@ -1598,8 +1605,8 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                   </button>
                 </div>
 
-                <div className="flex items-center gap-4 bg-slate-950/50 p-3 rounded-xl border border-slate-850">
-                  <div className="w-14 h-14 rounded-full border-2 border-emerald-500/20 bg-slate-900 flex items-center justify-center flex-shrink-0 animate-spin-slow">
+                <div className={`flex items-center gap-4 p-3 rounded-xl border ${theme === 'dark' ? 'bg-slate-950/50 border-slate-850' : 'bg-slate-100/50 border-slate-300'}`}>
+                  <div className={`w-14 h-14 rounded-full border-2 border-emerald-500/20 flex items-center justify-center flex-shrink-0 animate-spin-slow ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                     {beakerState === 'reacting' ? (
                       <div className="text-[10px] font-mono text-cyan-405 font-extrabold rotate-3">H₂↑</div>
                     ) : (
@@ -1631,7 +1638,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Periodic Row representation sidebar */}
-          <div className="lg:col-span-5 bg-slate-900/40 border border-slate-805 rounded-2xl p-5 md:p-6 space-y-6">
+          <div className={`lg:col-span-5 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-805' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="space-y-1">
               <span className="text-[10px] font-mono text-cyan-400 font-extrabold uppercase block">Transisi Sifat Hidroksida P3</span>
               <h3 className="text-base font-bold text-white flex items-center gap-1.5">
@@ -1644,7 +1651,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
             </div>
 
             {/* Custom Interactive Table row */}
-            <div className="p-1 px-1.5 bg-slate-955 rounded-xl border border-slate-900 grid grid-cols-7 gap-1.5">
+            <div className={`p-1 px-1.5 rounded-xl border grid grid-cols-7 gap-1.5 ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
               {PERIOD3_DATA.map((element, idx) => {
                 const isSelected = idx === selectedP3Idx;
                 return (
@@ -1670,7 +1677,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
             </div>
 
             {/* Dynamic Physical Rings: radius and electronegativity visualization */}
-            <div className="grid grid-cols-2 gap-3 bg-slate-950/80 p-4 rounded-xl border border-slate-900 text-center">
+            <div className={`grid grid-cols-2 gap-3 p-4 rounded-xl border text-center ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
               
               {/* Diameter of circle represents atomic radius */}
               <div className="flex flex-col items-center justify-center space-y-2">
@@ -1710,10 +1717,10 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
             </div>
 
             {/* Core Acid Base Titration pH Control Slider */}
-            <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-3">
+            <div className={`p-4 rounded-xl border space-y-3 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
               <div className="flex justify-between items-center">
                 <span className="text-xs font-mono text-zinc-400 uppercase font-black">Asiditas pH Komparator:</span>
-                <span className="text-sm font-mono text-yellow-405 font-extrabold bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                <span className={`text-sm font-mono text-yellow-405 font-extrabold px-2 py-0.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                   pH {p3ActivePh.toFixed(1)}
                 </span>
               </div>
@@ -1741,7 +1748,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
           {/* Test Tube visualization side with chemical characteristics */}
           <div className="lg:col-span-7 flex flex-col gap-4">
             
-            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[380px]">
+            <div className={`border rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[380px] ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
               
               <div className="flex justify-between items-start">
                 <div className="space-y-0.5">
@@ -1751,7 +1758,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                   </h4>
                 </div>
 
-                <div className="p-1 px-2.5 bg-slate-950 rounded border border-slate-850 font-mono text-center">
+                <div className={`p-1 px-2.5 rounded border font-mono text-center ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                   <span className="text-[7.5px] text-zinc-550 block uppercase">KARAKTER ASLI</span>
                   <span className="text-[11px] font-extrabold text-cyan-405">{activeP3.character}</span>
                 </div>
@@ -1761,7 +1768,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               <div className="w-full h-44 relative flex items-center justify-center">
                 
                 {/* 3D Glass Tube wrapper representation */}
-                <div className="w-16 h-36 border-b-4 border-l-2 border-r-2 border-slate-600 bg-slate-900/10 rounded-b-2xl relative overflow-hidden flex flex-col justify-end">
+                <div className={`w-16 h-36 border-b-4 border-l-2 border-r-2 border-slate-600 rounded-b-2xl relative overflow-hidden flex flex-col justify-end ${theme === 'dark' ? 'bg-slate-900/10' : 'bg-slate-100/10'}`}>
                   
                   {/* Dynamic Fluid Content representing selected pH indicator color */}
                   <div className={`absolute bottom-0 inset-x-0 h-2/3 transition-colors duration-500 flex flex-col justify-center items-center ${
@@ -1819,16 +1826,16 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               </div>
 
               {/* Description Panel output */}
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-2 text-xs">
+              <div className={`p-4 rounded-xl border space-y-2 text-xs ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="text-[10px] text-zinc-550 uppercase font-extrabold block">Penjelasan Reaksi:</span>
                 <p className="text-zinc-300 text-xs md:text-sm leading-relaxed">{activeP3.description}</p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1 font-mono text-[10.5px]">
-                  <div className="p-2 bg-slate-900 text-zinc-300 rounded border border-slate-850">
+                  <div className={`p-2 text-zinc-300 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="text-[8px] text-emerald-400 font-extrabold block">Reaksi Ditambahkan Asam (HCl):</span>
                     <p className="mt-0.5 truncate" title={activeP3.acidReaction}>{activeP3.acidReaction}</p>
                   </div>
-                  <div className="p-2 bg-slate-900 text-zinc-300 rounded border border-slate-850">
+                  <div className={`p-2 text-zinc-300 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="text-[8px] text-cyan-400 font-extrabold block">Reaksi Ditambahkan Basa (NaOH):</span>
                     <p className="mt-0.5 truncate" title={activeP3.baseReaction}>{activeP3.baseReaction}</p>
                   </div>
@@ -1840,7 +1847,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
           </div>
 
           {/* Bottom Full-Width Premium Period 3 Deeper Trend Board */}
-          <div className="lg:col-span-12 mt-6 bg-slate-900/60 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-6">
+          <div className={`lg:col-span-12 mt-6 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-emerald-400 font-extrabold uppercase block">
@@ -1856,7 +1863,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               </div>
 
               {/* Property Tabs selector */}
-              <div className="flex flex-wrap gap-1 bg-slate-950 p-1 rounded-xl border border-slate-850">
+              <div className={`flex flex-wrap gap-1 p-1 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                 {(['radius', 'ionization', 'electronAffinity', 'electronegativity'] as const).map((prop) => {
                   const propLabels: Record<string, string> = {
                     radius: '📐 Jari-jari',
@@ -1884,7 +1891,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
             {/* Custom bar chart canvas */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
               {/* Left Bar chart: 7 cols */}
-              <div className="xl:col-span-7 bg-slate-950/80 rounded-xl p-5 border border-slate-900 space-y-4">
+              <div className={`xl:col-span-7 rounded-xl p-5 border space-y-4 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
                 <span className="text-[10px] font-mono text-zinc-500 uppercase block font-bold">Grafik Perbandingan Kuantitatif:</span>
                 
                 <div className="space-y-3.5 pt-1">
@@ -1946,7 +1953,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                         </div>
 
                         {/* Comparative Bar filled */}
-                        <div className="flex-1 h-6 bg-slate-900 rounded-md overflow-hidden relative border border-slate-800/60">
+                        <div className={`flex-1 h-6 rounded-md overflow-hidden relative border ${theme === 'dark' ? 'bg-slate-900 border-slate-800/60' : 'bg-slate-100 border-slate-300'}`}>
                           {/* fill progress */}
                           <motion.div 
                             initial={{ width: 0 }}
@@ -1973,7 +1980,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               {/* Right explanation + anomali details: 5 cols */}
               <div className="xl:col-span-5 flex flex-col gap-4">
                 {/* Specific selected element property fact */}
-                <div className="p-5 bg-slate-950/90 rounded-xl border border-slate-900 flex-1 space-y-4">
+                <div className={`p-5 rounded-xl border flex-1 space-y-4 ${theme === 'dark' ? 'bg-slate-950/90 border-slate-900' : 'bg-slate-100/90 border-slate-300'}`}>
                   <div className="flex items-center gap-2">
                     <span className="p-1 px-2.5 rounded bg-emerald-950 border border-emerald-500/25 font-mono text-[11px] text-emerald-400 font-black">
                       {activeP3.symbol}
@@ -1986,11 +1993,11 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
 
                   <div className="space-y-3 pt-2 text-xs border-t border-slate-800/40">
                     <div className="grid grid-cols-2 gap-3 text-center">
-                      <div className="p-2.5 bg-slate-905 rounded-lg border border-slate-850">
+                      <div className={`p-2.5 rounded-lg border ${theme === 'dark' ? 'bg-slate-905 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                         <span className="text-[8px] text-zinc-500 uppercase block font-mono">Energi Ionisasi</span>
                         <strong className="text-amber-450 font-mono text-[12px]">{activeP3.ionization} kJ/mol</strong>
                       </div>
-                      <div className="p-2.5 bg-slate-905 rounded-lg border border-slate-850">
+                      <div className={`p-2.5 rounded-lg border ${theme === 'dark' ? 'bg-slate-905 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                         <span className="text-[8px] text-zinc-500 uppercase block font-mono">Afinitas Elektron</span>
                         <strong className="text-purple-400 font-mono text-[12px]">{activeP3.electronAffinity} kJ/mol</strong>
                       </div>
@@ -2003,7 +2010,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                 </div>
 
                 {/* Anomalies Card - Incredibly important for Class XII syllabus! */}
-                <div className="p-5 bg-slate-950/50 rounded-xl border border-slate-905 space-y-3">
+                <div className={`p-5 rounded-xl border space-y-3 ${theme === 'dark' ? 'bg-slate-950/50 border-slate-905' : 'bg-slate-100/50 border-slate-300'}`}>
                   <h4 className="text-xs font-mono font-black text-rose-450 uppercase flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-rose-450 animate-pulse" />
                     Catatan Anomali Kelas XII
@@ -2013,13 +2020,13 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                     <p>
                       Meskipun secara umum dari kiri ke kanan (Na → Cl) energi ionisasi meningkat akibat tarikan inti yang makin kuat, terdapat <strong className="text-zinc-200">dua anomali penting</strong> yang sering muncul di ujian nasional:
                     </p>
-                    <div className="p-2.5 bg-slate-900/60 text-zinc-350 rounded-lg border border-slate-850 space-y-1">
+                    <div className={`p-2.5 text-zinc-350 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                       <strong className="text-amber-450 block text-[10.5px]">1. Anomali Energi Ionisasi Mg vs Al:</strong>
                       <p className="text-[10.5px]">
                         Energi ionisasi <strong>Mg ({PERIOD3_DATA[1].ionization} kJ)</strong> lebih tinggi dari <strong>Al ({PERIOD3_DATA[2].ionization} kJ)</strong>. Ini dikarenakan Mg memiliki konfigurasi terluar penuh <code className="text-emerald-400 font-mono">3s²</code> yang sangat stabil, sementara Al memiliki satu elektron sunyi berpereaksi longgar di orbital <code className="text-cyan-400 font-mono">3s² 3p¹</code> yang gampang diusir.
                       </p>
                     </div>
-                    <div className="p-2.5 bg-slate-900/60 text-zinc-350 rounded-lg border border-slate-850 space-y-1">
+                    <div className={`p-2.5 text-zinc-350 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                       <strong className="text-fuchsia-400 block text-[10.5px]">2. Anomali Energi Ionisasi P vs S:</strong>
                       <p className="text-[10.5px]">
                         Energi ionisasi <strong>P ({PERIOD3_DATA[4].ionization} kJ)</strong> lebih tinggi daripada <strong>S ({PERIOD3_DATA[5].ionization} kJ)</strong>. Hal ini disebabkan konfigurasi orbital p fosforus adalah <code className="text-purple-400 font-mono">3p³</code> (setengah-penuh) yang menyebarkan kestabilan maksimal simetris, sedangkan S memiliki konfigurasi <code className="text-rose-400 font-mono">3p⁴</code> yang mengandung satu pasang elektron spin berpasangan berdesakan memicu gaya tolak-menolak mempergampang ionisasi pertama.
@@ -2041,7 +2048,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Reagents selection and steps sidebar */}
-          <div className="lg:col-span-4 bg-slate-900/40 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-6">
+          <div className={`lg:col-span-4 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="space-y-1">
               <span className="text-[10px] font-mono text-cyan-400 font-extrabold uppercase block">Sifat Keasaman oksidator Halogen</span>
               <h3 className="text-base font-bold text-white flex items-center gap-1.5">
@@ -2108,7 +2115,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
             </div>
 
             {/* Step triggers panel */}
-            <div className="p-4 bg-slate-950 border border-slate-900 rounded-xl space-y-3">
+            <div className={`p-4 border rounded-xl space-y-3 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
               <span className="text-[9px] font-mono text-zinc-550 block font-black uppercase">ALUR EKSPERIMENT:</span>
               
               <div className="flex flex-col gap-2">
@@ -2143,7 +2150,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
 
               <button
                 onClick={resetHalogenEksperimen}
-                className="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-zinc-400 font-mono text-[9px] uppercase tracking-widest rounded border border-slate-850 cursor-pointer"
+                className={`w-full py-1.5 hover:bg-slate-800 font-mono text-[9px] uppercase tracking-widest rounded border cursor-pointer ${theme === 'dark' ? 'bg-slate-900 text-zinc-400 border-slate-850' : 'bg-slate-100 text-slate-600 border-slate-300'}`}
               >
                 Reset Tabung
               </button>
@@ -2154,7 +2161,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
           {/* Test Tube layer outputs */}
           <div className="lg:col-span-8 flex flex-col gap-4">
             
-            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[380px]">
+            <div className={`border rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[380px] ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
               
               <div className="flex justify-between items-start">
                 <div className="space-y-0.5">
@@ -2198,7 +2205,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                     rotate: [-3, 3, -3, 3, 0]
                   } : {}}
                   transition={{ repeat: halogenStep === 'shaking' ? 4 : 0, duration: 0.4 }}
-                  className="w-16 h-36 border-b-4 border-l-2 border-r-2 border-slate-650 bg-slate-900/10 rounded-b-2xl relative overflow-hidden flex flex-col justify-end"
+                  className={`w-16 h-36 border-b-4 border-l-2 border-r-2 border-slate-650 rounded-b-2xl relative overflow-hidden flex flex-col justify-end ${theme === 'dark' ? 'bg-slate-900/10' : 'bg-slate-100/10'}`}
                 >
                   {/* Phase 1: Hexane layer (Top Layer) - Extracts element color */}
                   <div className={`absolute top-1/4 inset-x-0 h-1/3 transition-colors duration-1000 z-10 border-b border-dashed border-slate-500/40 flex items-center justify-center ${getOrganicLayerColor()}`}>
@@ -2217,7 +2224,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               </div>
 
               {/* Chemical action ledger */}
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-2 text-xs">
+              <div className={`p-4 rounded-xl border space-y-2 text-xs ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="text-[10px] text-zinc-550 uppercase font-extrabold block">Hasil Analisis Reaksi Tabung:</span>
                 <div className="max-h-[80px] overflow-y-auto space-y-1 font-mono pr-1 text-left">
                   {halogenLogs.map((log, lIdx) => (
@@ -2247,7 +2254,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Transition Metals selection Grid */}
-          <div className="lg:col-span-5 bg-slate-900/40 border border-slate-805 rounded-2xl p-5 md:p-6 space-y-6">
+          <div className={`lg:col-span-5 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-805' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="space-y-1">
               <span className="text-[10px] font-mono text-cyan-405 font-extrabold uppercase block font-mono">Orbital Blok-d Transisi P4</span>
               <h3 className="text-base font-bold text-white flex items-center gap-1.5">
@@ -2318,7 +2325,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
             </div>
 
             {/* Gouy magnetic field controls slider */}
-            <div className="p-4 bg-slate-950 border border-slate-900 rounded-xl space-y-3.5">
+            <div className={`p-4 border rounded-xl space-y-3.5 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
               <div className="flex justify-between items-center">
                 <span className="text-xs font-mono text-zinc-400 uppercase font-black">Intensitas Magnet Listrik:</span>
                 <span className="text-xs font-mono text-cyan-455 font-bold">
@@ -2360,7 +2367,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                     setMagnetStrength(0);
                     SynthSounds.playTick();
                   }} 
-                  className="py-1.5 bg-slate-900 text-zinc-500 font-mono text-[9px] border border-slate-800 uppercase rounded"
+                  className={`py-1.5 font-mono text-[9px] border uppercase rounded ${theme === 'dark' ? 'bg-slate-900 text-zinc-500 border-slate-800' : 'bg-slate-100 text-slate-600 border-slate-300'}`}
                 >
                   Matikan Medan
                 </button>
@@ -2372,7 +2379,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
           {/* Gouy Digital Weighing Balance display and d-orbital diagram */}
           <div className="lg:col-span-7 flex flex-col gap-4">
             
-            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[380px]">
+            <div className={`border rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[380px] ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
               
               <div className="flex justify-between items-start">
                 <div className="space-y-0.5">
@@ -2399,7 +2406,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               <div className="grid grid-cols-1 md:grid-cols-12 gap-5 flex-1 items-stretch">
                 
                 {/* 1. Digital weigh scale display panel */}
-                <div className="md:col-span-5 flex flex-col justify-center items-center p-4 bg-slate-950/80 rounded-xl border border-slate-900 text-center space-y-3">
+                <div className={`md:col-span-5 flex flex-col justify-center items-center p-4 rounded-xl border text-center space-y-3 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
                   <span className="text-[9px] font-mono text-zinc-550 block font-black uppercase leading-none">NERACA GOUY DIGITAL (GRAM):</span>
                   
                   {/* Scale LCD display screen */}
@@ -2437,7 +2444,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                         : { y: 0, rotate: 0 }
                     }
                     transition={{ type: 'spring', stiffness: 80 }}
-                    className="w-10 h-28 border-b-4 border-l-2 border-r-2 border-slate-650 bg-slate-900/40 rounded-b-xl relative flex flex-col justify-end overflow-hidden shadow-lg"
+                    className={`w-10 h-28 border-b-4 border-l-2 border-r-2 border-slate-650 rounded-b-xl relative flex flex-col justify-end overflow-hidden shadow-lg ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}
                   >
                     <div className={`absolute bottom-0 inset-x-0 h-4/5 ${activeOxState.aqueousColor} flex items-center justify-center z-10 transition-all duration-500`}>
                       <span className="text-[10px] font-mono font-black text-white/90 drop-shadow-md text-center leading-tight">
@@ -2469,7 +2476,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               </div>
 
               {/* Interactive Scientific d-Electrons Hund's Rule Splitting Diagram */}
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-4">
+              <div className={`p-4 rounded-xl border space-y-4 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 
                 <div className="flex justify-between items-center flex-wrap gap-2">
                   <div>
@@ -2489,7 +2496,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                 </div>
 
                 {/* Crystal field diagram with spins */}
-                <div className="p-3 bg-slate-900/40 rounded-lg space-y-6 relative border border-slate-850 text-center font-mono select-none">
+                <div className={`p-3 rounded-lg space-y-6 relative border text-center font-mono select-none ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                   
                   {/* Energy bar scale */}
                   <div className="absolute left-2.5 top-0 bottom-0 w-0.5 bg-slate-800 flex flex-col justify-between text-[7px] text-zinc-555">
@@ -2518,7 +2525,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                         }
 
                         return (
-                          <div key={oIdx} className="w-10 h-10 border border-slate-700 bg-slate-950 rounded flex items-center justify-center font-extrabold text-sm text-cyan-405">
+                          <div key={oIdx} className={`w-10 h-10 border border-slate-700 rounded flex items-center justify-center font-extrabold text-sm text-cyan-405 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                             {arrows}
                           </div>
                         );
@@ -2545,7 +2552,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                         }
 
                         return (
-                          <div key={oIdx} className="w-10 h-10 border border-slate-700 bg-slate-950 rounded flex items-center justify-center font-extrabold text-sm text-emerald-400">
+                          <div key={oIdx} className={`w-10 h-10 border border-slate-700 rounded flex items-center justify-center font-extrabold text-sm text-emerald-400 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                             {arrows}
                           </div>
                         );
@@ -2555,7 +2562,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
 
                 </div>
 
-                <div className="p-3 bg-slate-900 rounded-lg text-zinc-350 text-xs text-left grid grid-cols-2 gap-3 leading-normal font-sans">
+                <div className={`p-3 rounded-lg text-zinc-350 text-xs text-left grid grid-cols-2 gap-3 leading-normal font-sans ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                   <div>
                     <span className="text-zinc-550 font-mono text-[9px] uppercase block">Konfigurasi Elektron Ion ({activeOxState.ionSymbol}):</span>
                     <strong className="text-white font-mono text-xs">{activeOxState.configuration}</strong>
@@ -2584,7 +2591,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
       {activeTab === 'quiz' && (
         <div className="max-w-3xl mx-auto">
           {!isQuizComplete ? (
-            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+            <div className={`border rounded-2xl p-6 md:p-8 space-y-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
               
               {/* Quiz progress */}
               <div className="flex justify-between items-center border-b border-slate-900 pb-4">
@@ -2600,7 +2607,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               </div>
 
               {/* Progress bar */}
-              <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden">
+              <div className={`w-full h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                 <div 
                   className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 transition-all duration-300"
                   style={{ width: `${((quizIndex + 1) / QUIZ_DATA.length) * 100}%` }}
@@ -2608,7 +2615,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
               </div>
 
               {/* Question statement card */}
-              <div className="p-4 bg-slate-955 rounded-xl border border-slate-900">
+              <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <h4 className="text-sm md:text-base font-bold text-zinc-105 leading-relaxed font-sans">
                   {activeQuestion.question}
                 </h4>
@@ -2650,7 +2657,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
 
               {/* Real-time expert chemistry guide feedback */}
               {isAnswerApplied && (
-                <div className="p-4 bg-slate-955 rounded-xl border border-slate-905 space-y-1 text-xs">
+                <div className={`p-4 rounded-xl border space-y-1 text-xs ${theme === 'dark' ? 'bg-slate-955 border-slate-905' : 'bg-slate-100 border-slate-300'}`}>
                   <span className="text-[9px] font-mono text-cyan-400 font-extrabold block uppercase">SOLUSI &amp; MEKANISME KIMIA:</span>
                   <p className="text-zinc-300 leading-relaxed font-sans text-xs md:text-sm">{activeQuestion.feedback}</p>
                 </div>
@@ -2683,7 +2690,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
 
             </div>
           ) : (
-            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 md:p-8 text-center max-w-md mx-auto space-y-6">
+            <div className={`border rounded-2xl p-6 md:p-8 text-center max-w-md mx-auto space-y-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
               <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400">
                 <Award className="w-8 h-8 animate-bounce" />
               </div>
@@ -2695,7 +2702,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
                 </p>
               </div>
 
-              <div className="p-4 bg-slate-955 rounded-xl border border-slate-900 font-mono">
+              <div className={`p-4 rounded-xl border font-mono ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="text-[10px] text-zinc-500 block uppercase">NILAI AKHIR:</span>
                 <strong className={`text-3.5xl font-black block mt-1.5 ${quizScore >= 80 ? 'text-emerald-450' : quizScore >= 50 ? 'text-amber-500' : 'text-rose-455'}`}>
                   {quizScore} %
@@ -2707,7 +2714,7 @@ export default function ElementReactivityLab({ currentUser }: ElementReactivityL
 
               <button
                 onClick={resetQuizEvaluasi}
-                className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-zinc-300 font-mono text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                className={`w-full py-2.5 hover:bg-slate-800 border text-zinc-300 font-mono text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
               >
                 Ulangi Ujian Kuis
               </button>

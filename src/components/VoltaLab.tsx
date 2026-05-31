@@ -153,7 +153,7 @@ const REDOX_CHALLENGES: RedoxChallenge[] = [
   }
 ];
 
-export default function VoltaLab() {
+export default function VoltaLab({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   // Navigation Section State
   const [activeSection, setActiveSection] = useState<'redox' | 'volta' | 'electrolysis' | 'theory' | 'quiz'>('redox');
 
@@ -526,7 +526,7 @@ export default function VoltaLab() {
         </div>
 
         {/* TOP COMPONENT DIVISION NAVIGATION BAR */}
-        <div className="flex flex-wrap bg-slate-900 border border-slate-800 p-1.5 rounded-xl gap-1">
+        <div className={`flex flex-wrap border p-1.5 rounded-xl gap-1 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
           <button 
             onClick={() => { setActiveSection('redox'); }}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
@@ -577,7 +577,7 @@ export default function VoltaLab() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in">
           {/* Reaction selection & Biloks Cheat-sheet */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+            <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
               <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-widest block">PILIH REAKSI REDOKS</span>
               <div className="flex flex-col gap-2.5">
                 {REDOX_REACTIONS.map((rx, idx) => (
@@ -594,7 +594,7 @@ export default function VoltaLab() {
                     }`}
                   >
                     <div className="flex justify-between items-center mb-1">
-                      <span className="text-[9px] font-mono tracking-wider uppercase bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
+                      <span className={`text-[9px] font-mono tracking-wider uppercase px-1.5 py-0.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                         {rx.type === 'acidic' ? 'Suasana Asam' : 'Suasana Basa'}
                       </span>
                     </div>
@@ -605,7 +605,7 @@ export default function VoltaLab() {
             </div>
 
             {/* Biloks Reference Cheat Sheet */}
-            <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-3">
+            <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-3 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
               <button
                 onClick={() => setIsBiloksOpen(!isBiloksOpen)}
                 className="w-full flex justify-between items-center text-xs font-bold text-zinc-300 uppercase tracking-wider font-mono cursor-pointer hover:text-white"
@@ -637,7 +637,7 @@ export default function VoltaLab() {
           <div className="lg:col-span-8 space-y-4">
             
             {/* Sub-navigation tabs */}
-            <div className="flex bg-slate-950 p-1 border border-zinc-850 rounded-xl w-max">
+            <div className={`flex p-1 border border-zinc-850 rounded-xl w-max ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
               <button
                 type="button"
                 onClick={() => setRedoxMode('stepper')}
@@ -666,7 +666,7 @@ export default function VoltaLab() {
 
             {/* Stepper mode content */}
             {redoxMode === 'stepper' ? (
-              <div className="glass-panel border-white/5 bg-slate-900/45 rounded-2xl p-6 space-y-6">
+              <div className={`glass-panel border-white/5 rounded-2xl p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/45' : 'bg-slate-100/45'}`}>
                 <div className="flex justify-between items-center border-b border-zinc-850 pb-4">
                   <div>
                     <span className="text-[10px] font-mono text-zinc-500 font-black uppercase tracking-widest block">MODUL ANIMASI STEPPER PENYETARAAN</span>
@@ -739,13 +739,13 @@ export default function VoltaLab() {
               </div>
             ) : (
               /* Challenge mode content */
-              <div className="glass-panel border-white/5 bg-slate-900/45 rounded-2xl p-6 space-y-6">
+              <div className={`glass-panel border-white/5 rounded-2xl p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/45' : 'bg-slate-100/45'}`}>
                 <div className="p-4 bg-teal-500/5 rounded-xl border border-teal-500/15 flex items-start gap-3">
                   <Sparkles className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
                   <div className="space-y-0.5">
                     <h4 className="text-xs font-bold text-teal-300 font-mono uppercase tracking-wide">Tantangan Kuantitatif Redoks</h4>
                     <p className="text-[11px] text-zinc-400 leading-normal">
-                      Uji kemampuan Anda menyetarakan reaksi elektrokimia secara mandiri! Atur nilai koefisien reaktan dan produk menggunakan kontrol <code className="text-teal-400 px-1 bg-slate-950 border border-zinc-805 rounded font-bold font-mono">+</code> / <code className="text-teal-400 px-1 bg-slate-950 border border-zinc-805 rounded font-bold font-mono">-</code>. Amati transformasi warna larutan dalam labu kimia secara real-time!
+                      Uji kemampuan Anda menyetarakan reaksi elektrokimia secara mandiri! Atur nilai koefisien reaktan dan produk menggunakan kontrol <code className={`text-teal-400 px-1 border border-zinc-805 rounded font-bold font-mono ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>+</code> / <code className={`text-teal-400 px-1 border border-zinc-805 rounded font-bold font-mono ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>-</code>. Amati transformasi warna larutan dalam labu kimia secara real-time!
                     </p>
                   </div>
                 </div>
@@ -761,7 +761,7 @@ export default function VoltaLab() {
                       {currentChallenge.reactants.map((sp, idx) => (
                         <div key={idx} className="flex items-center gap-2">
                           {idx > 0 && <span className="text-lg font-bold text-zinc-500 font-sans">+</span>}
-                          <div className="flex flex-col items-center gap-1.5 p-2 px-3 rounded-lg bg-slate-900/40 border border-slate-850">
+                          <div className={`flex flex-col items-center gap-1.5 p-2 px-3 rounded-lg border ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                             {/* Coefficient Controls */}
                             <div className="flex items-center gap-1">
                               <button
@@ -814,7 +814,7 @@ export default function VoltaLab() {
                       {currentChallenge.products.map((sp, idx) => (
                         <div key={idx} className="flex items-center gap-2">
                           {idx > 0 && <span className="text-lg font-bold text-zinc-500 font-sans">+</span>}
-                          <div className="flex flex-col items-center gap-1.5 p-2 px-3 rounded-lg bg-slate-900/40 border border-slate-850">
+                          <div className={`flex flex-col items-center gap-1.5 p-2 px-3 rounded-lg border ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                             {/* Coefficient Controls */}
                             <div className="flex items-center gap-1">
                               <button
@@ -1045,7 +1045,7 @@ export default function VoltaLab() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in font-sans">
           {/* Controls Sidebar */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+            <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-widest block">KOMPONEN ELEKTRODA</span>
                 <button 
@@ -1171,7 +1171,7 @@ export default function VoltaLab() {
             </div>
 
             {/* Nernst Equation slider card */}
-            <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-3">
+            <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-3 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
               <div className="flex justify-between items-center shadow-sm">
                 <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-widest block">PERSAMAAN NERNST</span>
                 <button 
@@ -1221,7 +1221,7 @@ export default function VoltaLab() {
 
           {/* Core SVG Canvas & Calculations */}
           <div className="lg:col-span-8 space-y-6">
-            <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+            <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
               {/* Header icons bar */}
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-widest block">VISUALISASI APPARATUS SEL GALVANI</span>
@@ -1429,7 +1429,7 @@ export default function VoltaLab() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in font-sans">
           {/* Beaker setup, select reaction and Faraday calculations input */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+            <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
               <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-widest block">SIFAT &amp; ELEKTROLIT STRUKTUR</span>
               <div className="space-y-1">
                 <label className="text-[10px] text-zinc-500 font-bold block mb-1 uppercase font-mono">Pilih Media Larutan/Lelehan</label>
@@ -1450,7 +1450,7 @@ export default function VoltaLab() {
             </div>
 
             {/* Hukum Faraday 1st Law interactive widget calculator */}
-            <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+            <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-widest block flex items-center gap-1">
                   <Calculator className="w-3.5 h-3.5 text-teal-400" />
@@ -1523,7 +1523,7 @@ export default function VoltaLab() {
 
           {/* Interactive SVG Electrolysis animation screen */}
           <div className="lg:col-span-8 flex flex-col gap-6">
-            <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+            <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-widest block">APPARATUS SEL ELEKTROLISIS INTERAKTIF</span>
                 <span className="bg-amber-500/10 border border-amber-550/30 text-amber-400 font-bold text-[9.5px] font-mono px-2 py-0.5 rounded uppercase">
@@ -1704,7 +1704,7 @@ export default function VoltaLab() {
       {/* ======================================================== */}
       {activeSection === 'theory' && (
         <div className="max-w-4xl mx-auto space-y-6 animate-fade-in font-sans">
-          <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-6 md:p-8 space-y-6">
+          <div className={`glass-panel border-white/5 rounded-2xl p-6 md:p-8 space-y-6 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
             <div>
               <h3 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-teal-400" /> Landasan Teori Elektrokimia (Materi XII SMA)
@@ -1764,7 +1764,7 @@ export default function VoltaLab() {
       {/* ======================================================== */}
       {activeSection === 'quiz' && (
         <div className="max-w-2xl mx-auto space-y-6 animate-fade-in font-sans">
-          <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-6 md:p-8">
+          <div className={`glass-panel border-white/5 rounded-2xl p-6 md:p-8 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
             {!showQuizResult ? (
               <div className="space-y-6">
                 {/* Status progress bar */}

@@ -279,7 +279,11 @@ const LOCAL_QUIZ_QUESTIONS = [
   }
 ];
 
-export default function ElectrolysisLab() {
+interface ElectrolysisLabProps {
+  theme?: 'dark' | 'light';
+}
+
+export default function ElectrolysisLab({ theme = 'dark' }: ElectrolysisLabProps) {
   const [activeTab, setActiveTab] = useState<'simulasi' | 'kalkulator' | 'teori' | 'quiz'>('simulasi');
   
   // Simulation Settings
@@ -600,7 +604,7 @@ export default function ElectrolysisLab() {
   };
 
   return (
-    <div id="electrolysis-lab-root" className="w-full bg-[#0b1329] min-h-screen text-slate-100 flex flex-col font-sans select-none overflow-x-hidden pt-4 pb-12">
+    <div id="electrolysis-lab-root" className={`w-full ${theme === 'dark' ? 'bg-[#0b1329] text-slate-100' : 'bg-slate-50 text-slate-900'} min-h-screen flex flex-col font-sans select-none overflow-x-hidden pt-4 pb-12`}>
       {/* Premium Dashboard Header */}
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 mb-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
@@ -627,7 +631,7 @@ export default function ElectrolysisLab() {
             </div>
             <button
               onClick={() => setMuted(!muted)}
-              className="p-3 bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white rounded-xl transition-all cursor-pointer text-slate-400 text-xs shrink-0 flex items-center justify-center"
+              className={`p-3 border rounded-xl transition-all cursor-pointer text-xs shrink-0 flex items-center justify-center ${theme === 'dark' ? 'bg-slate-900 border-slate-800 hover:border-slate-700 hover:text-white text-slate-400' : 'bg-slate-100 border-slate-300 hover:border-slate-400 hover:text-slate-900 text-slate-600'}`}
               title={muted ? 'Nyalakan Audio' : 'Bisukan Audio'}
             >
               {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
@@ -638,7 +642,7 @@ export default function ElectrolysisLab() {
 
       {/* Primary Tab Navigation */}
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 mb-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 bg-slate-950/60 p-1.5 rounded-xl border border-slate-900">
+        <div className={`grid grid-cols-2 md:grid-cols-4 gap-2 p-1.5 rounded-xl border ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
           <button
             onClick={() => setActiveTab('simulasi')}
             className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
@@ -704,7 +708,7 @@ export default function ElectrolysisLab() {
               {/* Left Column: Simulation Controls (Span 5) */}
               <div className="lg:col-span-5 flex flex-col gap-5">
                 {/* 1. System Selectors Card */}
-                <div className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-5 space-y-4">
+                <div className={`glass-panel border rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div className="flex items-center gap-2 text-indigo-400 font-bold text-sm mb-1 uppercase tracking-wider">
                     <Layers className="w-4.5 h-4.5" />
                     <span>Konfigurasi Sel Elektrolisis</span>
@@ -719,7 +723,7 @@ export default function ElectrolysisLab() {
                         const found = ELECTROLYTES.find(item => item.id === e.target.value);
                         if (found) setSelectedEl(found);
                       }}
-                      className="w-full bg-slate-950 border border-slate-800 text-slate-100 text-xs rounded-xl px-3 py-2.5 focus:border-teal-500 outline-none transition-colors cursor-pointer"
+                      className={`w-full border text-xs rounded-xl px-3 py-2.5 focus:border-teal-500 outline-none transition-colors cursor-pointer ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                     >
                       {ELECTROLYTES.map((el) => (
                         <option key={el.id} value={el.id}>
@@ -740,7 +744,7 @@ export default function ElectrolysisLab() {
                       <select
                         value={cathodeType}
                         onChange={(e) => setCathodeType(e.target.value as any)}
-                        className="w-full bg-slate-950 border border-slate-800 text-slate-100 text-xs rounded-lg px-2.5 py-2 cursor-pointer focus:border-blue-500 outline-none"
+                        className={`w-full border text-xs rounded-lg px-2.5 py-2 cursor-pointer focus:border-blue-500 outline-none ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                       >
                         <option value="Fe">Besi (Fe) [Penyepuhan]</option>
                         <option value="Pt">Platina (Pt) [Inert]</option>
@@ -758,7 +762,7 @@ export default function ElectrolysisLab() {
                         <select
                           value={anodeType}
                           onChange={(e) => setAnodeType(e.target.value as any)}
-                          className="w-full bg-slate-950 border border-slate-800 text-slate-150 text-xs rounded-lg px-2.5 py-2 outline-none"
+                          className={`w-full border text-slate-150 text-xs rounded-lg px-2.5 py-2 outline-none ${theme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
                         >
                           <option value="Ag">Perak (Ag) [Aktif]</option>
                           <option value="Pt">Platina (Pt) [Inert]</option>
@@ -767,7 +771,7 @@ export default function ElectrolysisLab() {
                         <select
                           value={anodeType}
                           onChange={(e) => setAnodeType(e.target.value as any)}
-                          className="w-full bg-slate-950 border border-slate-800 text-slate-150 text-xs rounded-lg px-2.5 py-2 outline-none"
+                          className={`w-full border text-slate-150 text-xs rounded-lg px-2.5 py-2 outline-none ${theme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
                         >
                           <option value="Cu">Tembaga (Cu) [Aktif]</option>
                           <option value="Pt">Platina (Pt) [Inert]</option>
@@ -775,7 +779,7 @@ export default function ElectrolysisLab() {
                       ) : (
                         <select
                           disabled
-                          className="w-full bg-slate-950 opacity-60 border border-slate-800 text-slate-400 text-xs rounded-lg px-2.5 py-2 cursor-not-allowed"
+                          className={`w-full opacity-60 border text-xs rounded-lg px-2.5 py-2 cursor-not-allowed ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}
                         >
                           <option value="Pt">Platina (Pt) [Inert]</option>
                         </select>
@@ -784,13 +788,13 @@ export default function ElectrolysisLab() {
                   </div>
 
                   {/* Compound description */}
-                  <p className="bg-slate-950/50 rounded-xl p-3 border border-slate-900 text-xs text-slate-400 leading-relaxed italic">
+                  <p className={`rounded-xl p-3 border text-xs leading-relaxed italic ${theme === 'dark' ? 'bg-slate-950/50 border-slate-900 text-slate-400' : 'bg-slate-100/50 border-slate-300 text-slate-600'}`}>
                     {selectedEl.description}
                   </p>
                 </div>
 
                 {/* 2. Electric Parameters Card */}
-                <div className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-5 space-y-4">
+                <div className={`glass-panel border rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div className="flex items-center justify-between text-indigo-400 font-bold text-sm mb-1 uppercase tracking-wider">
                     <span className="flex items-center gap-2">
                       <Flame className="w-4.5 h-4.5 text-amber-400" />
@@ -816,7 +820,7 @@ export default function ElectrolysisLab() {
                       step="0.5"
                       value={current}
                       onChange={(e) => setCurrent(parseFloat(e.target.value))}
-                      className="w-full accent-amber-500 cursor-pointer bg-slate-950 h-1.5 rounded-lg"
+                      className={`w-full accent-amber-500 cursor-pointer h-1.5 rounded-lg ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}
                     />
                     <div className="flex justify-between text-[10px] text-slate-500 font-mono">
                       <span>0.5 A [Lemah]</span>
@@ -832,7 +836,7 @@ export default function ElectrolysisLab() {
                         {speedMultiplier}x Detik/s
                       </span>
                     </div>
-                    <div className="grid grid-cols-4 gap-1 p-1 bg-slate-950 rounded-lg">
+                    <div className={`grid grid-cols-4 gap-1 p-1 rounded-lg ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                       {[1, 5, 20, 100].map((val) => (
                         <button
                           key={val}
@@ -852,7 +856,7 @@ export default function ElectrolysisLab() {
                   {/* Chemical Indicators checkbox toggles */}
                   {selectedEl.id === 'NaCl' && (
                     <div className="pt-2 border-t border-slate-800/60">
-                      <label className="flex items-center gap-3 bg-slate-950/30 p-2.5 rounded-xl border border-pink-500/10 hover:bg-slate-950/60 cursor-pointer transition-all">
+                      <label className={`flex items-center gap-3 p-2.5 rounded-xl border border-pink-500/10 cursor-pointer transition-all ${theme === 'dark' ? 'bg-slate-950/30 hover:bg-slate-950/60' : 'bg-slate-100/30 hover:bg-slate-200'}`}>
                         <input
                           type="checkbox"
                           checked={showIndicator}
@@ -869,7 +873,7 @@ export default function ElectrolysisLab() {
 
                   {selectedEl.id === 'KI' && (
                     <div className="pt-2 border-t border-slate-800/60">
-                      <label className="flex items-center gap-3 bg-slate-950/30 p-2.5 rounded-xl border border-indigo-505/10 hover:bg-slate-950/60 cursor-pointer transition-all">
+                      <label className={`flex items-center gap-3 p-2.5 rounded-xl border border-indigo-505/10 cursor-pointer transition-all ${theme === 'dark' ? 'bg-slate-950/30 hover:bg-slate-950/60' : 'bg-slate-100/30 hover:bg-slate-200'}`}>
                         <input
                           type="checkbox"
                           checked={showStarch}
@@ -886,7 +890,7 @@ export default function ElectrolysisLab() {
                 </div>
 
                 {/* 3. Action Buttons & Speed Stats */}
-                <div className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4 justify-between leading-none">
+                <div className={`glass-panel border rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4 justify-between leading-none ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div className="text-left w-full sm:w-auto">
                     <span className="text-slate-500 text-[10px] font-mono block">WAKTU ELEKTROLISIS (t)</span>
                     <span className="text-lg font-extrabold text-white font-mono mt-1 block">
@@ -900,7 +904,7 @@ export default function ElectrolysisLab() {
                   <div className="flex gap-2.5 w-full sm:w-auto shrink-0">
                     <button
                       onClick={handleResetSim}
-                      className="p-3 bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white rounded-xl transition-all cursor-pointer flex items-center justify-center"
+                      className={`p-3 border rounded-xl transition-all cursor-pointer flex items-center justify-center ${theme === 'dark' ? 'bg-slate-950 border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900'}`}
                       title="Reset Simulasi"
                     >
                       <RefreshCw className="w-4 h-4" />
@@ -933,7 +937,7 @@ export default function ElectrolysisLab() {
               {/* Right Column: Interactive Animated SVG Beaker & Live Calculation yields (Span 7) */}
               <div className="lg:col-span-7 flex flex-col gap-5">
                 {/* Visualizer Card */}
-                <div className="glass-panel bg-slate-900/20 border border-slate-800 rounded-2xl p-6 flex flex-col items-center">
+                <div className={`glass-panel border rounded-2xl p-6 flex flex-col items-center ${theme === 'dark' ? 'bg-slate-900/20 border-slate-800' : 'bg-slate-100/20 border-slate-300'}`}>
                   <div className="w-full flex items-center justify-between mb-4 border-b border-slate-800/50 pb-3">
                     <div className="flex items-center gap-2">
                       <Droplets className="w-4.5 h-4.5 text-blue-400" />
@@ -946,7 +950,7 @@ export default function ElectrolysisLab() {
                   </div>
 
                   {/* SVG BEAKER ANIMATION CONTAINER */}
-                  <div className="w-full max-w-[450px] aspect-square relative bg-slate-950/70 border border-slate-900 rounded-xl overflow-hidden p-4 flex items-center justify-center">
+                  <div className={`w-full max-w-[450px] aspect-square relative border rounded-xl overflow-hidden p-4 flex items-center justify-center ${theme === 'dark' ? 'bg-slate-950/70 border-slate-900' : 'bg-slate-100/70 border-slate-300'}`}>
                     {/* Heated glow overlay if molten */}
                     {selectedEl.phase === 'molten' && (
                       <div className="absolute inset-0 bg-radial-gradient from-orange-500/10 via-transparent to-transparent pointer-events-none animate-pulse" />
@@ -1179,7 +1183,7 @@ export default function ElectrolysisLab() {
 
                   {/* Reaction Equations Display Banner */}
                   <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 mt-4 text-xs font-mono">
-                    <div className="bg-slate-950/80 p-3.5 rounded-xl border border-blue-900/30">
+                    <div className={`p-3.5 rounded-xl border border-blue-900/30 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
                       <span className="text-blue-400 font-bold flex items-center gap-1.5 mb-1 text-[10px]">
                         <span className="w-2 h-2 rounded-full bg-blue-500" />
                         REDUKSI (KATODA)
@@ -1188,7 +1192,7 @@ export default function ElectrolysisLab() {
                       <p className="text-[10px] text-slate-400 mt-2 italic">Hasilkan: {selectedEl.cathodeProduct}</p>
                     </div>
 
-                    <div className="bg-slate-950/80 p-3.5 rounded-xl border border-red-900/30">
+                    <div className={`p-3.5 rounded-xl border border-red-900/30 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
                       <span className="text-red-400 font-bold flex items-center gap-1.5 mb-1 text-[10px]">
                         <span className="w-2 h-2 rounded-full bg-red-400" />
                         OKSIDASI (ANODA)
@@ -1200,7 +1204,7 @@ export default function ElectrolysisLab() {
                 </div>
 
                 {/* Live Quantitative Yield Results Dashboard */}
-                <div className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-5">
+                <div className={`glass-panel border rounded-2xl p-5 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div className="text-indigo-400 font-bold text-sm uppercase tracking-wider mb-3 flex items-center gap-2">
                     <Activity className="w-4.5 h-4.5 text-indigo-400" />
                     <span>Hasil Kuantitatif Live (Faraday I)</span>
@@ -1208,7 +1212,7 @@ export default function ElectrolysisLab() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {/* Yield 1: Cathode Metal Deposit */}
-                    <div className="bg-slate-950 p-4 rounded-xl border border-slate-900 flex flex-col justify-between">
+                    <div className={`p-4 rounded-xl border flex flex-col justify-between ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <span className="text-[11px] font-bold text-slate-400 leading-none">Massa Endapan Katoda</span>
                       <div className="mt-2 text-2xl font-extrabold text-teal-400 font-mono">
                         {depositedCathode.toFixed(5)} <span className="text-xs font-sans text-slate-400">g</span>
@@ -1219,7 +1223,7 @@ export default function ElectrolysisLab() {
                     </div>
 
                     {/* Yield 2: Cathode Gas Volume */}
-                    <div className="bg-slate-950 p-4 rounded-xl border border-slate-900 flex flex-col justify-between">
+                    <div className={`p-4 rounded-xl border flex flex-col justify-between ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <span className="text-[11px] font-bold text-slate-400 leading-none">Gas Katoda (STP)</span>
                       <div className="mt-2 text-2xl font-extrabold text-slate-200 font-mono">
                         {cathodeGasVolume.toFixed(5)} <span className="text-xs font-sans text-slate-400">L</span>
@@ -1230,7 +1234,7 @@ export default function ElectrolysisLab() {
                     </div>
 
                     {/* Yield 3: Anode Gas Or Liquid Volume */}
-                    <div className="bg-slate-950 p-4 rounded-xl border border-slate-900 flex flex-col justify-between">
+                    <div className={`p-4 rounded-xl border flex flex-col justify-between ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <span className="text-[11px] font-bold text-slate-400 leading-none">Yield Anode (STP/Larutan)</span>
                       <div className="mt-2 text-2xl font-extrabold text-amber-500 font-mono">
                         {selectedEl.id === 'KI' && anodeType === 'Pt' ? (
@@ -1266,7 +1270,7 @@ export default function ElectrolysisLab() {
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Section A: Faraday's 1st Law Advisor */}
-                <div className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-6 flex flex-col gap-5">
+                <div className={`glass-panel border rounded-2xl p-6 flex flex-col gap-5 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div>
                     <h3 className="text-lg font-bold text-white flex items-center gap-2">
                       <Calculator className="w-5 h-5 text-teal-400" />
@@ -1278,7 +1282,7 @@ export default function ElectrolysisLab() {
                   </div>
 
                   {/* Calculator Objective select */}
-                  <div className="grid grid-cols-3 gap-2 bg-slate-950 p-1 rounded-xl">
+                  <div className={`grid grid-cols-3 gap-2 p-1 rounded-xl ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                     <button
                       onClick={() => setCalcTarget('w')}
                       className={`py-2 text-xs font-bold rounded-lg cursor-pointer transition-colors ${
@@ -1313,7 +1317,7 @@ export default function ElectrolysisLab() {
                         <select
                           value={calcMetal}
                           onChange={(e) => setCalcMetal(e.target.value)}
-                          className="w-full bg-slate-950 border border-slate-800 text-xs rounded-lg px-2.5 py-2 text-slate-100"
+                          className={`w-full border text-xs rounded-lg px-2.5 py-2 ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                         >
                           <option value="Cu">Kation Tembaga (Cu²⁺)</option>
                           <option value="Ag">Kation Perak (Ag⁺)</option>
@@ -1334,7 +1338,7 @@ export default function ElectrolysisLab() {
                             step="0.1"
                             value={calcAr}
                             onChange={(e) => setCalcAr(parseFloat(e.target.value) || 0)}
-                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-1.5 text-xs text-slate-150 font-mono"
+                            className={`w-full border rounded-lg px-2 py-1.5 text-xs text-slate-150 font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
                           />
                         </div>
                         <div className="space-y-1">
@@ -1343,7 +1347,7 @@ export default function ElectrolysisLab() {
                             type="number"
                             value={calcValency}
                             onChange={(e) => setCalcValency(parseInt(e.target.value) || 1)}
-                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-2 py-1.5 text-xs text-slate-150 font-mono"
+                            className={`w-full border rounded-lg px-2 py-1.5 text-xs text-slate-150 font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
                           />
                         </div>
                       </div>
@@ -1359,7 +1363,7 @@ export default function ElectrolysisLab() {
                             step="0.5"
                             value={calcCurrent}
                             onChange={(e) => setCalcCurrent(parseFloat(e.target.value) || 0)}
-                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono text-white"
+                            className={`w-full border rounded-lg px-3 py-2 text-xs font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                           />
                         </div>
                       )}
@@ -1371,7 +1375,7 @@ export default function ElectrolysisLab() {
                             type="number"
                             value={calcTime}
                             onChange={(e) => setCalcTime(parseInt(e.target.value) || 0)}
-                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono text-white"
+                            className={`w-full border rounded-lg px-3 py-2 text-xs font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                           />
                         </div>
                       )}
@@ -1384,7 +1388,7 @@ export default function ElectrolysisLab() {
                             step="0.001"
                             value={calcMassInput}
                             onChange={(e) => setCalcMassInput(parseFloat(e.target.value) || 0)}
-                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono text-white"
+                            className={`w-full border rounded-lg px-3 py-2 text-xs font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                           />
                         </div>
                       )}
@@ -1402,7 +1406,7 @@ export default function ElectrolysisLab() {
 
                   {/* Computation Results */}
                   {calcResult && (
-                    <div className="mt-2 bg-slate-950/90 rounded-2xl p-4 border border-teal-500/20">
+                    <div className={`mt-2 rounded-2xl p-4 border border-teal-500/20 ${theme === 'dark' ? 'bg-slate-950/90' : 'bg-slate-100/90'}`}>
                       <div className="text-[11px] text-slate-400 tracking-wider">HASIL PERHITUNGAN:</div>
                       <div className="text-2xl font-extrabold text-teal-400 font-mono mt-1">
                         {calcResult}
@@ -1411,7 +1415,7 @@ export default function ElectrolysisLab() {
                       <div className="mt-4 pt-3 border-t border-slate-800/80 space-y-2 text-left">
                         <span className="text-[10px] text-slate-400 font-bold">ALGORITMA &amp; LANGKAH PENYELESAIAN:</span>
                         {calcSteps.map((step, idx) => (
-                          <div key={idx} className="bg-slate-900 border border-slate-950 p-2.5 rounded-lg text-xs font-mono text-slate-300 whitespace-pre-wrap leading-relaxed">
+                          <div key={idx} className={`border p-2.5 rounded-lg text-xs font-mono whitespace-pre-wrap leading-relaxed ${theme === 'dark' ? 'bg-slate-900 border-slate-950 text-slate-300' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                             {step}
                           </div>
                         ))}
@@ -1421,7 +1425,7 @@ export default function ElectrolysisLab() {
                 </div>
 
                 {/* Section B: Faraday's 2nd Law (Serial Cell Connect) */}
-                <div className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-6 flex flex-col gap-5 justify-between">
+                <div className={`glass-panel border rounded-2xl p-6 flex flex-col gap-5 justify-between ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div>
                     <h3 className="text-lg font-bold text-white flex items-center gap-2">
                       <Layers className="w-5 h-5 text-indigo-400" />
@@ -1435,7 +1439,7 @@ export default function ElectrolysisLab() {
                   {/* Cell Configurator Split Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Block Cell 1 */}
-                    <div className="bg-slate-950/80 p-4 border border-indigo-950 rounded-xl space-y-3">
+                    <div className={`p-4 border border-indigo-950 rounded-xl space-y-3 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
                       <span className="text-[10px] font-bold text-indigo-400 block leading-none">SEL 1 (REFERENSI MASSA)</span>
                       
                       {/* Presets buttons */}
@@ -1462,7 +1466,7 @@ export default function ElectrolysisLab() {
                             step="0.1"
                             value={f2Cell1Ar}
                             onChange={(e) => setF2Cell1Ar(parseFloat(e.target.value) || 0)}
-                            className="w-full bg-slate-900 border border-slate-800 rounded px-1.5 py-1 text-xs text-white text-center font-mono"
+                            className={`w-full border rounded px-1.5 py-1 text-xs text-center font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                           />
                         </div>
                         <div className="space-y-1">
@@ -1471,7 +1475,7 @@ export default function ElectrolysisLab() {
                             type="number"
                             value={f2Cell1Val}
                             onChange={(e) => setF2Cell1Val(parseInt(e.target.value) || 1)}
-                            className="w-full bg-slate-900 border border-slate-800 rounded px-1.5 py-1 text-xs text-white text-center font-mono"
+                            className={`w-full border rounded px-1.5 py-1 text-xs text-center font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                           />
                         </div>
                       </div>
@@ -1485,7 +1489,7 @@ export default function ElectrolysisLab() {
                             step="0.01"
                             value={f2Cell1Mass}
                             onChange={(e) => setF2Cell1Mass(parseFloat(e.target.value) || 0)}
-                            className="w-full bg-slate-900 border border-slate-800 rounded-lg. px-2 py-1.5 text-xs text-white font-mono"
+                            className={`w-full border rounded-lg. px-2 py-1.5 text-xs font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                           />
                           <span className="absolute right-2.5 top-1.5 text-[10px] text-slate-400">gram</span>
                         </div>
@@ -1493,7 +1497,7 @@ export default function ElectrolysisLab() {
                     </div>
 
                     {/* Block Cell 2 */}
-                    <div className="bg-slate-950/80 p-4 border border-rose-950 rounded-xl space-y-3">
+                    <div className={`p-4 border border-rose-950 rounded-xl space-y-3 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
                       <span className="text-[10px] font-bold text-rose-400 block leading-none">SEL 2 (TARGET YANG DICARI)</span>
                       
                       {/* Presets buttons */}
@@ -1520,7 +1524,7 @@ export default function ElectrolysisLab() {
                             step="0.1"
                             value={f2Cell2Ar}
                             onChange={(e) => setF2Cell2Ar(parseFloat(e.target.value) || 0)}
-                            className="w-full bg-slate-900 border border-slate-800 rounded px-1.5 py-1 text-xs text-white text-center font-mono"
+                            className={`w-full border rounded px-1.5 py-1 text-xs text-center font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                           />
                         </div>
                         <div className="space-y-1">
@@ -1529,7 +1533,7 @@ export default function ElectrolysisLab() {
                             type="number"
                             value={f2Cell2Val}
                             onChange={(e) => setF2Cell2Val(parseInt(e.target.value) || 1)}
-                            className="w-full bg-slate-900 border border-slate-800 rounded px-1.5 py-1 text-xs text-white text-center font-mono"
+                            className={`w-full border rounded px-1.5 py-1 text-xs text-center font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                           />
                         </div>
                       </div>
@@ -1537,7 +1541,7 @@ export default function ElectrolysisLab() {
                       {/* Calculated Mass 2 */}
                       <div className="space-y-1">
                         <label className="text-[11px] text-slate-300">W₂ (Massa Terendap Sel 2)</label>
-                        <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2.5 text-xs text-emerald-400 font-mono font-extrabold text-center">
+                        <div className={`border rounded-lg p-2.5 text-xs text-emerald-400 font-mono font-extrabold text-center ${theme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-slate-100/90 border-slate-300'}`}>
                           {f2Cell2Result.toFixed(5)} gram
                         </div>
                       </div>
@@ -1545,7 +1549,7 @@ export default function ElectrolysisLab() {
                   </div>
 
                   {/* Steps breakdown of Faraday II */}
-                  <div className="bg-slate-950 p-4 rounded-xl border border-slate-900 text-xs font-mono space-y-1 text-left">
+                  <div className={`p-4 rounded-xl border text-xs font-mono space-y-1 text-left ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="text-[10px] text-slate-400 font-bold">LOGIKA PENYELESAIAN SERI (SEL SEJALUR):</span>
                     <p className="text-slate-300 mt-1 leading-relaxed">
                       1. Berat ekivalen Sel 1 (e₁) = {f2Cell1Ar} / {f2Cell1Val} = {(f2Cell1Ar/f2Cell1Val).toFixed(3)}
@@ -1575,7 +1579,7 @@ export default function ElectrolysisLab() {
               className="space-y-6"
             >
               {/* Rules Dashboard Banner */}
-              <div className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-6">
+              <div className={`glass-panel border rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                 <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-2">
                   <BookOpen className="w-5 h-5 text-indigo-400" />
                   Regulasi Mutlak Reaksi Sel Elektrolisis
@@ -1587,7 +1591,7 @@ export default function ElectrolysisLab() {
                 {/* Beautiful split table guide */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                   {/* Cathode Rule */}
-                  <div className="bg-slate-950/80 p-5 rounded-2xl border border-blue-900/30">
+                  <div className={`p-5 rounded-2xl border border-blue-900/30 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
                     <span className="bg-blue-600/10 text-blue-400 text-[10px] font-bold tracking-wider uppercase border border-blue-500/20 px-3 py-1 rounded-full">
                       REAKSI KATODA (KUTUB SENSITIF NEGATIF - REDUKSI)
                     </span>
@@ -1602,7 +1606,7 @@ export default function ElectrolysisLab() {
                           <span className="font-bold text-slate-100">Kation Golongan IA, IIA, Al, Mn (Larutan):</span>
                           <p className="text-slate-400 text-[11px] mt-1 leading-relaxed">
                             Potensial reduksi air lebih besar daripada ion logam tersebut, maka **air yang terreduksi**:
-                            <code className="block bg-slate-900 px-2 py-1 rounded border border-slate-800 mt-1.5 text-blue-300 font-mono">
+                            <code className={`block px-2 py-1 rounded border mt-1.5 text-blue-300 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                               2H₂O(l) + 2e⁻ → H₂(g) + 2OH⁻(aq)
                             </code>
                           </p>
@@ -1615,7 +1619,7 @@ export default function ElectrolysisLab() {
                           <span className="font-bold text-slate-100">Kation Golongan Lain (Cu²⁺, Ag⁺, Zn²⁺, dll / Larutan):</span>
                           <p className="text-slate-400 text-[11px] mt-1 leading-relaxed">
                             Kation logam tersebut terreduksi langsung menjadi endapan padat logam di tubuh katoda:
-                            <code className="block bg-slate-900 px-2 py-1 rounded border border-slate-800 mt-1.5 text-blue-300 font-mono">
+                            <code className={`block px-2 py-1 rounded border mt-1.5 text-blue-300 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                               Mⁿ⁺(aq) + n e⁻ → M(s)
                             </code>
                           </p>
@@ -1628,7 +1632,7 @@ export default function ElectrolysisLab() {
                           <span className="font-bold text-slate-100">Larutan Asam Lunak (H⁺):</span>
                           <p className="text-slate-400 text-[11px] mt-1 leading-relaxed">
                             Mengalami redufsi kation hidrogen melepaskan gas hidrogen murni:
-                            <code className="block bg-slate-900 px-2 py-1 rounded border border-slate-800 mt-1.5 text-blue-300 font-mono">
+                            <code className={`block px-2 py-1 rounded border mt-1.5 text-blue-300 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                               2H⁺(aq) + 2e⁻ → H₂(g)
                             </code>
                           </p>
@@ -1641,7 +1645,7 @@ export default function ElectrolysisLab() {
                           <span className="font-bold text-slate-100">Fase Lelehan / Leburan (Liquid, Tanpa Air):</span>
                           <p className="text-slate-400 text-[11px] mt-1 leading-relaxed">
                             Tidak ada air bersaing, seluruh kation logam murni akan terreduksi langsung terlepas dari kedudukannya di Deret Volta:
-                            <code className="block bg-slate-900 px-2 py-1 rounded border border-slate-800 mt-1.5 text-blue-300 font-mono">
+                            <code className={`block px-2 py-1 rounded border mt-1.5 text-blue-300 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                               Mⁿ⁺(l) + n e⁻ → M(l/s)
                             </code>
                           </p>
@@ -1651,7 +1655,7 @@ export default function ElectrolysisLab() {
                   </div>
 
                   {/* Anode Rule */}
-                  <div className="bg-slate-950/80 p-5 rounded-2xl border border-red-900/30">
+                  <div className={`p-5 rounded-2xl border border-red-900/30 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
                     <span className="bg-red-600/10 text-red-400 text-[10px] font-bold tracking-wider uppercase border border-red-500/20 px-3 py-1 rounded-full">
                       REAKSI ANODA (KUTUB SENSITIF POSITIF - OKSIDASI)
                     </span>
@@ -1666,7 +1670,7 @@ export default function ElectrolysisLab() {
                           <span className="font-bold text-slate-100">Elektroda Aktif (Non-Inert, seperti Cu, Ag, Fe, Ni):</span>
                           <p className="text-slate-400 text-[11px] mt-1 leading-relaxed">
                             Logam anoda tersebut langsung teroksidasi dan hancur melarut perlahan membentuk kation:
-                            <code className="block bg-slate-900 px-2 py-1 rounded border border-slate-800 mt-1.5 text-red-350 font-mono">
+                            <code className={`block px-2 py-1 rounded border mt-1.5 text-red-350 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                               M(s) → Mⁿ⁺(aq) + n e⁻
                             </code>
                           </p>
@@ -1683,19 +1687,19 @@ export default function ElectrolysisLab() {
                           <ul className="space-y-2 pl-3.5 text-slate-400 text-[11px] list-disc list-outside leading-relaxed">
                             <li>
                               <strong className="text-slate-200">Sisa Asam Oksi (SO₄²⁻, NO₃⁻, CO₃²⁻):</strong> Air teroksidasi menghasilkan gas O₂ dan larutan asam H⁺.
-                              <code className="block bg-slate-900 px-2 py-1 rounded border border-slate-800 mt-1 text-red-350 font-mono">
+                              <code className={`block px-2 py-1 rounded border mt-1 text-red-350 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                                 2H₂O(l) → O₂(g) + 4H⁺(aq) + 4e⁻
                               </code>
                             </li>
                             <li>
                               <strong className="text-slate-200">Ion Halida (Cl⁻, Br⁻, I⁻):</strong> Teoksidasi menghasilkan uap unsur bebas halogen.
-                              <code className="block bg-slate-900 px-2 py-1 rounded border border-slate-800 mt-1 text-red-350 font-mono">
+                              <code className={`block px-2 py-1 rounded border mt-1 text-red-350 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                                 2X⁻(aq) → X₂(g/aq) + 2e⁻
                               </code>
                             </li>
                             <li>
                               <strong className="text-slate-200">Basa Sisa (OH⁻):</strong> Teroksidasi membebaskan air serta gas O₂.
-                              <code className="block bg-slate-900 px-2 py-1 rounded border border-slate-800 mt-1 text-red-350 font-mono">
+                              <code className={`block px-2 py-1 rounded border mt-1 text-red-350 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                                 4OH⁻(aq) → O₂(g) + 2H₂O(l) + 4e⁻
                               </code>
                             </li>
@@ -1708,7 +1712,7 @@ export default function ElectrolysisLab() {
               </div>
 
               {/* General formula guidelines card */}
-              <div className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-6">
+              <div className={`glass-panel border rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                 <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-emerald-400" />
                   Hukum Kuantitatif Faraday I &amp; II
@@ -1719,7 +1723,7 @@ export default function ElectrolysisLab() {
                     <p>
                       Massa zat yang dihasilkan pada elektroda selama elektrolisis (W) berbanding lurus dengan muatan listrik (Q) yang dialirkan.
                     </p>
-                    <div className="bg-slate-950 p-3 rounded-lg font-mono text-emerald-400 text-sm border border-slate-850">
+                    <div className={`p-3 rounded-lg font-mono text-emerald-400 text-sm border ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                       W = e · F = e · i · t / 96500
                     </div>
                     <ul className="list-disc pl-5 space-y-1 mt-2 text-[11px] text-slate-400">
@@ -1736,7 +1740,7 @@ export default function ElectrolysisLab() {
                     <p>
                       Jika beberapa sel elektrolisis dialiri muatan arus yang sama dalam rangkaian seri, maka massa zat-zat yang mengendap pada masing-masing elektroda berbanding lurus dengan berat ekivalennya.
                     </p>
-                    <div className="bg-slate-950 p-3 rounded-lg font-mono text-indigo-400 text-sm border border-slate-850">
+                    <div className={`p-3 rounded-lg font-mono text-indigo-400 text-sm border ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                       W₁ / W₂ = e₁ / e₂
                     </div>
                     <p className="text-[11px] text-slate-400 leading-relaxed">
@@ -1764,7 +1768,7 @@ export default function ElectrolysisLab() {
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.98 }}
-                    className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6"
+                    className={`glass-panel border rounded-2xl p-6 sm:p-8 space-y-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}
                   >
                     {/* Header score / progress */}
                     <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -1772,7 +1776,7 @@ export default function ElectrolysisLab() {
                         <span className="text-[10px] text-teal-400 font-bold uppercase tracking-widest block">Uji Mandiri Elektrolisis</span>
                         <h3 className="text-base font-extrabold text-white">Soal {quizIndex + 1} dari {LOCAL_QUIZ_QUESTIONS.length}</h3>
                       </div>
-                      <div className="bg-slate-950 border border-emerald-900 p-2 rounded-xl text-center">
+                      <div className={`border border-emerald-900 p-2 rounded-xl text-center ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                         <span className="text-[10px] text-slate-400 block leading-none font-mono">SKOR ANDA</span>
                         <span className="text-sm font-extrabold text-emerald-400 font-mono block mt-1">{quizScore} / {LOCAL_QUIZ_QUESTIONS.length}</span>
                       </div>
@@ -1805,7 +1809,7 @@ export default function ElectrolysisLab() {
                             onClick={() => handleQuizAnswer(idx)}
                             className={`w-full text-left p-4 rounded-xl border text-xs sm:text-sm transition-all flex items-start gap-3 cursor-pointer ${btnStyle}`}
                           >
-                            <span className="font-mono bg-slate-900 border border-slate-800 w-5 h-5 rounded-full flex items-center justify-center text-[10px] text-slate-400 shrink-0 font-bold mt-0.5">
+                            <span className={`font-mono border w-5 h-5 rounded-full flex items-center justify-center text-[10px] shrink-0 font-bold mt-0.5 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                               {String.fromCharCode(65 + idx)}
                             </span>
                             <span className="leading-relaxed">{option}</span>
@@ -1844,7 +1848,7 @@ export default function ElectrolysisLab() {
 
                         <button
                           onClick={handleNextQuiz}
-                          className="mt-4 w-full sm:w-auto bg-slate-900 hover:bg-slate-850 border border-slate-800 text-white font-bold px-5 py-2.5 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1.5 ml-auto transition-colors"
+                          className={`mt-4 w-full sm:w-auto hover:bg-slate-850 border font-bold px-5 py-2.5 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1.5 ml-auto transition-colors ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                         >
                           <span>{quizIndex < LOCAL_QUIZ_QUESTIONS.length - 1 ? 'SOAL BERIKUTNYA' : 'LIHAT NILAI AKHIR'}</span>
                           <ChevronRight className="w-4 h-4" />
@@ -1857,7 +1861,7 @@ export default function ElectrolysisLab() {
                     key="quiz-result"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="glass-panel bg-slate-900/40 border border-slate-800 rounded-2xl p-8 text-center space-y-6"
+                    className={`glass-panel border rounded-2xl p-8 text-center space-y-6 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}
                   >
                     <div className="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
                       <Award className="w-8 h-8 filter drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]" />
@@ -1871,7 +1875,7 @@ export default function ElectrolysisLab() {
                     </div>
 
                     {/* Score ring */}
-                    <div className="bg-slate-950 p-6 rounded-2xl border border-slate-900 inline-block px-10">
+                    <div className={`p-6 rounded-2xl border inline-block px-10 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <span className="text-[10px] text-slate-500 block leading-none font-bold uppercase tracking-widest">NILAI AKHIR</span>
                       <span className="text-4xl font-extrabold text-teal-400 font-mono block mt-2">
                         {((quizScore / LOCAL_QUIZ_QUESTIONS.length) * 100).toFixed(0)} <span className="text-base text-slate-450">/ 100</span>

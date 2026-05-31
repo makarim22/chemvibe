@@ -246,7 +246,7 @@ const COMPOUNDS_MAP: Record<string, {
   }
 };
 
-export default function BondingLab() {
+export default function BondingLab({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const selectables = ['H', 'C', 'O', 'Na', 'Cl', 'He'];
   const labElements = selectables.map(symbol => 
     ELEMENTS_DATA.find(el => el.symbol === symbol)!
@@ -387,7 +387,7 @@ export default function BondingLab() {
             )}
             
             <div className="absolute top-4 left-4 flex gap-1.5">
-              <span className="px-2 py-0.5 rounded bg-slate-950 text-emerald-400 border border-emerald-950 font-mono text-[9px] font-semibold tracking-wider">
+              <span className={`px-2 py-0.5 rounded text-emerald-400 border border-emerald-950 font-mono text-[9px] font-semibold tracking-wider ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                 {simStep === 1 ? "TAHAP 1: ATOM BEBAS" : simStep === 2 ? "TAHAP 2: PROSES INTERAKSI" : "TAHAP 3: SENYAWA TERBENTUK"}
               </span>
             </div>
@@ -423,7 +423,7 @@ export default function BondingLab() {
               </div>
 
               {/* Bonding Force Bridge icon/indicator */}
-              <div className="flex flex-col items-center gap-1 bg-slate-950/40 p-2.5 rounded-xl border border-slate-900/50 min-w-[70px] md:min-w-[100px]">
+              <div className={`flex flex-col items-center gap-1 p-2.5 rounded-xl border min-w-[70px] md:min-w-[100px] ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900/50' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-400 font-bold border border-zinc-800">
                   ΔEN = {diffEN.toFixed(2)}
                 </div>
@@ -497,7 +497,7 @@ export default function BondingLab() {
 
             {/* Helium inert state warning */}
             {isNoble && (
-              <div className="absolute inset-0 bg-slate-950/85 flex flex-col items-center justify-center p-6 text-center space-y-3 z-30">
+              <div className={`absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-3 z-30 ${theme === 'dark' ? 'bg-slate-950/85' : 'bg-slate-100/85'}`}>
                 <AlertTriangle className="w-8 h-8 text-amber-500" />
                 <div className="space-y-1">
                   <h4 className="text-xs font-black text-amber-400 font-mono">REAKSI INERT / TIDAK REAKTIF</h4>
@@ -512,7 +512,7 @@ export default function BondingLab() {
           {/* Teacher Interactive Steering Stage Navigation */}
           <div className="space-y-2.5">
             <span className="text-[10px] font-mono font-bold text-zinc-500 tracking-wider uppercase block">KONSOL SIMULASI GURU (STEERING DASHBOARD)</span>
-            <div className="grid grid-cols-3 gap-2 bg-slate-900 border border-slate-800 p-1.5 rounded-xl">
+            <div className={`grid grid-cols-3 gap-2 border p-1.5 rounded-xl ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
               {[
                 { s: 1, name: "Tahap 1", text: "Struktur Asal" },
                 { s: 2, name: "Tahap 2", text: "Reaksi Gabung" },
@@ -611,7 +611,7 @@ export default function BondingLab() {
 
       {/* Teacher's Masterclass Presentation Deck Section (Wide Panel Bottom) */}
       {!isNoble && activeCompound && (
-        <div className="border border-teal-500/20 bg-slate-900/30 rounded-2xl p-6 space-y-6 text-left shadow-lg">
+        <div className={`border border-teal-500/20 rounded-2xl p-6 space-y-6 text-left shadow-lg ${theme === 'dark' ? 'bg-slate-900/30' : 'bg-slate-100/30'}`}>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-zinc-850 pb-4 gap-3">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-gradient-to-br from-teal-500 to-indigo-600 text-slate-950 rounded-xl">
@@ -623,7 +623,7 @@ export default function BondingLab() {
               </div>
             </div>
             
-            <div className="flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-900 font-mono text-xs">
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border font-mono text-xs ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
               <span className="text-[10px] text-slate-500 uppercase leading-none">RUMUS REAKSI:</span>
               <span className="text-teal-400 font-black tracking-wide">{activeCompound.equation}</span>
             </div>
@@ -632,7 +632,7 @@ export default function BondingLab() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Column 1: Formula & Ratio Information */}
-            <div className="space-y-4 p-4 rounded-xl bg-slate-950/60 border border-slate-900">
+            <div className={`space-y-4 p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
               <div className="flex items-center gap-2">
                 <Beaker className="w-4.5 h-4.5 text-pink-400" />
                 <span className="text-xs font-bold text-zinc-300 font-mono">IDENTITAS KIMIA</span>
@@ -655,7 +655,7 @@ export default function BondingLab() {
             </div>
 
             {/* Column 2: Mechanisms description and steps */}
-            <div className="space-y-4 p-4 rounded-xl bg-slate-950/60 border border-slate-900 md:col-span-2">
+            <div className={`space-y-4 p-4 rounded-xl border md:col-span-2 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
               <div className="flex items-center gap-2">
                 <Zap className="w-4.5 h-4.5 text-yellow-400" />
                 <span className="text-xs font-bold text-zinc-300 font-mono">MEKANISME LANGKAH DEMI LANGKAH GABUNGAN ELEKTRON</span>
@@ -711,7 +711,7 @@ export default function BondingLab() {
       )}
 
       {/* Interactive Electronegativity & Dipole Character Slider Sandbox */}
-      <div className="border border-indigo-500/20 bg-slate-900/30 rounded-2xl p-6 space-y-6 text-left shadow-lg">
+      <div className={`border border-indigo-500/20 rounded-2xl p-6 space-y-6 text-left shadow-lg ${theme === 'dark' ? 'bg-slate-900/30' : 'bg-slate-100/30'}`}>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-zinc-850 pb-4 gap-3">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 text-slate-950 rounded-xl">
@@ -734,7 +734,7 @@ export default function BondingLab() {
           <div className="lg:col-span-5 space-y-5">
             <div className="space-y-4">
               {/* Atom A Electronegativity Slider */}
-              <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-900 space-y-2">
+              <div className={`p-4 rounded-xl border space-y-2 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-mono text-pink-400 font-bold uppercase tracking-wider">Keelektronegatifan Atom A:</span>
                   <span className="text-sm font-bold text-white font-mono bg-pink-500/10 px-2 py-0.5 rounded border border-pink-500/25">
@@ -748,7 +748,7 @@ export default function BondingLab() {
                   step="0.05"
                   value={customEnA}
                   onChange={(e) => setCustomEnA(parseFloat(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 accent-pink-500 appearance-none rounded-md cursor-pointer"
+                  className={`w-full h-1.5 accent-pink-500 appearance-none rounded-md cursor-pointer ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                 />
                 <div className="flex justify-between text-[9px] font-mono text-zinc-550">
                   <span>Alkali (Cs = 0.79)</span>
@@ -757,7 +757,7 @@ export default function BondingLab() {
               </div>
 
               {/* Atom B Electronegativity Slider */}
-              <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-900 space-y-2">
+              <div className={`p-4 rounded-xl border space-y-2 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-mono text-cyan-400 font-bold uppercase tracking-wider">Keelektronegatifan Atom B:</span>
                   <span className="text-sm font-bold text-white font-mono bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/25">
@@ -771,7 +771,7 @@ export default function BondingLab() {
                   step="0.05"
                   value={customEnB}
                   onChange={(e) => setCustomEnB(parseFloat(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 accent-cyan-400 appearance-none rounded-md cursor-pointer"
+                  className={`w-full h-1.5 accent-cyan-400 appearance-none rounded-md cursor-pointer ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                 />
                 <div className="flex justify-between text-[9px] font-mono text-zinc-550">
                   <span>Alkali (Na = 0.93)</span>
@@ -781,7 +781,7 @@ export default function BondingLab() {
             </div>
 
             {/* Threshold chart explanation */}
-            <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 text-xs space-y-2 font-mono">
+            <div className={`p-4 rounded-xl border text-xs space-y-2 font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
               <span className="text-[10px] text-zinc-500 uppercase font-black tracking-wider block">KLASIFIKASI IKATAN BERDASARKAN ΔEN:</span>
               <div className="space-y-1.5 text-[11px]">
                 <div className="flex justify-between items-center pb-1 border-b border-zinc-900/50">
@@ -801,7 +801,7 @@ export default function BondingLab() {
           </div>
 
           {/* Right Visual Sandbox Screen (Span 7) */}
-          <div className="lg:col-span-7 flex flex-col justify-between p-5 rounded-2xl border border-slate-800 bg-slate-950 space-y-4 relative overflow-hidden h-[330px] lg:h-auto">
+          <div className={`lg:col-span-7 flex flex-col justify-between p-5 rounded-2xl border space-y-4 relative overflow-hidden h-[330px] lg:h-auto ${theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-slate-300 bg-slate-100'}`}>
             
             <div className="flex justify-between items-center">
               <span className="text-[10px] font-mono font-bold text-zinc-550 uppercase tracking-wider">AWAN ELEKTRON (ELECTRON DENSITY CLOUD)</span>
@@ -811,7 +811,7 @@ export default function BondingLab() {
             </div>
 
             {/* Visual Arena */}
-            <div className="relative w-full h-44 border border-zinc-900 rounded-xl bg-slate-950 flex justify-between items-center px-12 md:px-20 overflow-hidden">
+            <div className={`relative w-full h-44 border border-zinc-900 rounded-xl flex justify-between items-center px-12 md:px-20 overflow-hidden ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
               
               {/* Grid backdrop */}
               <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29371a_1px,transparent_1px),linear-gradient(to_bottom,#1f29371a_1px,transparent_1px)] bg-[size:10px_10px] opacity-70" />
@@ -859,7 +859,7 @@ export default function BondingLab() {
               })()}
 
               {/* Atom A node */}
-              <div className="w-12 h-12 bg-slate-950 rounded-full border-2 border-pink-500 shadow-md flex flex-col items-center justify-center text-white z-10 font-bold relative">
+              <div className={`w-12 h-12 rounded-full border-2 border-pink-500 shadow-md flex flex-col items-center justify-center z-10 font-bold relative ${theme === 'dark' ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-900'}`}>
                 <span className="text-[11px]">Atom A</span>
                 {customEnA !== customEnB && (
                   <span className="absolute -top-5 text-[10px] font-mono text-pink-400 font-black leading-none">
@@ -900,7 +900,7 @@ export default function BondingLab() {
               })()}
 
               {/* Atom B node */}
-              <div className="w-12 h-12 bg-slate-950 rounded-full border-2 border-cyan-500 shadow-md flex flex-col items-center justify-center text-white z-10 font-bold relative">
+              <div className={`w-12 h-12 rounded-full border-2 border-cyan-500 shadow-md flex flex-col items-center justify-center z-10 font-bold relative ${theme === 'dark' ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-900'}`}>
                 <span className="text-[11px]">Atom B</span>
                 {customEnA !== customEnB && (
                   <span className="absolute -top-5 text-[10px] font-mono text-cyan-400 font-black leading-none">
@@ -912,7 +912,7 @@ export default function BondingLab() {
             </div>
 
             {/* Dynamic Chemistry Explanation */}
-            <div className="bg-slate-900 border border-slate-850 p-3 rounded-xl">
+            <div className={`border p-3 rounded-xl ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
               <div className="flex items-center gap-1.5 font-sans font-bold text-xs text-white">
                 <Info className="w-4 h-4 text-indigo-400 shrink-0" />
                 <span>Analisis Sifat Ikatan Molekul:</span>

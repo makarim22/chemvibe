@@ -128,9 +128,10 @@ function playPeriodicSound(type: 'click' | 'success' | 'fail' | 'clue' | 'victor
 
 interface PeriodicTableProps {
   currentUser?: UserAccount | null;
+  theme?: 'dark' | 'light';
 }
 
-export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) {
+export default function PeriodicTable({ currentUser, theme = 'dark' }: PeriodicTableProps = {}) {
   const [activeTab, setActiveTab] = useState<'explore' | 'game'>('explore');
   const [selectedElement, setSelectedElement] = useState<ChemicalElement | null>(ELEMENTS_DATA[10]); // Defaults to Na (Sodium)
   const [highlightedCategory, setHighlightedCategory] = useState<ElementCategory | null>(null);
@@ -408,7 +409,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
           </button>
 
           {/* Mode Tabs */}
-          <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-900 overflow-hidden w-full lg:w-auto">
+          <div className={`flex p-1 rounded-xl border overflow-hidden w-full lg:w-auto ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
             <button
               onClick={() => {
                 setActiveTab('explore');
@@ -448,7 +449,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
 
           {/* Filter/Status Box under explore tab */}
           {activeTab === 'explore' && (
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-slate-900/30 p-2.5 px-4 rounded-xl border border-slate-900">
+            <div className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-2.5 px-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}>
               {/* Category Legend Controls */}
               <div className="flex flex-wrap gap-1.5 max-w-full overflow-hidden">
                 <span className="text-[10px] font-mono text-slate-500 font-bold uppercase mr-1.5 flex items-center">Kategori:</span>
@@ -481,7 +482,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
                   placeholder="Cari simbol/nama..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-900 rounded-lg py-1 pl-8 pr-3 text-xs text-white focus:outline-none focus:border-teal-500 placeholder-slate-650"
+                  className={`w-full border rounded-lg py-1 pl-8 pr-3 text-xs focus:outline-none focus:border-teal-500 placeholder-slate-650 ${theme === 'dark' ? 'bg-slate-950 border-slate-900 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
             </div>
@@ -489,23 +490,23 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
 
           {/* GAME SCOREBOARD AND CONTROLS (Only visible in Game Mode) */}
           {activeTab === 'game' && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/40 p-4 rounded-2xl border border-emerald-500/10">
-              <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-900 flex flex-col justify-center">
+            <div className={`grid grid-cols-2 md:grid-cols-4 gap-3 p-4 rounded-2xl border border-emerald-500/10 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
+              <div className={`p-2.5 rounded-xl border flex flex-col justify-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                 <span className="text-[9px] font-mono text-slate-500 font-bold uppercase tracking-wider">SKOR GAME</span>
                 <span className="text-xl font-black text-white mt-0.5">{gameScore} pts</span>
               </div>
-              <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-900 flex flex-col justify-center">
+              <div className={`p-2.5 rounded-xl border flex flex-col justify-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                 <span className="text-[9px] font-mono text-slate-500 font-bold uppercase tracking-wider">REKOR BERUNTUN</span>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="text-xl font-black text-amber-400">{gameStreak}x</span>
                   {gameStreak >= 3 && <Zap className="w-4 h-4 text-amber-400 fill-amber-450 animate-bounce" />}
                 </div>
               </div>
-              <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-900 flex flex-col justify-center">
+              <div className={`p-2.5 rounded-xl border flex flex-col justify-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                 <span className="text-[9px] font-mono text-slate-500 font-bold uppercase tracking-wider">SKOR TERTINGGI</span>
                 <span className="text-xl font-black text-emerald-400 mt-0.5">{highScore} pts</span>
               </div>
-              <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-900 flex flex-col justify-center">
+              <div className={`p-2.5 rounded-xl border flex flex-col justify-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                 <span className="text-[9px] font-mono text-slate-500 font-bold uppercase tracking-wider">SISA NYAWA</span>
                 <div className="flex items-center gap-1 mt-0.5">
                   {Array.from({ length: 3 }).map((_, i) => (
@@ -620,7 +621,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
             </div>
           </div>
 
-          <div className="flex items-center gap-3 bg-slate-900/30 border border-slate-900 p-4 rounded-xl text-xs text-slate-450">
+          <div className={`flex items-center gap-3 border p-4 rounded-xl text-xs ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900 text-slate-450' : 'bg-slate-100/30 border-slate-300 text-slate-600'}`}>
             <Info className="w-4.5 h-4.5 text-teal-400 shrink-0" />
             <span>
               {activeTab === 'explore' 
@@ -655,7 +656,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
                 {/* Shell graphic schematic visualization (BOHR MODEL) */}
                 <div className="space-y-3">
                   <h4 className="text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest leading-none">VISUALISASI ATOM BOHR</h4>
-                  <div className="h-60 bg-slate-950/65 rounded-xl border border-slate-900 flex items-center justify-center relative overflow-hidden select-none">
+                  <div className={`h-60 rounded-xl border flex items-center justify-center relative overflow-hidden select-none ${theme === 'dark' ? 'bg-slate-950/65 border-slate-900' : 'bg-slate-100/65 border-slate-300'}`}>
                     
                     {/* Clustered Protons & Neutrons in Nucleus */}
                     <div className="absolute w-12 h-12 flex items-center justify-center z-10">
@@ -687,7 +688,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
                       })}
 
                       {/* Element Symbol label inside core */}
-                      <div className="absolute w-7 h-7 rounded-full bg-slate-900/95 border border-slate-800 flex items-center justify-center z-25 shadow-md">
+                      <div className={`absolute w-7 h-7 rounded-full border flex items-center justify-center z-25 shadow-md ${theme === 'dark' ? 'bg-slate-900/95 border-slate-800' : 'bg-slate-100/95 border-slate-300'}`}>
                         <span className="text-[10px] font-black text-slate-100">{selectedElement.symbol}</span>
                       </div>
                     </div>
@@ -707,7 +708,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
                           }}
                         >
                           {/* Small Orbit Label text overlay */}
-                          <span className="absolute -top-2.5 text-[8px] font-mono text-slate-650 font-bold tracking-tight select-none pointer-events-none bg-slate-950/70 px-0.5 rounded leading-none border border-slate-900/40">
+                          <span className={`absolute -top-2.5 text-[8px] font-mono text-slate-650 font-bold tracking-tight select-none pointer-events-none px-0.5 rounded leading-none border ${theme === 'dark' ? 'bg-slate-950/70 border-slate-900/40' : 'bg-slate-100/70 border-slate-300'}`}>
                             {orbitName}
                           </span>
 
@@ -732,7 +733,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
                   </div>
 
                   {/* Bohr Model Structure Legend */}
-                  <div className="border border-slate-900 bg-slate-950/40 rounded-xl p-3 text-[11px] space-y-2">
+                  <div className={`border rounded-xl p-3 text-[11px] space-y-2 ${theme === 'dark' ? 'border-slate-900 bg-slate-950/40' : 'border-slate-300 bg-slate-100/40'}`}>
                     <div className="text-[9px] font-mono text-slate-500 font-bold tracking-wider uppercase leading-none">LEGENDA ATOM BOHR</div>
                     <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-slate-350 font-sans">
                       <div className="flex items-center gap-1.5">
@@ -756,7 +757,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
                     {/* Shell quantum numbers layout list */}
                     <div className="border-t border-slate-900 pt-2.5 flex flex-wrap gap-1 mt-1 font-mono justify-center">
                       {selectedElement.shells.map((count, idx) => (
-                        <span key={idx} className="bg-slate-950 px-1.5 py-0.5 rounded text-[9.5px] border border-slate-850 text-slate-450">
+                        <span key={idx} className={`px-1.5 py-0.5 rounded text-[9.5px] border ${theme === 'dark' ? 'bg-slate-950 border-slate-850 text-slate-450' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                           <span className="text-teal-400 font-black">{SHELL_NAMES[idx] || `n=${idx+1}`}</span>: {count}e⁻
                         </span>
                       ))}
@@ -766,21 +767,21 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
 
                 {/* Grid characteristics list */}
                 <div className="grid grid-cols-2 gap-3 text-xs font-mono">
-                  <div className="bg-slate-950/40 p-2 rounded-lg border border-slate-900">
+                  <div className={`p-2 rounded-lg border ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <span className="text-[9px] text-slate-500 block">BERAT ATOM</span>
                     <span className="text-slate-200 mt-0.5 block font-bold">{selectedElement.weight.toFixed(4)} g/mol</span>
                   </div>
-                  <div className="bg-slate-950/40 p-2 rounded-lg border border-slate-900">
+                  <div className={`p-2 rounded-lg border ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <span className="text-[9px] text-slate-500 block">KONFIGURASI</span>
                     <span className="text-slate-200 mt-0.5 block font-bold">{selectedElement.configuration}</span>
                   </div>
-                  <div className="bg-slate-950/40 p-2 rounded-lg border border-slate-900">
+                  <div className={`p-2 rounded-lg border ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <span className="text-[9px] text-slate-500 block">ELEKTRONEGATIF</span>
                     <span className="text-slate-200 mt-0.5 block font-bold">
                       {selectedElement.electronegativity ?? 'Tidak Ada / Inert'}
                     </span>
                   </div>
-                  <div className="bg-slate-950/40 p-2 rounded-lg border border-slate-900">
+                  <div className={`p-2 rounded-lg border ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <span className="text-[9px] text-slate-500 block">WUJUD STANDAR</span>
                     <span className="text-slate-200 mt-0.5 block font-bold">{selectedElement.phase}</span>
                   </div>
@@ -828,7 +829,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
           {/* RENDER GAME MODE CONSOLE INTERACTIVE CARD */}
           {activeTab === 'game' && correctElement && (
             <div className="space-y-6 animate-fade-in">
-              <div className="bg-slate-900/60 p-4 rounded-xl border border-teal-500/20">
+              <div className={`p-4 rounded-xl border border-teal-500/20 ${theme === 'dark' ? 'bg-slate-900/60' : 'bg-slate-100/60'}`}>
                 <div className="flex items-center gap-2 mb-2">
                   <HelpCircle className="w-5 h-5 text-teal-400" />
                   <span className="text-xs font-black text-teal-400 uppercase tracking-widest font-mono">RIDDLE DETEKTIF KIMIA</span>
@@ -893,7 +894,7 @@ export default function PeriodicTable({ currentUser }: PeriodicTableProps = {}) 
 
               {/* ACTION ROUND ALERTS */}
               {gameStatus === 'playing' ? (
-                <div className="bg-slate-955 border border-dashed border-slate-800 p-3 rounded-xl text-center text-xs text-slate-400">
+                <div className={`border border-dashed p-3 rounded-xl text-center text-xs ${theme === 'dark' ? 'bg-slate-955 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                   ⚠️ Salah tebak mengurangi nyawa. Pikirkan matang-matang!
                 </div>
               ) : gameStatus === 'correct' ? (

@@ -120,7 +120,7 @@ interface RippleItem {
   opacity: number;
 }
 
-export default function TitrationSimulator() {
+export default function TitrationSimulator({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
   const [acidType, setAcidType] = useState<'strong' | 'weak'>('strong'); // strong=HCl, weak=CH3COOH
   const [indicator, setIndicator] = useState<'pp' | 'mo' | 'btb'>('pp'); // pp=phenolphthalein, mo=methyl orange, btb=bromothymol blue
@@ -640,7 +640,7 @@ export default function TitrationSimulator() {
         <div className="lg:col-span-4 space-y-5">
           
           {/* Lab Setup & Objective checklist */}
-          <div className="glass-panel rounded-2xl p-5 border border-slate-800 bg-slate-900/30 space-y-4">
+          <div className={`glass-panel rounded-2xl p-5 border space-y-4 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
             <div className="flex items-center gap-2 text-amber-400">
               <BookOpen className="w-4.5 h-4.5" />
               <span className="text-xs font-mono font-bold uppercase tracking-wider">Lembar Panduan &amp; Prosedur</span>
@@ -706,7 +706,7 @@ export default function TitrationSimulator() {
           </div>
 
           {/* Configuration panel */}
-          <div className="glass-panel rounded-2xl p-5 border border-slate-800 bg-slate-900/30 space-y-5">
+          <div className={`glass-panel rounded-2xl p-5 border space-y-5 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
             <span className="text-xs font-mono font-bold text-slate-350 tracking-wider block">KONTROL PANEL ANALIT</span>
             
             {/* Acid selection */}
@@ -869,7 +869,7 @@ export default function TitrationSimulator() {
         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* Virtual laboratory apparatus diagram */}
-          <div className="glass-panel border-slate-800 rounded-2xl p-6 flex flex-col justify-between items-center relative overflow-hidden bg-slate-900/30 h-[430px]">
+          <div className={`glass-panel rounded-2xl p-6 flex flex-col justify-between items-center relative overflow-hidden h-[430px] ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
             
             {/* Header */}
             <div className="w-full flex justify-between items-center z-10 border-b border-zinc-900pb-2 mb-2">
@@ -1078,7 +1078,7 @@ export default function TitrationSimulator() {
           <div className="flex flex-col gap-5 justify-between">
             
             {/* Retro LED glowing pH meter panel box */}
-            <div className="glass-panel border-slate-800 bg-slate-950/80 p-5 rounded-2xl flex md:flex-col justify-between items-center gap-4 text-left">
+            <div className={`glass-panel p-5 rounded-2xl flex md:flex-col justify-between items-center gap-4 text-left ${theme === 'dark' ? 'border-slate-800 bg-slate-950/80' : 'border-slate-300 bg-slate-100/80'}`}>
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-zinc-500 font-black tracking-widest block uppercase">PENGUKUR pH DIGITAL</span>
                 <p className="text-[10.5px] text-zinc-400 leading-snug">Menampilkan keasaman langsung di dalam bejana.</p>
@@ -1106,7 +1106,7 @@ export default function TitrationSimulator() {
             </div>
 
             {/* Recharts graph panel display */}
-            <div className="glass-panel border-slate-800 bg-slate-900/30 p-5 rounded-2xl flex flex-col justify-between h-[255px]">
+            <div className={`glass-panel p-5 rounded-2xl flex flex-col justify-between h-[255px] ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
               
               <div className="flex justify-between items-center w-full mb-1">
                 <span className="text-[10px] font-mono text-zinc-500 block font-bold uppercase tracking-wider">KURVA pH TITRASI DYNAMIC</span>
@@ -1202,7 +1202,7 @@ export default function TitrationSimulator() {
               </div>
 
               {/* Informative text below canvas */}
-              <div className="text-[9px] font-mono text-zinc-550 flex justify-between items-center bg-slate-950/40 px-2 py-1 rounded border border-slate-900 mt-2">
+              <div className={`text-[9px] font-mono flex justify-between items-center px-2 py-1 rounded border mt-2 ${theme === 'dark' ? 'text-zinc-550 bg-slate-950/40 border-slate-900' : 'text-slate-600 bg-slate-100/40 border-slate-300'}`}>
                 <span>INSPEKSI TITIK KURVA KURSOR:</span>
                 <span className="text-zinc-300 font-bold">Vol. {inspectVol.toFixed(1)} mL ➔ pH {inspectSpecies.ph.toFixed(2)}</span>
               </div>

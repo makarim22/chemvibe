@@ -89,7 +89,7 @@ const SOLUTES: Solute[] = [
   }
 ];
 
-export default function ColligativeLab() {
+export default function ColligativeLab({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [activeTab, setActiveTab] = useState<'boiling_freezing' | 'osmotic' | 'vapor_pressure' | 'particle_dissociation'>('boiling_freezing');
 
   // Shared state simulation inputs
@@ -487,7 +487,7 @@ export default function ColligativeLab() {
         
         {/* LEFT COLUMN: PARAMETER SETTINGS (SPAN 4) */}
         <div className="lg:col-span-4 space-y-5">
-          <div className="glass-panel rounded-2xl p-5 border border-slate-800 bg-slate-900/30 space-y-5">
+          <div className={`glass-panel rounded-2xl p-5 border space-y-5 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
             
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -542,7 +542,7 @@ export default function ColligativeLab() {
             <div className="space-y-1">
               <div className="flex justify-between items-center text-xs">
                 <span className="text-slate-400">Konsentrasi Zat Terlarut :</span>
-                <span className="text-teal-400 font-mono font-bold text-sm bg-slate-950 px-2 py-0.5 rounded border border-slate-900">
+                <span className={`text-teal-400 font-mono font-bold text-sm px-2 py-0.5 rounded border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                   {concentration.toFixed(2)} m (Molal)
                 </span>
               </div>
@@ -556,7 +556,7 @@ export default function ColligativeLab() {
                   setConcentration(parseFloat(e.target.value)); 
                   // If we are simulating and change concentration, keep simulated state but let target adjust
                 }}
-                className="w-full accent-teal-500 bg-slate-950 h-1.5 rounded-lg appearance-none cursor-pointer"
+                className={`w-full accent-teal-500 h-1.5 rounded-lg appearance-none cursor-pointer ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}
               />
               <div className="flex justify-between text-[9px] font-mono text-zinc-650">
                 <span>Encer (0.10 m)</span>
@@ -565,7 +565,7 @@ export default function ColligativeLab() {
             </div>
 
             {/* Van 't Hoff Calculation breakdown box */}
-            <div className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-900 space-y-2">
+            <div className={`p-3.5 rounded-xl border space-y-2 ${theme === 'dark' ? 'bg-slate-950/70 border-slate-900' : 'bg-slate-100/70 border-slate-300'}`}>
               <span className="text-[9.5px] font-mono text-zinc-550 block">FAKTOR DISOSIASI VAN 'T HOFF (i) :</span>
               
               <div className="flex justify-between items-center">
@@ -600,7 +600,7 @@ export default function ColligativeLab() {
         <div className="lg:col-span-8 space-y-6">
           
           {/* Internal Module tabs select */}
-          <div className="flex flex-wrap gap-2 p-1 bg-slate-900/60 border border-slate-800 rounded-xl w-max">
+          <div className={`flex flex-wrap gap-2 p-1 border rounded-xl w-max ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
             <button
               onClick={() => setActiveTab('boiling_freezing')}
               className={`px-3 py-1.5 text-[11px] font-bold font-sans rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
@@ -654,7 +654,7 @@ export default function ColligativeLab() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 
                 {/* Visual Beaker Pot with Freezing or Boiling status */}
-                <div className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/30 flex flex-col justify-between items-center text-center h-[380px] relative overflow-hidden">
+                <div className={`glass-panel p-5 rounded-2xl border flex flex-col justify-between items-center text-center h-[380px] relative overflow-hidden ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
                   <div className="text-[10px] font-mono text-zinc-500 block font-bold uppercase tracking-wider mb-1">BEAKER DENGAN SIMULATOR PEMANAS &amp; PENDINGIN</div>
                   
                   {/* Particulate rendering container */}
@@ -762,7 +762,7 @@ export default function ColligativeLab() {
                   </div>
 
                   {/* Status Bar */}
-                  <div className="w-full bg-slate-950/80 p-2.5 rounded-xl border border-slate-900 flex justify-between items-center text-[10.5px] font-mono">
+                  <div className={`w-full p-2.5 rounded-xl border flex justify-between items-center text-[10.5px] font-mono ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
                     <span className="text-zinc-550">SUHU MONITORED:</span>
                     <span className="text-teal-400 font-bold block">{currentTemp.toFixed(2)} °C</span>
                   </div>
@@ -772,7 +772,7 @@ export default function ColligativeLab() {
                 <div className="space-y-4">
                   
                   {/* Dynamic interactive buttons for testing boiling / freezing */}
-                  <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/50 space-y-2">
+                  <div className={`p-4 rounded-xl border space-y-2 ${theme === 'dark' ? 'border-slate-800 bg-slate-950/50' : 'border-slate-300 bg-slate-100/50'}`}>
                     <span className="text-[10px] font-mono text-zinc-500 font-bold block uppercase tracking-wider">UJI FISIK PARTIKEL SECARA LIVE:</span>
                     <div className="grid grid-cols-2 gap-2">
                       <button
@@ -803,7 +803,7 @@ export default function ColligativeLab() {
                   </div>
 
                   {/* Boiling Point Elevation Panel */}
-                  <div className="p-4 rounded-xl border border-slate-850 bg-slate-900/25 space-y-2 text-left">
+                  <div className={`p-4 rounded-xl border space-y-2 text-left ${theme === 'dark' ? 'border-slate-850 bg-slate-900/25' : 'border-slate-300 bg-slate-100/25'}`}>
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-1.5 text-zinc-200 font-sans font-bold text-xs">
                         <TrendingUp className="w-4 h-4 text-red-400" />
@@ -812,7 +812,7 @@ export default function ColligativeLab() {
                       <span className="text-[10px] font-mono text-zinc-500">Kb = {Kb} °C/m</span>
                     </div>
 
-                    <div className="bg-slate-950 p-3 rounded-lg border border-slate-900 font-mono text-xs space-y-1">
+                    <div className={`p-3 rounded-lg border font-mono text-xs space-y-1 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="text-zinc-550">ΔTb = m × Kb × i</div>
                       <div>
                         ΔTb = {concentration.toFixed(2)} × {Kb} × {iFactorVal.toFixed(2)} = <strong className="text-red-400">+{deltaTb.toFixed(3)}°C</strong>
@@ -825,7 +825,7 @@ export default function ColligativeLab() {
                   </div>
 
                   {/* Freezing Point Depression Panel */}
-                  <div className="p-4 rounded-xl border border-slate-850 bg-slate-900/25 space-y-2 text-left">
+                  <div className={`p-4 rounded-xl border space-y-2 text-left ${theme === 'dark' ? 'border-slate-850 bg-slate-900/25' : 'border-slate-300 bg-slate-100/25'}`}>
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-1.5 text-zinc-200 font-sans font-bold text-xs">
                         <TrendingDown className="w-4 h-4 text-sky-450" />
@@ -834,7 +834,7 @@ export default function ColligativeLab() {
                       <span className="text-[10px] font-mono text-zinc-500">Kf = 1.86 °C/m</span>
                     </div>
 
-                    <div className="bg-slate-950 p-3 rounded-lg border border-slate-900 font-mono text-xs space-y-1">
+                    <div className={`p-3 rounded-lg border font-mono text-xs space-y-1 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="text-zinc-505">ΔTf = m × Kf × i</div>
                       <div>
                         ΔTf = {concentration.toFixed(2)} × {Kf} × {iFactorVal.toFixed(2)} = <strong className="text-sky-400">+{deltaTf.toFixed(3)}°C</strong>
@@ -850,7 +850,7 @@ export default function ColligativeLab() {
               </div>
 
               {/* Status Message */}
-              <div className="w-full bg-slate-900/80 p-3 rounded-xl border border-teal-500/20 text-xs font-sans flex items-center gap-2">
+              <div className={`w-full p-3 rounded-xl border border-teal-500/20 text-xs font-sans flex items-center gap-2 ${theme === 'dark' ? 'bg-slate-900/80' : 'bg-slate-100/80'}`}>
                 <Info className="w-4 h-4 text-teal-400 shrink-0" />
                 <span>{simMessage}</span>
               </div>
@@ -865,7 +865,7 @@ export default function ColligativeLab() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* Visual U-Tube representation of osmosis membrane cell */}
-                <div className="glass-panel p-5 border border-slate-800 bg-slate-900/30 flex flex-col justify-between items-center h-[380px] relative">
+                <div className={`glass-panel p-5 border flex flex-col justify-between items-center h-[380px] relative ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
                   <div className="text-[10px] font-mono text-zinc-500 font-bold tracking-wider mb-2">SIMULASI DUA ARAH (MEMBRAN SEMIPERMEABEL)</div>
                   
                   {/* Dynamic Water levels in Pipa U layout */}
@@ -928,7 +928,7 @@ export default function ColligativeLab() {
                     )}
                   </div>
 
-                  <div className="w-full bg-slate-950/20 p-2.5 rounded-lg border border-slate-900 border-dashed text-stone-300 text-center text-[10px] leading-relaxed font-sans">
+                  <div className={`w-full p-2.5 rounded-lg border border-dashed text-stone-300 text-center text-[10px] leading-relaxed font-sans ${theme === 'dark' ? 'bg-slate-950/20 border-slate-900' : 'bg-slate-100/20 border-slate-300'}`}>
                     {appliedPressure > osmoticPressure ? (
                       <span className="text-emerald-400 font-semibold">
                         🎉 OSMOSIS BALIK AKTIF! Pompa ({appliedPressure.toFixed(1)} atm) melampaui tekanan osmotik ({osmoticPressure.toFixed(2)} atm), memaksa air keluar dari larutan!
@@ -943,7 +943,7 @@ export default function ColligativeLab() {
 
                 {/* Calculation outputs */}
                 <div className="space-y-4">
-                  <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/20 space-y-4">
+                  <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/20' : 'border-slate-300 bg-slate-100/20'}`}>
                     <div className="flex justify-between items-center border-b border-zinc-850 pb-2">
                       <div className="flex items-center gap-1.5 font-bold text-xs">
                         <Waves className="w-4 h-4 text-emerald-400" />
@@ -953,7 +953,7 @@ export default function ColligativeLab() {
                     </div>
 
                     {/* Temperature custom setting input */}
-                    <div className="space-y-1 bg-slate-950 p-3 rounded-xl border border-slate-905">
+                    <div className={`space-y-1 p-3 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-905' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="flex justify-between text-xs font-mono text-zinc-500">
                         <span>SUHU SIMULASI :</span>
                         <span className="text-white font-bold">{customTemp}°C ({tKelvin.toFixed(1)} K)</span>
@@ -965,12 +965,12 @@ export default function ColligativeLab() {
                         step="5"
                         value={customTemp}
                         onChange={(e) => setCustomTemp(parseInt(e.target.value))}
-                        className="w-full h-1.5 bg-slate-900 accent-teal-500 appearance-none rounded-md"
+                        className={`w-full h-1.5 accent-teal-500 appearance-none rounded-md ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                       />
                     </div>
 
                     {/* INTERACTIVE COMPRESSOR PUMP CONTROLLER */}
-                    <div className="space-y-2 bg-slate-950 p-3 rounded-xl border border-teal-950/40">
+                    <div className={`space-y-2 p-3 rounded-xl border border-teal-950/40 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                       <div className="flex justify-between text-xs font-mono">
                         <span className="text-amber-400 font-bold block">TEKANAN POMPA EKSTERNAL:</span>
                         <span className="text-white font-black">{appliedPressure.toFixed(1)} atm</span>
@@ -982,18 +982,18 @@ export default function ColligativeLab() {
                         step="0.5"
                         value={appliedPressure}
                         onChange={(e) => setAppliedPressure(parseFloat(e.target.value))}
-                        className="w-full h-1.5 bg-slate-900 accent-amber-500 appearance-none rounded-md"
+                        className={`w-full h-1.5 accent-amber-500 appearance-none rounded-md ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                       />
                       <div className="flex justify-between items-center gap-2 pt-1">
                         <button
                           onClick={() => setAppliedPressure(p => Math.min(50, p + 5.0))}
-                          className="flex-1 py-1 px-2 text-[9px] uppercase font-mono bg-slate-900 hover:bg-slate-850 rounded border border-zinc-800 font-bold hover:text-white cursor-pointer"
+                          className={`flex-1 py-1 px-2 text-[9px] uppercase font-mono hover:bg-slate-850 rounded border border-zinc-800 font-bold cursor-pointer ${theme === 'dark' ? 'bg-slate-900 hover:text-white' : 'bg-slate-100 hover:text-slate-900'}`}
                         >
                           +5.0 atm (Pompa!)
                         </button>
                         <button
                           onClick={() => setAppliedPressure(0)}
-                          className="py-1 px-3 text-[9px] uppercase font-mono bg-slate-900 text-zinc-400 hover:text-white rounded border border-zinc-800 cursor-pointer"
+                          className={`py-1 px-3 text-[9px] uppercase font-mono rounded border border-zinc-800 cursor-pointer ${theme === 'dark' ? 'bg-slate-900 text-zinc-400 hover:text-white' : 'bg-slate-100 text-slate-600 hover:text-slate-900'}`}
                         >
                           Rilis Piston
                         </button>
@@ -1001,7 +1001,7 @@ export default function ColligativeLab() {
                     </div>
 
                     {/* Formulation widget */}
-                    <div className="bg-slate-950 p-4.5 rounded-xl border border-zinc-900 font-mono text-xs space-y-2">
+                    <div className={`p-4.5 rounded-xl border border-zinc-900 font-mono text-xs space-y-2 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                       <div className="flex justify-between">
                         <span className="text-zinc-650 text-[10px] uppercase">RUMUS TEKANAN OSMOTIK:</span>
                         <span className="text-[9px] text-zinc-650">Π = M × R × T × i</span>
@@ -1032,7 +1032,7 @@ export default function ColligativeLab() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                 
                 {/* Visual Glass tube closed caps with evaporation particles */}
-                <div className="glass-panel p-5 border border-slate-800 bg-slate-900/30 flex flex-col justify-between items-center h-[380px] relative">
+                <div className={`glass-panel p-5 border flex flex-col justify-between items-center h-[380px] relative ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
                   <div className="text-[10px] font-mono text-zinc-550 block font-bold uppercase tracking-wider mb-2">SIMULASI DUA TABUNG TERTUTUP (UJI PENGUAPAN)</div>
                   
                   <div className="flex justify-center gap-10 mt-3 w-full my-auto items-end">
@@ -1107,7 +1107,7 @@ export default function ColligativeLab() {
 
                 {/* Calculation output card */}
                 <div className="space-y-4">
-                  <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/20 space-y-4">
+                  <div className={`p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/20' : 'border-slate-300 bg-slate-100/20'}`}>
                     <div className="flex justify-between items-center border-b border-zinc-850 pb-2">
                       <div className="flex items-center gap-1.5 font-bold text-xs">
                         <Droplet className="w-4 h-4 text-sky-400" />
@@ -1116,7 +1116,7 @@ export default function ColligativeLab() {
                     </div>
 
                     {/* Interactive Temperature slider for the vapor tab */}
-                    <div className="space-y-1 bg-slate-950 p-3 rounded-xl border border-slate-905">
+                    <div className={`space-y-1 p-3 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-905' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="flex justify-between text-xs font-mono text-zinc-500">
                         <span>SUHU PELARUT :</span>
                         <span className="text-indigo-400 font-bold">{gasTempInput}°C (Naikkan untuk menguapkan)</span>
@@ -1128,11 +1128,11 @@ export default function ColligativeLab() {
                         step="1"
                         value={gasTempInput}
                         onChange={(e) => setGasTempInput(parseFloat(e.target.value))}
-                        className="w-full h-1.5 bg-slate-900 accent-indigo-500 appearance-none rounded-md"
+                        className={`w-full h-1.5 accent-indigo-500 appearance-none rounded-md ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                       />
                     </div>
 
-                    <div className="bg-slate-950 p-4 rounded-xl border border-slate-905 font-mono text-xs space-y-3">
+                    <div className={`p-4 rounded-xl border font-mono text-xs space-y-3 ${theme === 'dark' ? 'bg-slate-950 border-slate-905' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="space-y-1">
                         <span className="text-zinc-550 text-[10px] block leading-none">FRAKSI MOL ZAT TERLARUT (Xt):</span>
                         <div className="text-teal-400 font-bold">
@@ -1165,7 +1165,7 @@ export default function ColligativeLab() {
                 
                 {/* Visual Beaker (Span 7) */}
                 <div className="lg:col-span-7 space-y-4">
-                  <div className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/30 flex flex-col justify-between items-center text-center relative overflow-hidden h-[410px]">
+                  <div className={`glass-panel p-5 rounded-2xl border flex flex-col justify-between items-center text-center relative overflow-hidden h-[410px] ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
                     <div className="w-full flex justify-between items-center border-b border-white/5 pb-2">
                       <span className="text-[10px] font-mono text-zinc-400 font-bold uppercase tracking-wider">BEAKER ARENA DISOSIASI MOLEKUL</span>
                       <span className="text-[10.5px] font-mono text-teal-400 font-bold bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded">
@@ -1174,7 +1174,7 @@ export default function ColligativeLab() {
                     </div>
 
                     {/* Interactive Arena */}
-                    <div className="relative w-full h-80 border-4 border-t-0 border-slate-400 rounded-b-3xl bg-slate-950/90 mt-4 overflow-hidden shadow-2xl">
+                    <div className={`relative w-full h-80 border-4 border-t-0 border-slate-400 rounded-b-3xl mt-4 overflow-hidden shadow-2xl ${theme === 'dark' ? 'bg-slate-950/90' : 'bg-slate-100/90'}`}>
                       {/* Air line / water top line */}
                       <div className="absolute top-[100px] inset-x-0 border-t-2 border-sky-400/35 bg-sky-500/10 h-[220px] pointer-events-none z-0">
                         <div className="absolute top-1 right-2 text-[9px] font-mono text-sky-450 tracking-wider">BATAS PERMUKAAN AIR H₂O</div>
@@ -1252,7 +1252,7 @@ export default function ColligativeLab() {
 
                       {/* Background grid details */}
                       {dissocParticles.filter(p => p.type !== 'water').length === 0 && (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-zinc-500 font-sans space-y-1.5 pointer-events-none z-10 bg-slate-950/40">
+                        <div className={`absolute inset-0 flex flex-col items-center justify-center text-center p-6 font-sans space-y-1.5 pointer-events-none z-10 ${theme === 'dark' ? 'text-zinc-500 bg-slate-950/40' : 'text-slate-600 bg-slate-100/40'}`}>
                           <Layers className="w-8 h-8 text-teal-400/80 animate-pulse" />
                           <span className="text-xs font-bold uppercase text-zinc-300 tracking-wider">Beaker Larutan Kosong</span>
                           <p className="text-[10px] leading-relaxed max-w-xs text-zinc-400">
@@ -1262,7 +1262,7 @@ export default function ColligativeLab() {
                       )}
                     </div>
 
-                    <div className="w-full text-left bg-slate-950 p-2 text-[10px] font-mono text-zinc-500 rounded border border-white/5 flex justify-between">
+                    <div className={`w-full text-left p-2 text-[10px] font-mono rounded border border-white/5 flex justify-between ${theme === 'dark' ? 'bg-slate-950 text-zinc-500' : 'bg-slate-100 text-slate-600'}`}>
                       <span>Total Partikel di Beaker: <b className="text-white">{dissocParticles.length}</b></span>
                       <span>Mantel Hidrasi Selat: <b className={showHydrationShell ? "text-teal-400" : "text-zinc-500"}>{showHydrationShell ? "Aktif" : "Mati"}</b></span>
                     </div>
@@ -1271,7 +1271,7 @@ export default function ColligativeLab() {
 
                 {/* Control Panel (Span 5) */}
                 <div className="lg:col-span-5 space-y-4">
-                  <div className="glass-panel p-5 rounded-2xl border border-slate-800 bg-slate-900/30 space-y-4">
+                  <div className={`glass-panel p-5 rounded-2xl border space-y-4 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
                     <span className="text-[10px] font-mono text-zinc-400 font-bold tracking-widest uppercase block border-b border-white/5 pb-2">KEMUDI ARENA DISOSIASI</span>
 
                     <div className="space-y-2">
@@ -1293,14 +1293,14 @@ export default function ColligativeLab() {
                     </div>
 
                     {/* Hydration shell toggle */}
-                    <div className="p-3 bg-slate-955 bg-slate-950/60 rounded-xl border border-white/5 space-y-2">
+                    <div className={`p-3 rounded-xl border border-white/5 space-y-2 ${theme === 'dark' ? 'bg-slate-955 bg-slate-950/60' : 'bg-slate-100 bg-slate-100/60'}`}>
                       <div className="flex justify-between items-center text-xs">
                         <span className="text-zinc-300 font-semibold">Gaya Dipol Hidrasi (H₂O Shell):</span>
                         <input
                           type="checkbox"
                           checked={showHydrationShell}
                           onChange={(e) => setShowHydrationShell(e.target.checked)}
-                          className="w-4 h-4 text-teal-600 bg-slate-900 border-zinc-755 rounded focus:ring-teal-500 accent-teal-500 cursor-pointer"
+                          className={`w-4 h-4 text-teal-600 border-zinc-755 rounded focus:ring-teal-500 accent-teal-500 cursor-pointer ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                         />
                       </div>
                       <p className="text-[9.5px] text-zinc-500 leading-relaxed font-sans font-medium">
@@ -1309,7 +1309,7 @@ export default function ColligativeLab() {
                     </div>
 
                     {/* Simulation speed slider */}
-                    <div className="p-3 bg-slate-950/60 rounded-xl border border-white/5 space-y-2">
+                    <div className={`p-3 rounded-xl border border-white/5 space-y-2 ${theme === 'dark' ? 'bg-slate-950/60' : 'bg-slate-100/60'}`}>
                       <div className="flex justify-between text-[11px] font-mono">
                         <span className="text-zinc-400">GERAK TERMAL FLUKS :</span>
                         <span className="text-teal-400 font-bold">{dissocSpeed.toFixed(1)}x</span>
@@ -1321,12 +1321,12 @@ export default function ColligativeLab() {
                         step="0.1"
                         value={dissocSpeed}
                         onChange={(e) => setDissocSpeed(parseFloat(e.target.value))}
-                        className="w-full h-1.5 bg-slate-900 accent-teal-500 appearance-none rounded-md"
+                        className={`w-full h-1.5 accent-teal-500 appearance-none rounded-md ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                       />
                     </div>
 
                     {/* Conductivity index & Van't Hoff metrics */}
-                    <div className="p-4 bg-slate-950 rounded-xl border border-white/5 space-y-3 font-mono text-xs">
+                    <div className={`p-4 rounded-xl border border-white/5 space-y-3 font-mono text-xs ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                       <span className="text-zinc-550 text-[10px] uppercase font-bold tracking-wider block border-b border-zinc-900 pb-1">
                         STATISTIK SPEKTRUM AKTIF:
                       </span>
@@ -1402,7 +1402,7 @@ export default function ColligativeLab() {
           )}
 
           {/* Interactive Classroom Lecture Card */}
-          <div className="glass-panel p-5 rounded-2xl border border-teal-500/15 bg-slate-900/15 text-left flex gap-4">
+          <div className={`glass-panel p-5 rounded-2xl border border-teal-500/15 text-left flex gap-4 ${theme === 'dark' ? 'bg-slate-900/15' : 'bg-slate-100/15'}`}>
             <GraduationCap className="w-5 h-5 text-teal-400 shrink-0 mt-0.5" />
             <div className="space-y-1.5">
               <span className="text-[10px] font-mono text-teal-400 font-bold uppercase tracking-wider block">PEDOMAN DISKUSI INTERAKTIF DI KELAS</span>

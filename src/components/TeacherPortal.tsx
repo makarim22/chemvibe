@@ -26,6 +26,7 @@ import { collection, doc, setDoc, deleteDoc, query, orderBy, limit, onSnapshot, 
 import { UserAccount, Classroom } from '../types';
 
 interface TeacherPortalProps {
+  theme?: 'dark' | 'light';
   currentUser: UserAccount | null;
   onNavigate: (view: string) => void;
 }
@@ -72,7 +73,7 @@ export interface StudentReport {
   classCode?: string;
 }
 
-export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortalProps) {
+export default function TeacherPortal({ currentUser, onNavigate, theme = 'dark' }: TeacherPortalProps) {
   const [activeTab, setActiveTab] = useState<'roster' | 'announcements' | 'analytics' | 'classroom' | 'reports'>('roster');
   const [students, setStudents] = useState<StudentProfile[]>([]);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
@@ -460,7 +461,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
           </p>
         </div>
 
-        <div className="p-3 bg-slate-950/70 border border-indigo-500/35 rounded-xl space-y-2 w-full md:w-[220px] shrink-0">
+        <div className={`p-3 border border-indigo-500/35 rounded-xl space-y-2 w-full md:w-[220px] shrink-0 ${theme === 'dark' ? 'bg-slate-950/70' : 'bg-slate-100/70'}`}>
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-indigo-400 animate-pulse" />
             <span className="text-[10px] font-mono text-indigo-400 font-black tracking-wider uppercase">Pendidik Terverifikasi</span>
@@ -474,7 +475,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         
         {/* Stat Card 1 */}
-        <div className="p-4 bg-slate-950/40 border border-slate-850 rounded-xl space-y-1">
+        <div className={`p-4 border rounded-xl space-y-1 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
           <p className="text-[10px] font-mono text-slate-500 uppercase font-black tracking-wider">TOTAL SISWA AKTIF</p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-black text-white font-mono">{totalStudents}</span>
@@ -483,7 +484,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
         </div>
 
         {/* Stat Card 2 */}
-        <div className="p-4 bg-slate-950/40 border border-slate-850 rounded-xl space-y-1">
+        <div className={`p-4 border rounded-xl space-y-1 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
           <p className="text-[10px] font-mono text-slate-500 uppercase font-black tracking-wider">RETA-RETA SKOR ATOM</p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-black text-teal-400 font-mono">{avgAtomScore}</span>
@@ -492,7 +493,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
         </div>
 
         {/* Stat Card 3 */}
-        <div className="p-4 bg-slate-950/40 border border-slate-850 rounded-xl space-y-1">
+        <div className={`p-4 border rounded-xl space-y-1 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
           <p className="text-[10px] font-mono text-slate-500 uppercase font-black tracking-wider">RETA-RETA SKOR PERIODIK</p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-black text-amber-400 font-mono">{avgPeriodicScore}</span>
@@ -501,7 +502,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
         </div>
 
         {/* Stat Card 4 */}
-        <div className="p-4 bg-slate-950/40 border border-slate-850 rounded-xl space-y-1">
+        <div className={`p-4 border rounded-xl space-y-1 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
           <p className="text-[10px] font-mono text-slate-500 uppercase font-black tracking-wider">LENCANA SISWA TERBUKA</p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-black text-indigo-400 font-mono">{totalUnlockedBadges}</span>
@@ -512,8 +513,8 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
       </div>
 
       {/* Control Tabs switcher */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-slate-950/60 border border-slate-850 rounded-xl p-3">
-        <div className="inline-flex flex-wrap gap-1.5 bg-slate-900 rounded-lg p-1 border border-slate-850/80">
+      <div className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border rounded-xl p-3 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
+        <div className={`inline-flex flex-wrap gap-1.5 rounded-lg p-1 border ${theme === 'dark' ? 'bg-slate-900 border-slate-850/80' : 'bg-slate-100 border-slate-300'}`}>
           
           <button
             onClick={() => setActiveTab('roster')}
@@ -584,7 +585,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
             <select
               value={selectedClassFilter}
               onChange={(e) => setSelectedClassFilter(e.target.value)}
-              className="bg-slate-905 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-teal-500/40 cursor-pointer font-mono"
+              className={`border rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-teal-500/40 cursor-pointer font-mono ${theme === 'dark' ? 'bg-slate-905 bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 bg-slate-100 border-slate-300 text-slate-900'}`}
             >
               <option value="semua">📂 Semua Kelas</option>
               {classrooms.map((cls) => (
@@ -602,7 +603,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                 placeholder="Cari nama siswa..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-550 focus:outline-none focus:border-teal-500/40"
+                className={`w-full border rounded-lg pl-9 pr-3 py-1.5 text-xs placeholder-slate-550 focus:outline-none focus:border-teal-500/40 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
               />
             </div>
           </div>
@@ -617,8 +618,8 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
           
           {/* TAB 1: ROSTER & RECORD LIST */}
           {activeTab === 'roster' && (
-            <div className="bg-slate-950/40 border border-slate-850 rounded-xl overflow-hidden shadow-sm">
-              <div className="p-4 border-b border-slate-900 bg-slate-900/10 flex justify-between items-center">
+            <div className={`border rounded-xl overflow-hidden shadow-sm ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
+              <div className={`p-4 border-b flex justify-between items-center ${theme === 'dark' ? 'border-slate-900 bg-slate-900/10' : 'border-slate-300 bg-slate-100/10'}`}>
                 <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-teal-400" />
                   <span>Daftar Nilai Siswa Tersinkronisasi</span>
@@ -654,7 +655,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                         }`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center font-black font-mono text-xs text-slate-300">
+                          <div className={`w-9 h-9 rounded-full border flex items-center justify-center font-black font-mono text-xs ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-300' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                             {student.name.substring(0, 2).toUpperCase()}
                           </div>
                           <div className="min-w-0">
@@ -670,7 +671,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                             
                             {/* Visual Miniature progress bar */}
                             <div className="flex items-center gap-2 mt-1.5">
-                              <div className="w-16 bg-slate-900 rounded-full h-1 overflow-hidden">
+                              <div className={`w-16 rounded-full h-1 overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                 <div className="bg-gradient-to-r from-teal-500 to-indigo-500 h-1 rounded-full" style={{ width: `${completionRate}%` }} />
                               </div>
                               <span className="text-[8.5px] font-mono font-bold text-teal-400">{completionRate}% Lencana</span>
@@ -708,7 +709,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
               
               {/* Publisher Board */}
-              <div className="md:col-span-5 bg-slate-950/40 border border-slate-850 rounded-xl p-5 space-y-4 self-start">
+              <div className={`md:col-span-5 border rounded-xl p-5 space-y-4 self-start ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="flex items-center gap-2 border-b border-slate-900 pb-3">
                   <Megaphone className="w-4 h-4 text-indigo-400" />
                   <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">Terbitan Baru</h3>
@@ -722,7 +723,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                       placeholder="e.g. Ujian Praktikum Struktur Atom"
                       value={annTitle}
                       onChange={(e) => setAnnTitle(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                      className={`w-full border rounded-lg p-2.5 text-xs placeholder-slate-600 focus:outline-none focus:border-indigo-500 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                     />
                   </div>
 
@@ -731,7 +732,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                     <select
                       value={annCategory}
                       onChange={(e: any) => setAnnCategory(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                      className={`w-full border rounded-lg p-2.5 text-xs focus:outline-none focus:border-indigo-500 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                     >
                       <option value="pengumuman">📢 Informasi / Pengumuman</option>
                       <option value="tugas">📝 Tugas Praktikum Mandiri</option>
@@ -746,7 +747,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                       value={annContent}
                       onChange={(e) => setAnnContent(e.target.value)}
                       rows={4}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+                      className={`w-full border rounded-lg p-2.5 text-xs placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                     />
                   </div>
 
@@ -763,10 +764,10 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
 
               {/* Published Stream and History */}
               <div className="md:col-span-7 space-y-4">
-                <div className="bg-slate-950/40 border border-slate-850 rounded-xl p-5">
+                <div className={`border rounded-xl p-5 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div className="pb-3 border-b border-slate-900 flex justify-between items-center mb-4">
                     <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">Histori Informasi Kelas</h3>
-                    <span className="px-2 py-0.5 bg-slate-900 border border-slate-850 rounded text-[9px] font-mono text-indigo-400">
+                    <span className={`px-2 py-0.5 border rounded text-[9px] font-mono text-indigo-400 ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                       {announcements.length} Aktif
                     </span>
                   </div>
@@ -779,11 +780,11 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                   ) : (
                     <div className="space-y-4 max-h-[480px] overflow-y-auto pr-1">
                       {announcements.map((ann) => (
-                        <div key={ann.id} className="p-4 bg-slate-900/40 border border-slate-850 rounded-xl space-y-3 relative group">
+                        <div key={ann.id} className={`p-4 border rounded-xl space-y-3 relative group ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                           
                           <button
                             onClick={() => handleDeleteAnnouncement(ann.id)}
-                            className="absolute top-3.5 right-3.5 p-1.5 bg-slate-950/70 border border-slate-800 hover:border-rose-500/30 text-slate-400 hover:text-rose-450 rounded-md transition-all cursor-pointer hover:bg-rose-500/5"
+                            className={`absolute top-3.5 right-3.5 p-1.5 border hover:border-rose-500/30 hover:text-rose-450 rounded-md transition-all cursor-pointer hover:bg-rose-500/5 ${theme === 'dark' ? 'bg-slate-950/70 border-slate-800 text-slate-400' : 'bg-slate-100/70 border-slate-300 text-slate-600'}`}
                             title="Hapus Pengumuman"
                           >
                             <Trash2 className="w-3.5 h-3.5 text-rose-400" />
@@ -827,7 +828,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
 
           {/* TAB 3: CURVE ANALYTICS */}
           {activeTab === 'analytics' && (
-            <div className="bg-slate-950/40 border border-slate-850 rounded-xl p-6 space-y-6">
+            <div className={`border rounded-xl p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
               <div className="space-y-1 border-b border-slate-900 pb-4">
                 <h3 className="text-sm font-bold text-white uppercase font-mono">Distribusi &amp; Pemahaman Kurva Kelas</h3>
                 <p className="text-xs text-slate-450 leading-relaxed">Gambaran metrik terpadu untuk pemantauan tingkat penyerapan pembelajaran sains kimia siswa di seluruh tantangan simulasi.</p>
@@ -842,7 +843,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
                   {/* Performance Bracket Column */}
-                  <div className="p-4 bg-slate-900/30 border border-slate-850 rounded-xl space-y-4">
+                  <div className={`p-4 border rounded-xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-850' : 'bg-slate-100/30 border-slate-300'}`}>
                     <h4 className="text-xs font-bold text-teal-400 uppercase font-mono flex items-center gap-1.5">
                       <Trophy className="w-4 h-4 text-teal-400" />
                       <span>Distribusi Rentang Skor Atom</span>
@@ -863,7 +864,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                               <span className="text-slate-300 font-bold">{item.bracket}</span>
                               <span className="text-slate-450">{item.count} Siswa ({pctOfTotal}%)</span>
                             </div>
-                            <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden">
+                            <div className={`w-full rounded-full h-2 overflow-hidden ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                               <div className={`${item.color} h-2 rounded-full`} style={{ width: `${pctOfTotal}%` }} />
                             </div>
                           </div>
@@ -873,7 +874,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                   </div>
 
                   {/* Badges Popularity */}
-                  <div className="p-4 bg-slate-900/30 border border-slate-850 rounded-xl space-y-4">
+                  <div className={`p-4 border rounded-xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-850' : 'bg-slate-100/30 border-slate-300'}`}>
                     <h4 className="text-xs font-bold text-indigo-400 uppercase font-mono flex items-center gap-1.5">
                       <Award className="w-4 h-4 text-indigo-400" />
                       <span>Popularitas Penyelesai Lencana</span>
@@ -891,7 +892,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                               <span className="text-slate-300 font-bold">{badgeName} (ID: {badgeId})</span>
                               <span className="text-indigo-400 font-bold">{countCompleted} Penyelesai ({pctVal}%)</span>
                             </div>
-                            <div className="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                            <div className={`w-full rounded-full h-1.5 overflow-hidden ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                               <div className="bg-indigo-500 h-1.5 rounded-full" style={{ width: `${pctVal}%` }} />
                             </div>
                           </div>
@@ -910,7 +911,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 animate-fade-in">
               
               {/* Creator Form */}
-              <div className="md:col-span-12 lg:col-span-5 bg-slate-950/40 border border-slate-850 rounded-xl p-5 space-y-4 self-start">
+              <div className={`md:col-span-12 lg:col-span-5 border rounded-xl p-5 space-y-4 self-start ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="flex items-center gap-2 border-b border-slate-900 pb-3">
                   <Plus className="w-4 h-4 text-pink-400" />
                   <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">Mendirikan Kelas Baru</h3>
@@ -928,7 +929,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                       placeholder="e.g. Kelas XI MIPA 5"
                       value={newClassName}
                       onChange={(e) => setNewClassName(e.target.value)}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-pink-500"
+                      className={`w-full border rounded-lg p-2.5 text-xs placeholder-slate-600 focus:outline-none focus:border-pink-500 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                     />
                   </div>
 
@@ -945,10 +946,10 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
 
               {/* Classroom list and actions */}
               <div className="md:col-span-12 lg:col-span-7 space-y-4">
-                <div className="bg-slate-950/40 border border-slate-850 rounded-xl p-5">
+                <div className={`border rounded-xl p-5 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                   <div className="pb-3 border-b border-slate-900 flex justify-between items-center mb-4">
                     <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">Grup Kelas Terdaftar</h3>
-                    <span className="px-2 py-0.5 bg-slate-900 border border-slate-850 rounded text-[9px] font-mono text-pink-400">
+                    <span className={`px-2 py-0.5 border rounded text-[9px] font-mono text-pink-400 ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                       {classrooms.length} Kelas Aktif
                     </span>
                   </div>
@@ -963,7 +964,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                       {classrooms.map((cls) => {
                         const countClassStudents = students.filter(s => s.classCode === cls.code).length;
                         return (
-                          <div key={cls.code} className="p-4 bg-slate-900/40 border border-slate-850 rounded-xl flex items-center justify-between gap-4 relative group">
+                          <div key={cls.code} className={`p-4 border rounded-xl flex items-center justify-between gap-4 relative group ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                             
                             <div className="space-y-1.5 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap">
@@ -981,7 +982,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
 
                             <button
                               onClick={() => handleDeleteClassroom(cls.code)}
-                              className="p-1.5 bg-slate-950/70 border border-slate-800 hover:border-rose-500/30 text-slate-400 hover:text-rose-450 rounded-md transition-all cursor-pointer hover:bg-rose-500/5 focus:outline-none"
+                              className={`p-1.5 border hover:border-rose-500/30 hover:text-rose-450 rounded-md transition-all cursor-pointer hover:bg-rose-500/5 focus:outline-none ${theme === 'dark' ? 'bg-slate-950/70 border-slate-800 text-slate-400' : 'bg-slate-100/70 border-slate-300 text-slate-600'}`}
                               title="Bubarkan Kelas"
                             >
                               <Trash2 className="w-3.5 h-3.5 text-rose-400" />
@@ -1004,7 +1005,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
         
         {/* Sub-Widget: Specific Student profile inspector */}
         {selectedStudent && activeTab === 'roster' && (
-          <div className="col-span-12 lg:col-span-5 bg-slate-950/40 border border-slate-850 rounded-xl p-5 space-y-5 self-start animate-fade-in">
+          <div className={`col-span-12 lg:col-span-5 border rounded-xl p-5 space-y-5 self-start animate-fade-in ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="flex justify-between items-start border-b border-slate-900 pb-3">
               <div>
                 <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">Investigasi Akademis</h3>
@@ -1012,14 +1013,14 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
               </div>
               <button 
                 onClick={() => setSelectedStudent(null)}
-                className="text-[10px] font-mono text-slate-500 hover:text-white px-2 py-0.5 bg-slate-900 border border-slate-850 rounded cursor-pointer"
+                className={`text-[10px] font-mono px-2 py-0.5 border rounded cursor-pointer ${theme === 'dark' ? 'text-slate-500 hover:text-white bg-slate-900 border-slate-850' : 'text-slate-600 hover:text-slate-900 bg-slate-100 border-slate-300'}`}
               >
                 Tutup [x]
               </button>
             </div>
 
             {/* Visual highlight stats CARD */}
-            <div className="p-4 bg-slate-900/60 border border-teal-500/10 rounded-xl space-y-4">
+            <div className={`p-4 border border-teal-500/10 rounded-xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/60' : 'bg-slate-100/60'}`}>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-teal-500 text-slate-950 flex items-center justify-center font-extrabold text-sm border-2 border-teal-400">
                   {selectedStudent.name.substring(0,2).toUpperCase()}
@@ -1031,11 +1032,11 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-center pt-2 border-t border-slate-950">
-                <div className="p-2 bg-slate-950/50 rounded-lg">
+                <div className={`p-2 rounded-lg ${theme === 'dark' ? 'bg-slate-950/50' : 'bg-slate-100/50'}`}>
                   <span className="text-[10px] font-mono text-slate-500 block uppercase">Highscore Atom</span>
                   <span className="font-mono text-sm font-black text-sky-400">{selectedStudent.atomHighscore || 0} pts</span>
                 </div>
-                <div className="p-2 bg-slate-950/50 rounded-lg">
+                <div className={`p-2 rounded-lg ${theme === 'dark' ? 'bg-slate-950/50' : 'bg-slate-100/50'}`}>
                   <span className="text-[10px] font-mono text-slate-500 block uppercase">Akurasi Periodik</span>
                   <span className="font-mono text-sm font-black text-amber-500">{selectedStudent.periodicHighscore || 0} pts</span>
                 </div>
@@ -1094,7 +1095,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
 
         {/* Sub-Widget: Simulated Sandbox Student profile injector (Always visible on bottom/right of Roster Tab for testing ease) */}
         {activeTab === 'roster' && !selectedStudent && (
-          <div className="col-span-12 lg:col-span-4 bg-slate-950/40 border border-slate-850 rounded-xl p-5 space-y-4 self-start">
+          <div className={`col-span-12 lg:col-span-4 border rounded-xl p-5 space-y-4 self-start ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="flex items-center gap-2 border-b border-slate-900 pb-3">
               <Sparkles className="w-4 h-4 text-teal-400" />
               <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">Simulator Akun Siswa</h3>
@@ -1110,7 +1111,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                   placeholder="e.g. Raditya Wahono"
                   value={mockName}
                   onChange={(e) => setMockName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-teal-400"
+                  className={`w-full border rounded-lg p-2.5 text-xs placeholder-slate-600 focus:outline-none focus:border-teal-400 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
 
@@ -1121,7 +1122,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                     type="number"
                     value={mockAtomSc}
                     onChange={(e) => setMockAtomSc(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white font-mono focus:outline-none focus:border-teal-400"
+                    className={`w-full border rounded-lg p-2.5 text-xs font-mono focus:outline-none focus:border-teal-400 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                   />
                 </div>
                 <div className="space-y-1">
@@ -1130,7 +1131,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                     type="number"
                     value={mockPeriodicSc}
                     onChange={(e) => setMockPeriodicSc(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white font-mono focus:outline-none focus:border-teal-400"
+                    className={`w-full border rounded-lg p-2.5 text-xs font-mono focus:outline-none focus:border-teal-400 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                   />
                 </div>
               </div>
@@ -1141,7 +1142,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                   <select
                     value={mockClassCode}
                     onChange={(e) => setMockClassCode(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-teal-400 font-mono cursor-pointer"
+                    className={`w-full border rounded-lg p-2.5 text-xs focus:outline-none focus:border-teal-400 font-mono cursor-pointer ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                   >
                     <option value="">-- Mandiri / Tanpa Kelas --</option>
                     {classrooms.map((cls) => (
@@ -1170,7 +1171,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               
               {/* Left Column: List of submittals */}
-              <div className="lg:col-span-5 bg-slate-950/40 border border-slate-850 rounded-xl p-5 space-y-4">
+              <div className={`lg:col-span-5 border rounded-xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="flex items-center justify-between border-b border-slate-900 pb-3">
                   <div>
                     <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">Berkas Laporan Masuk</h3>
@@ -1248,13 +1249,13 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                 {selectedReport ? (
                   <div className="space-y-6">
                     {/* Lab Report Display Sheet */}
-                    <div className="bg-slate-950 border border-slate-850 rounded-xl p-6 shadow-xl space-y-5">
+                    <div className={`border rounded-xl p-6 shadow-xl space-y-5 ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="flex items-center justify-between border-b border-slate-900 pb-4">
                         <div>
                           <span className="text-[10px] font-mono text-teal-400 font-black tracking-widest uppercase">CHEMVIBE INDONESIA • LEMBAR JAWABAN SISWA</span>
                           <h2 className="text-sm font-black text-white mt-1 uppercase">LAPORAN RESMI PRAKTIKUM</h2>
                         </div>
-                        <span className="px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-400 font-mono text-[9px] rounded">
+                        <span className={`px-2.5 py-1 border font-mono text-[9px] rounded ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                           TOPIC ID: {selectedReport.topicId}
                         </span>
                       </div>
@@ -1293,7 +1294,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                           <div className="border border-slate-905 border-slate-900 rounded-lg overflow-hidden">
                             <table className="w-full text-[10.5px] text-left">
                               <thead>
-                                <tr className="bg-slate-900/60 text-[9px] font-mono text-slate-450 border-b border-slate-900">
+                                <tr className={`text-[9px] font-mono border-b ${theme === 'dark' ? 'bg-slate-900/60 text-slate-450 border-slate-900' : 'bg-slate-100/60 text-slate-600 border-slate-300'}`}>
                                   <th className="p-2">Variabel Percobaan</th>
                                   <th className="p-2">Hasil Ukur</th>
                                   <th className="p-2">Satuan</th>
@@ -1302,7 +1303,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                               </thead>
                               <tbody>
                                 {selectedReport.observations?.map((row, idx) => (
-                                  <tr key={idx} className="border-b border-slate-900/50 last:border-0 hover:bg-slate-900/20">
+                                  <tr key={idx} className={`border-b last:border-0 ${theme === 'dark' ? 'border-slate-900/50 hover:bg-slate-900/20' : 'border-slate-300 hover:bg-slate-200'}`}>
                                     <td className="p-2 font-bold text-white">{row.variable}</td>
                                     <td className="p-2 font-mono text-teal-400 font-semibold">{row.value}</td>
                                     <td className="p-2 text-zinc-400">{row.unit}</td>
@@ -1322,7 +1323,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                     </div>
 
                     {/* Teacher grading control card */}
-                    <div className="bg-slate-950 border border-slate-850 p-5 rounded-xl space-y-4 shadow-xl">
+                    <div className={`border p-5 rounded-xl space-y-4 shadow-xl ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="flex items-center gap-2 border-b border-slate-900 pb-3">
                         <Award className="w-4 h-4 text-sky-400" />
                         <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">PANEL EVALUASI DAN PENILAIAN</h3>
@@ -1340,7 +1341,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                               max="100"
                               value={gradeInput}
                               onChange={(e) => setGradeInput(e.target.value)}
-                              className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-sm text-teal-400 font-mono font-black text-center focus:outline-none focus:border-teal-500"
+                              className={`w-full border rounded-lg p-2.5 text-sm text-teal-400 font-mono font-black text-center focus:outline-none focus:border-teal-500 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
                               required
                             />
                           </div>
@@ -1359,7 +1360,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                                   key={resp}
                                   type="button"
                                   onClick={() => setFeedbackInput(resp)}
-                                  className="px-2.5 py-1 bg-slate-900 hover:bg-slate-850 hover:text-white border border-slate-850 text-[10px] text-slate-450 rounded-md transition-all cursor-pointer"
+                                  className={`px-2.5 py-1 hover:bg-slate-850 border text-[10px] rounded-md transition-all cursor-pointer ${theme === 'dark' ? 'bg-slate-900 hover:text-white border-slate-850 text-slate-450' : 'bg-slate-100 hover:text-slate-900 border-slate-300 text-slate-600'}`}
                                 >
                                   {resp}
                                 </button>
@@ -1377,7 +1378,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                             onChange={(e) => setFeedbackInput(e.target.value)}
                             rows={3}
                             placeholder="Tuliskan ulasan penilaian dan koreksi akademis di sini..."
-                            className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-white placeholder-slate-650 focus:outline-none focus:border-teal-400 leading-relaxed"
+                            className={`w-full border rounded-lg p-3 text-xs placeholder-slate-650 focus:outline-none focus:border-teal-400 leading-relaxed ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                             required
                           />
                         </div>
@@ -1386,7 +1387,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
                           <button
                             type="button"
                             onClick={() => setSelectedReport(null)}
-                            className="px-4 py-2.5 bg-slate-900 hover:bg-slate-850 text-slate-300 text-xs font-bold rounded-lg border border-slate-800 transition-colors cursor-pointer"
+                            className={`px-4 py-2.5 hover:bg-slate-850 text-xs font-bold rounded-lg border transition-colors cursor-pointer ${theme === 'dark' ? 'bg-slate-900 text-slate-300 border-slate-800' : 'bg-slate-100 text-slate-600 border-slate-300'}`}
                           >
                             Tutup Inspector
                           </button>
@@ -1405,7 +1406,7 @@ export default function TeacherPortal({ currentUser, onNavigate }: TeacherPortal
 
                   </div>
                 ) : (
-                  <div className="h-full flex flex-col items-center justify-center bg-slate-950/20 border border-slate-900 rounded-xl p-10 text-center text-slate-550 border-dashed space-y-2">
+                  <div className={`h-full flex flex-col items-center justify-center border rounded-xl p-10 text-center border-dashed space-y-2 ${theme === 'dark' ? 'bg-slate-950/20 border-slate-900 text-slate-550' : 'bg-slate-100/20 border-slate-300 text-slate-600'}`}>
                     <FileText className="w-10 h-10 text-slate-800" />
                     <h3 className="text-xs font-mono font-black text-slate-400 uppercase">INSPECTOR LAPORAN</h3>
                     <p className="text-[11px] max-w-sm leading-relaxed">Silakan pilih salah satu berkas laporan siswa di kolom sebelah kiri untuk mengulas tabel observasi, rumusan teori ilmiah, serta memberikan evaluasi nilai nominal secara real-time.</p>

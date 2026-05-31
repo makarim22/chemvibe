@@ -819,7 +819,9 @@ export default function App() {
       <div className="flex-1 flex pt-16 w-full max-w-7xl mx-auto">
         
         {/* Left Sidebar Menu (Desktop only size list) */}
-        <aside className={`shrink-0 hidden lg:flex flex-col bg-slate-900/30 border-r border-slate-800 py-8 gap-4 transition-all duration-300 z-30 ${
+        <aside className={`shrink-0 hidden lg:flex flex-col border-r py-8 gap-4 transition-all duration-300 z-30 ${
+          theme === 'dark' ? 'bg-slate-900/30 border-slate-800' : 'bg-slate-50 border-slate-200'
+        } ${
           isSidebarCollapsed ? 'w-0 overflow-hidden opacity-0 p-0 border-r-0 pointer-events-none' : 'w-64 px-6'
         }`}>
           <div className="flex justify-between items-center">
@@ -1258,32 +1260,33 @@ export default function App() {
               activities={activities}
               onTriggerAuth={() => setIsAuthOpen(true)}
               onUpdateClass={handleUpdateClass}
+              theme={theme}
             />
           )}
 
           {activeView === 'periodic-table' && <PeriodicTable currentUser={currentUser} />}
-          {activeView === 'atom-builder' && <AtomBuilderLab currentUser={currentUser} />}
-          {activeView === 'bonding-lab' && <BondingLab />}
-          {activeView === 'geometry' && <GeometryLab />}
-          {activeView === 'stoichiometry' && <StoichiometryCalculator />}
-          {activeView === 'acid-base-intro' && <AcidBaseIntroLab currentUser={currentUser} />}
-          {activeView === 'titration' && <TitrationSimulator />}
-          {activeView === 'volta-lab' && <VoltaLab />}
-          {activeView === 'kinetics-lab' && <KineticsLab />}
-          {activeView === 'equilibrium-lab' && <EquilibriumLab />}
-          {activeView === 'thermochemistry-lab' && <ThermochemistryLab />}
-          {activeView === 'colligative-lab' && <ColligativeLab />}
-          {activeView === 'colloid-lab' && <ColloidLab />}
-          {activeView === 'electrolysis-lab' && <ElectrolysisLab />}
-          {activeView === 'flame-test-lab' && <FlameTestLab currentUser={currentUser} />}
-          {activeView === 'buffer-hydrolysis-lab' && <BufferHydrolysisLab currentUser={currentUser} />}
-          {activeView === 'solubility-ksp-lab' && <SolubilityKspLab currentUser={currentUser} />}
-          {activeView === 'organic-lab' && <OrganicLab />}
-          {activeView === 'macromolecule-lab' && <MacromoleculeLab />}
-          {activeView === 'green-chemistry' && <GreenChemistryLab currentUser={currentUser} />}
-          {activeView === 'petroleum-lab' && <PetroleumLab currentUser={currentUser} />}
-          {activeView === 'element-reactivity' && <ElementReactivityLab currentUser={currentUser} />}
-          {activeView === 'ai-assistant' && <AIAssistant />}
+          {activeView === 'atom-builder' && <AtomBuilderLab currentUser={currentUser} theme={theme} />}
+          {activeView === 'bonding-lab' && <BondingLab theme={theme} />}
+          {activeView === 'geometry' && <GeometryLab theme={theme} />}
+          {activeView === 'stoichiometry' && <StoichiometryCalculator theme={theme} />}
+          {activeView === 'acid-base-intro' && <AcidBaseIntroLab currentUser={currentUser} theme={theme} />}
+          {activeView === 'titration' && <TitrationSimulator theme={theme} />}
+          {activeView === 'volta-lab' && <VoltaLab theme={theme} />}
+          {activeView === 'kinetics-lab' && <KineticsLab theme={theme} />}
+          {activeView === 'equilibrium-lab' && <EquilibriumLab theme={theme} />}
+          {activeView === 'thermochemistry-lab' && <ThermochemistryLab theme={theme} />}
+          {activeView === 'colligative-lab' && <ColligativeLab theme={theme} />}
+          {activeView === 'colloid-lab' && <ColloidLab theme={theme} />}
+          {activeView === 'electrolysis-lab' && <ElectrolysisLab theme={theme} />}
+          {activeView === 'flame-test-lab' && <FlameTestLab currentUser={currentUser} theme={theme} />}
+          {activeView === 'buffer-hydrolysis-lab' && <BufferHydrolysisLab currentUser={currentUser} theme={theme} />}
+          {activeView === 'solubility-ksp-lab' && <SolubilityKspLab currentUser={currentUser} theme={theme} />}
+          {activeView === 'organic-lab' && <OrganicLab theme={theme} />}
+          {activeView === 'macromolecule-lab' && <MacromoleculeLab theme={theme} />}
+          {activeView === 'green-chemistry' && <GreenChemistryLab currentUser={currentUser} theme={theme} />}
+          {activeView === 'petroleum-lab' && <PetroleumLab currentUser={currentUser} theme={theme} />}
+          {activeView === 'element-reactivity' && <ElementReactivityLab currentUser={currentUser} theme={theme} />}
+          {activeView === 'ai-assistant' && <AIAssistant theme={theme} />}
           {activeView === 'flashcards' && <FlashcardReview onCardReviewed={handleCardReviewed} />}
           {activeView === 'virtual-report' && (
             <VirtualReportLab 
@@ -2137,7 +2140,7 @@ export default function App() {
                         }`}
                       >
                         <div className="flex items-center gap-2.5">
-                          <span className="w-2 h-2 rounded-full bg-rose-500" shrink-0="true font-bold bg-rose-500" />
+                          <span className="w-2 h-2 rounded-full shrink-0 font-bold bg-rose-500" />
                           <span>Sel Volta &amp; Redoks</span>
                         </div>
                         <ChevronRight className="w-3.5 h-3.5 opacity-60" />
@@ -2197,7 +2200,7 @@ export default function App() {
                           setIsMobileSidebarOpen(false);
                         }}
                         className={`w-full flex items-center justify-between px-4.5 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer min-h-[44px] ${
-                          activeView === 'macromolecule-lab' ? 'bg-slate-900 text-teal-401 text-teal-400 font-bold border-l-2 border-teal-500 pl-3.5' : 'text-slate-400 hover:bg-slate-900/20'
+                          activeView === 'macromolecule-lab' ? 'bg-slate-900 text-teal-400 font-bold border-l-2 border-teal-500 pl-3.5' : 'text-slate-400 hover:bg-slate-900/20'
                         }`}
                       >
                         <div className="flex items-center gap-2.5">

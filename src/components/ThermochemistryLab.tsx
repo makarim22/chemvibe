@@ -300,7 +300,7 @@ const MOLECULAR_LAYOUTS: {
   }
 };
 
-export default function ThermochemistryLab() {
+export default function ThermochemistryLab({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [activeTab, setActiveTab] = useState<'exo_endo' | 'bond_energy' | 'calorimeter'>('exo_endo');
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
 
@@ -701,7 +701,7 @@ export default function ThermochemistryLab() {
       </div>
 
       {/* Lab Sub-module Navigation tabs */}
-      <div className="flex flex-wrap gap-2 p-1 bg-slate-900/60 border border-slate-850 rounded-xl max-w-max">
+      <div className={`flex flex-wrap gap-2 p-1 border rounded-xl max-w-max ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
         <button
           onClick={() => setActiveTab('exo_endo')}
           className={`px-4 py-2 text-xs font-bold font-sans rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
@@ -742,7 +742,7 @@ export default function ThermochemistryLab() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left">
           
           <div className="lg:col-span-4 space-y-5">
-            <div className="glass-panel rounded-2xl p-5 border border-slate-800 bg-slate-900/30 space-y-4">
+            <div className={`glass-panel rounded-2xl p-5 border space-y-4 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
               <div className="flex items-center gap-2">
                 <Gauge className="w-4.5 h-4.5 text-amber-500 animate-pulse" />
                 <span className="text-xs font-mono font-bold text-slate-350 tracking-wider">RAK REAKTAN PADAT</span>
@@ -774,7 +774,7 @@ export default function ThermochemistryLab() {
               </div>
 
               {/* Informational Box */}
-              <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-900 text-xs text-slate-400 leading-relaxed font-sans space-y-2">
+              <div className={`p-3.5 rounded-xl border text-xs leading-relaxed font-sans space-y-2 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900 text-slate-400' : 'bg-slate-100/60 border-slate-300 text-slate-600'}`}>
                 <p className="font-bold text-amber-450 uppercase text-[10px] font-mono tracking-wider">PREVIEW ENERGI ZAT:</p>
                 <p>{subInfo.desc}</p>
                 <div className="flex justify-between text-[11px] font-mono text-amber-500">
@@ -809,7 +809,7 @@ export default function ThermochemistryLab() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               
               {/* Beaker with interactive pouring kinetics */}
-              <div className="glass-panel rounded-2xl p-5 border border-slate-805 bg-slate-900/30 flex flex-col justify-between relative overflow-hidden h-[330px]">
+              <div className={`glass-panel rounded-2xl p-5 border flex flex-col justify-between relative overflow-hidden h-[330px] ${theme === 'dark' ? 'border-slate-805 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
                 <div className="text-[10px] font-mono text-zinc-500 font-bold tracking-wider mb-2 uppercase flex justify-between">
                   <span>VISUALISASI BEAKER &amp; EFFUSI TERMIS</span>
                   {subInfo.type === 'exothermic' ? (
@@ -842,7 +842,7 @@ export default function ThermochemistryLab() {
                 {/* Endothermic Frost crystals Rim / Condensation overlay */}
                 {isReacting && subInfo.type === 'endothermic' && (
                   <div className="absolute inset-x-8 bottom-4 top-1/3 pointer-events-none rounded-xl border border-sky-400/30 bg-sky-500/5 blur-[0.5px] z-10 flex flex-col justify-start items-center p-2 text-center">
-                    <div className="text-[8px] font-mono text-sky-300 animate-pulse font-black px-1.5 py-0.5 bg-slate-900/80 rounded border border-sky-400/20">
+                    <div className={`text-[8px] font-mono text-sky-300 animate-pulse font-black px-1.5 py-0.5 rounded border border-sky-400/20 ${theme === 'dark' ? 'bg-slate-900/80' : 'bg-slate-100/80'}`}>
                       ❄️ SUHU TURUN DRAGASTIS (ENDOTERM)
                     </div>
                   </div>
@@ -861,10 +861,10 @@ export default function ThermochemistryLab() {
                 )}
                 {waterHeatFlow === 'in' && (
                   <div className="absolute inset-0 pointer-events-none z-15">
-                    <div className="absolute top-[25%] right-[6%] text-sky-400 font-bold animate-pulse text-[9px] bg-slate-950/80 border border-sky-400/30 px-1.5 py-0.5 rounded shadow">
+                    <div className={`absolute top-[25%] right-[6%] text-sky-400 font-bold animate-pulse text-[9px] border border-sky-400/30 px-1.5 py-0.5 rounded shadow ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
                       SUHU DISEDOT MASUK SISTEM ➔
                     </div>
-                    <div className="absolute bottom-[35%] left-[6%] text-sky-400 font-bold animate-pulse text-[9px] bg-slate-950/80 border border-sky-400/30 px-1.5 py-0.5 rounded shadow">
+                    <div className={`absolute bottom-[35%] left-[6%] text-sky-400 font-bold animate-pulse text-[9px] border border-sky-400/30 px-1.5 py-0.5 rounded shadow ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
                       ← KINETIK AIR MELEMAH
                     </div>
                   </div>
@@ -934,7 +934,7 @@ export default function ThermochemistryLab() {
 
                 </div>
 
-                <div className="w-full bg-slate-950 p-2 text-center rounded-xl border border-slate-900 text-[10px] font-mono text-zinc-500">
+                <div className={`w-full p-2 text-center rounded-xl border text-[10px] font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-900 text-zinc-500' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                   {isReacting ? (
                     <span className="text-amber-400 animate-pulse font-extrabold uppercase tracking-wide">Kinetics Reaksi Berjalan: {reactionProgress}%</span>
                   ) : isPouring ? (
@@ -946,7 +946,7 @@ export default function ThermochemistryLab() {
               </div>
 
               {/* Dynamic continuous Line Graph plotted in real-time step by step */}
-              <div className="glass-panel rounded-2xl p-5 border border-slate-805 bg-slate-900/30 flex flex-col justify-between h-[330px]">
+              <div className={`glass-panel rounded-2xl p-5 border flex flex-col justify-between h-[330px] ${theme === 'dark' ? 'border-slate-805 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
                 <div>
                   <span className="text-[10px] font-mono text-zinc-500 block font-bold uppercase tracking-wider">KURVA SUHU VS WAKTU REAL-TIME</span>
                   <p className="text-[10.5px] text-zinc-400 mt-1 leading-snug">Menelusuri mutasi suhu (T) terhadap durasi peleburan.</p>
@@ -979,7 +979,7 @@ export default function ThermochemistryLab() {
                   </svg>
                 </div>
 
-                <div className="text-[9.5px] font-mono text-zinc-500 flex justify-between items-center bg-slate-950/40 px-2 py-1.5 rounded border border-slate-900 shadow">
+                <div className={`text-[9.5px] font-mono flex justify-between items-center px-2 py-1.5 rounded border shadow ${theme === 'dark' ? 'text-zinc-500 bg-slate-950/40 border-slate-900' : 'text-slate-600 bg-slate-100/40 border-slate-300'}`}>
                   <span>PLOTTING SUHU TERMODINAMIS AKHIR:</span>
                   <span className={`font-black ${subInfo.type === 'exothermic' ? 'text-red-400' : 'text-sky-400'}`}>
                     T_f = {beakerTemp.toFixed(1)}°C
@@ -990,7 +990,7 @@ export default function ThermochemistryLab() {
             </div>
 
             {/* General Explanation Card */}
-            <div className="glass-panel p-5 rounded-2xl border border-teal-500/10 bg-slate-900/15 flex gap-4 text-left">
+            <div className={`glass-panel p-5 rounded-2xl border border-teal-500/10 flex gap-4 text-left ${theme === 'dark' ? 'bg-slate-900/15' : 'bg-slate-100/15'}`}>
               <GraduationCap className="w-5 h-5 text-teal-400 mt-0.5 shrink-0 animate-bounce" />
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-teal-400 font-bold uppercase tracking-wider block">PEDOMAN AKTIF INSTRUKTUR VIRTUAL</span>
@@ -1046,14 +1046,14 @@ export default function ThermochemistryLab() {
 
             {/* Main Interactive Bond Energy Playground */}
             <div className="lg:col-span-8 space-y-5">
-              <div className="glass-panel p-6 rounded-2xl border border-slate-800 bg-slate-900/30 space-y-6">
+              <div className={`glass-panel p-6 rounded-2xl border space-y-6 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
                 
                 <div className="pb-4 border-b border-zinc-850 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                   <div>
                     <span className="text-[10px] font-mono text-amber-500 font-black tracking-wider uppercase block">PLAYGROUND MOLEKUL</span>
                     <h3 className="text-base font-bold text-white font-sans">{curReaction.name}</h3>
                   </div>
-                  <div className="px-3.5 py-1.5 bg-slate-950 font-mono text-xs rounded-xl border border-zinc-900">
+                  <div className={`px-3.5 py-1.5 font-mono text-xs rounded-xl border border-zinc-900 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                     <span className="text-zinc-500 mr-2 font-black">EQUATION:</span>
                     <span className="text-teal-400 font-bold">{curReaction.equation}</span>
                   </div>
@@ -1075,7 +1075,7 @@ export default function ThermochemistryLab() {
           
           {/* Settings Sidepanel */}
           <div className="lg:col-span-4 space-y-5">
-            <div className="glass-panel rounded-2xl p-5 border border-slate-800 bg-slate-900/30 space-y-4">
+            <div className={`glass-panel rounded-2xl p-5 border space-y-4 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
               <div className="flex items-center gap-2">
                 <Beaker className="w-4.5 h-4.5 text-teal-400 animate-bounce" />
                 <span className="text-xs font-mono font-bold text-slate-300 uppercase tracking-widest">ATUR TAKARAN KALORIMETER</span>
@@ -1127,7 +1127,7 @@ export default function ThermochemistryLab() {
                   step="1"
                   value={soluteMass}
                   onChange={(e) => { setSoluteMass(parseInt(e.target.value)); resetInteractiveCalorimeter(); }}
-                  className="w-full accent-teal-500 bg-slate-950 h-1.5 rounded-lg appearance-none cursor-pointer"
+                  className={`w-full accent-teal-500 h-1.5 rounded-lg appearance-none cursor-pointer ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}
                 />
               </div>
 
@@ -1144,12 +1144,12 @@ export default function ThermochemistryLab() {
                   step="50"
                   value={waterVolume}
                   onChange={(e) => { setWaterVolume(parseInt(e.target.value)); resetInteractiveCalorimeter(); }}
-                  className="w-full accent-teal-500 bg-slate-950 h-1.5 rounded-lg appearance-none cursor-pointer"
+                  className={`w-full accent-teal-500 h-1.5 rounded-lg appearance-none cursor-pointer ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}
                 />
               </div>
 
               {/* Stirring speed RPM meter slider */}
-              <div className="space-y-1 bg-slate-950/20 p-3 rounded-lg border border-slate-900">
+              <div className={`space-y-1 p-3 rounded-lg border ${theme === 'dark' ? 'bg-slate-950/20 border-slate-900' : 'bg-slate-100/20 border-slate-300'}`}>
                 <div className="flex justify-between text-xs font-sans items-center">
                   <span className="text-slate-400 font-semibold flex items-center gap-1">
                     <GaugeCircle className="w-3.5 h-3.5 text-amber-500" />
@@ -1166,7 +1166,7 @@ export default function ThermochemistryLab() {
                   step="50"
                   value={stirringRpm}
                   onChange={(e) => { setStirringRpm(parseInt(e.target.value)); }}
-                  className="w-full accent-amber-500 bg-slate-950 h-1.5 rounded-lg appearance-none cursor-pointer"
+                  className={`w-full accent-amber-500 h-1.5 rounded-lg appearance-none cursor-pointer ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}
                 />
                 <div className="flex justify-between text-[8.5px] font-mono text-zinc-650 pt-1">
                   <span>MATI</span>
@@ -1177,7 +1177,7 @@ export default function ThermochemistryLab() {
               </div>
 
               {/* Dynamic instruction actions */}
-              <div className="p-3.5 rounded-xl bg-slate-950/65 border border-slate-900 text-xs text-slate-400 space-y-2 font-sans">
+              <div className={`p-3.5 rounded-xl border text-xs space-y-2 font-sans ${theme === 'dark' ? 'bg-slate-950/65 border-slate-900 text-slate-400' : 'bg-slate-100/65 border-slate-300 text-slate-600'}`}>
                 <p className="font-bold text-amber-550 uppercase text-[10px] font-mono tracking-wider">HESS PROTOKOL EKSPERIMEN :</p>
                 <div className="space-y-1.5 font-mono">
                   <button
@@ -1227,10 +1227,10 @@ export default function ThermochemistryLab() {
 
           {/* Cup View & Calculation Sheet */}
           <div className="lg:col-span-8 space-y-5">
-            <div className="glass-panel p-6 rounded-2xl border border-slate-800 bg-slate-900/30 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className={`glass-panel p-6 rounded-2xl border grid grid-cols-1 md:grid-cols-2 gap-6 ${theme === 'dark' ? 'border-slate-800 bg-slate-900/30' : 'border-slate-300 bg-slate-100/30'}`}>
               
               {/* Coffee Cup View */}
-              <div className="bg-slate-950/65 p-5 rounded-xl border border-slate-900 flex flex-col justify-between items-center text-center relative h-[340px]">
+              <div className={`p-5 rounded-xl border flex flex-col justify-between items-center text-center relative h-[340px] ${theme === 'dark' ? 'bg-slate-950/65 border-slate-900' : 'bg-slate-100/65 border-slate-300'}`}>
                 <div className="text-[10px] font-mono text-zinc-500 block font-bold uppercase tracking-wider">SKEMA ADIABATIS CANGKIR STYROFOAM</div>
                 
                 <div className="relative my-auto flex flex-col items-center">
@@ -1294,7 +1294,7 @@ export default function ThermochemistryLab() {
                   </div>
                 </div>
 
-                <div className="w-full bg-slate-900/50 p-2.5 text-[9.5px] font-mono border border-slate-850 rounded">
+                <div className={`w-full p-2.5 text-[9.5px] font-mono border rounded ${theme === 'dark' ? 'bg-slate-900/50 border-slate-850' : 'bg-slate-100/50 border-slate-300'}`}>
                   {isLidClosed ? (
                     <span className="text-teal-400 flex items-center justify-center gap-1.5 font-bold">
                       <Check className="w-4 h-4 text-teal-400" /> INSULASI TERMOKAP ADIABATIS TERPASANG (100%)
@@ -1313,7 +1313,7 @@ export default function ThermochemistryLab() {
                 
                 {calorimeterOutput.isCalculated ? (
                   <div className="space-y-4 animate-fade-in text-xs font-mono">
-                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-900 space-y-3">
+                    <div className={`p-4 rounded-xl border space-y-3 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <div>
                         <span className="text-zinc-500 text-[9.5px] block leading-none">TAHAP I: TRANSISI SUHU</span>
                         <div className="grid grid-cols-3 gap-2 text-center mt-1 text-[11px]">
@@ -1366,7 +1366,7 @@ export default function ThermochemistryLab() {
                     </div>
                   </div>
                 ) : (
-                  <div className="p-6 rounded-xl border border-slate-850 border-dashed bg-slate-900/10 text-center text-slate-500 flex flex-col items-center justify-center h-[230px] space-y-1.5">
+                  <div className={`p-6 rounded-xl border border-dashed text-center flex flex-col items-center justify-center h-[230px] space-y-1.5 ${theme === 'dark' ? 'border-slate-850 bg-slate-900/10 text-slate-500' : 'border-slate-300 bg-slate-100/10 text-slate-600'}`}>
                     <Beaker className="w-8 h-8 text-slate-700 animate-bounce" />
                     <div className="space-y-1">
                       <h4 className="text-xs font-bold text-slate-400">Kalorimeter Siap Diukur</h4>
@@ -1428,7 +1428,7 @@ export default function ThermochemistryLab() {
 
           {/* Interactive SVG molecular break container */}
           <div className="relative">
-            <svg viewBox="0 0 540 210" className="w-full bg-slate-950/90 border border-slate-900 rounded-xl overflow-hidden relative shadow-inner">
+            <svg viewBox="0 0 540 210" className={`w-full border rounded-xl overflow-hidden relative shadow-inner ${theme === 'dark' ? 'bg-slate-950/90 border-slate-900' : 'bg-slate-100/90 border-slate-300'}`}>
               <rect width="100%" height="100%" fill="none" />
               
               {/* Draw Bonds first */}
@@ -1497,7 +1497,7 @@ export default function ThermochemistryLab() {
                 );
               })}
             </svg>
-            <div className="absolute top-2 right-2 bg-slate-900/80 px-2 py-1 rounded border border-zinc-800 text-[9px] font-mono text-zinc-500">
+            <div className={`absolute top-2 right-2 px-2 py-1 rounded border border-zinc-800 text-[9px] font-mono ${theme === 'dark' ? 'bg-slate-900/80 text-zinc-500' : 'bg-slate-100/80 text-slate-600'}`}>
               💡 Klik langsung garis-garis ikatan kovalen di atas!
             </div>
           </div>
@@ -1508,7 +1508,7 @@ export default function ThermochemistryLab() {
               const currentCount = brokenBonds[rb.bond] || 0;
               const isDone = currentCount >= rb.count;
               return (
-                <div key={rb.bond} className="bg-slate-950/40 p-3 rounded-xl border border-zinc-850 flex justify-between items-center text-xs">
+                <div key={rb.bond} className={`p-3 rounded-xl border border-zinc-850 flex justify-between items-center text-xs ${theme === 'dark' ? 'bg-slate-950/40' : 'bg-slate-100/40'}`}>
                   <div>
                     <span className="font-bold text-zinc-300">Ikatan {rb.bond}</span>
                     <span className="text-[10px] font-mono block text-red-400/80 mt-0.5">Suhu serap: +{rb.energy} kJ/mol</span>
@@ -1543,7 +1543,7 @@ export default function ThermochemistryLab() {
 
           {/* Interactive forming bonds SVG element */}
           <div className="relative">
-            <svg viewBox="0 0 540 210" className="w-full bg-slate-950/90 border border-slate-900 rounded-xl overflow-hidden relative shadow-inner">
+            <svg viewBox="0 0 540 210" className={`w-full border rounded-xl overflow-hidden relative shadow-inner ${theme === 'dark' ? 'bg-slate-950/90 border-slate-900' : 'bg-slate-100/90 border-slate-300'}`}>
               <rect width="100%" height="100%" fill="none" />
               
               {/* Product Bonds */}
@@ -1609,7 +1609,7 @@ export default function ThermochemistryLab() {
                 </foreignObject>
               ))}
             </svg>
-            <div className="absolute top-2 right-2 bg-slate-900/80 px-2 py-1 rounded border border-zinc-800 text-[9px] font-mono text-zinc-500">
+            <div className={`absolute top-2 right-2 px-2 py-1 rounded border border-zinc-800 text-[9px] font-mono ${theme === 'dark' ? 'bg-slate-900/80 text-zinc-500' : 'bg-slate-100/80 text-slate-600'}`}>
               💡 Las ikatan draf kovalen (putus-putus) diatas!
             </div>
           </div>
@@ -1618,7 +1618,7 @@ export default function ThermochemistryLab() {
             {curReaction.productBonds.map((pb) => {
               const currentCount = formedBonds[pb.bond] || 0;
               return (
-                <div key={pb.bond} className="bg-slate-950/40 p-3 rounded-xl border border-zinc-850 flex justify-between items-center text-xs text-sans">
+                <div key={pb.bond} className={`p-3 rounded-xl border border-zinc-850 flex justify-between items-center text-xs text-sans ${theme === 'dark' ? 'bg-slate-950/40' : 'bg-slate-100/40'}`}>
                   <div>
                     <span className="font-bold text-zinc-300">Ikatan {pb.bond}</span>
                     <span className="text-[10px] font-mono block text-emerald-400 mt-0.5">Suhu lepas: −{pb.energy} kJ/mol</span>
@@ -1642,7 +1642,7 @@ export default function ThermochemistryLab() {
     if (molecularStep === 'completed') {
       const calculatedGameDeltaH = finalTheoreticalReactantSum - finalTheoreticalProductSum;
       return (
-        <div className="p-6 bg-slate-950/60 rounded-2xl border border-zinc-900 space-y-4 animate-scale-up text-center">
+        <div className={`p-6 rounded-2xl border border-zinc-900 space-y-4 animate-scale-up text-center ${theme === 'dark' ? 'bg-slate-950/60' : 'bg-slate-100/60'}`}>
           <div className="w-12 h-12 bg-teal-500/10 border border-teal-500/20 text-teal-400 rounded-full flex items-center justify-center mx-auto mb-2 animate-bounce">
             <Award className="w-6 h-6" />
           </div>
@@ -1654,7 +1654,7 @@ export default function ThermochemistryLab() {
             </p>
           </div>
 
-          <div className="p-4 bg-slate-900 border border-zinc-850 rounded-xl max-w-sm mx-auto font-mono text-left space-y-2">
+          <div className={`p-4 border border-zinc-850 rounded-xl max-w-sm mx-auto font-mono text-left space-y-2 ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
             <div className="flex justify-between text-xs text-zinc-400">
               <span>Σ Reaktan (Diserap) :</span>
               <span className="text-red-400 font-bold">+{finalTheoreticalReactantSum} kJ/mol</span>
@@ -1674,7 +1674,7 @@ export default function ThermochemistryLab() {
           <div className="flex justify-center gap-3">
             <button
               onClick={startScissorsGame}
-              className="px-4 py-1.5 border border-zinc-800 hover:bg-slate-900 rounded-lg text-xs font-semibold cursor-pointer text-slate-300"
+              className={`px-4 py-1.5 border border-zinc-800 rounded-lg text-xs font-semibold cursor-pointer ${theme === 'dark' ? 'hover:bg-slate-900 text-slate-300' : 'hover:bg-slate-200 text-slate-600'}`}
             >
               Ulangi Simulasi Ini
             </button>

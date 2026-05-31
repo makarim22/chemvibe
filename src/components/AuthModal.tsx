@@ -12,12 +12,13 @@ import { doc, setDoc } from 'firebase/firestore';
 import { INITIAL_MASTERY_DATA } from '../data';
 
 interface AuthModalProps {
+  theme?: 'dark' | 'light';
   isOpen: boolean;
   onClose: () => void;
   onLoginSuccess: (user: UserAccount) => void;
 }
 
-export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModalProps) {
+export default function AuthModal({ isOpen, onClose, onLoginSuccess, theme = 'dark' }: AuthModalProps) {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -141,14 +142,14 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
 
   return (
     <div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
-      <div className="bg-slate-950 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative overflow-hidden">
+      <div className={`border rounded-2xl max-w-md w-full p-6 shadow-2xl relative overflow-hidden ${theme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
         {/* Decorative ambient glowing lines */}
         <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-teal-500 via-indigo-500 to-amber-500"></div>
         <div className="absolute -top-16 -right-16 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 p-1 rounded-full text-slate-500 hover:text-white hover:bg-slate-900 transition-colors"
+          className={`absolute top-4 right-4 p-1 rounded-full transition-colors ${theme === 'dark' ? 'text-slate-500 hover:text-white hover:bg-slate-900' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'}`}
           id="auth-modal-close-btn"
         >
           <X className="w-5 h-5" />
@@ -218,7 +219,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Dr. Marie Curie"
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl py-2 pl-9 pr-3 text-xs text-slate-200 focus:outline-none focus:border-teal-500/50 font-mono"
+                    className={`w-full border rounded-xl py-2 pl-9 pr-3 text-xs focus:outline-none focus:border-teal-500/50 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                   />
                 </div>
               </div>
@@ -234,7 +235,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="curie@chemvibe.edu"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl py-2 pl-9 pr-3 text-xs text-slate-200 focus:outline-none focus:border-teal-500/50 font-mono"
+                  className={`w-full border rounded-xl py-2 pl-9 pr-3 text-xs focus:outline-none focus:border-teal-500/50 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
             </div>
@@ -249,7 +250,7 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl py-2 pl-9 pr-3 text-xs text-slate-200 focus:outline-none focus:border-teal-500/50 font-mono"
+                  className={`w-full border rounded-xl py-2 pl-9 pr-3 text-xs focus:outline-none focus:border-teal-500/50 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
             </div>

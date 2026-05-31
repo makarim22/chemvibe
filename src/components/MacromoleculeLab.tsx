@@ -113,7 +113,7 @@ const LIPID_TESTS: IdentificationTest[] = [
   { id: 'unsaturation', name: 'Uji Ketidakjenuhan', indicator: 'Air Bromin / Air Iodium', positiveObservation: 'Hilangnya warna kuning air iodium secara cepat', targetFunctionalGroup: 'Adanya ikatan rangkap dua karbon (Asam lemak tidak jenuh)' }
 ];
 
-export default function MacromoleculeLab() {
+export default function MacromoleculeLab({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [activeTab, setActiveTab] = useState<'explorer' | 'simulators' | 'quiz'>('explorer');
 
   // ==========================================
@@ -623,7 +623,7 @@ export default function MacromoleculeLab() {
             <div className="lg:col-span-9 space-y-6">
               
               {/* Common Class Metadata Summary Card */}
-              <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5" id="meta-summary-card">
+              <div className={`glass-panel border-white/5 rounded-2xl p-5 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`} id="meta-summary-card">
                 <div className="flex flex-col md:flex-row justify-between gap-4 border-b border-zinc-850 pb-4 mb-4">
                   <div className="space-y-1">
                     <h3 className="text-lg font-bold text-orange-400">{activeClass.name}</h3>
@@ -664,7 +664,7 @@ export default function MacromoleculeLab() {
               {/* Sub-Interactive Sandbox based on selectedClassId */}
               {selectedClassId === 'carbohydrate' && (
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-5" id="carb-interactive-section">
-                  <div className="md:col-span-4 glass-panel border-white/5 bg-slate-900/30 p-4 rounded-xl space-y-3">
+                  <div className={`md:col-span-4 glass-panel border-white/5 p-4 rounded-xl space-y-3 ${theme === 'dark' ? 'bg-slate-900/30' : 'bg-slate-100/30'}`}>
                     <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 block">SUB-KLASIFIKASI</span>
                     <div className="space-y-2">
                       <button 
@@ -765,7 +765,7 @@ export default function MacromoleculeLab() {
               )}
 
               {selectedClassId === 'protein' && (
-                <div className="glass-panel border-white/5 bg-slate-900/30 p-5 rounded-xl space-y-4" id="protein-interactive-section">
+                <div className={`glass-panel border-white/5 p-5 rounded-xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/30' : 'bg-slate-100/30'}`} id="protein-interactive-section">
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-zinc-850 pb-3">
                     <div className="space-y-1">
                       <strong className="text-zinc-350 block font-bold text-zinc-300">Model Zwitterion Asam Amino &amp; Pengaruh pH</strong>
@@ -876,7 +876,7 @@ export default function MacromoleculeLab() {
               )}
 
               {selectedClassId === 'polymer' && (
-                <div className="glass-panel border-white/5 bg-slate-900/30 p-5 rounded-xl space-y-4" id="polymer-assembling-game">
+                <div className={`glass-panel border-white/5 p-5 rounded-xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/30' : 'bg-slate-100/30'}`} id="polymer-assembling-game">
                   <div className="flex justify-between items-center border-b border-zinc-850 pb-3">
                     <div className="space-y-1">
                       <strong className="text-zinc-300 block text-xs font-bold font-mono">PERAKIT RANTAI POLIMERISASI ADISI</strong>
@@ -1004,7 +1004,7 @@ export default function MacromoleculeLab() {
                 <div className="lg:col-span-4 space-y-4">
                   
                   {/* Category toggle */}
-                  <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-4.5 space-y-4">
+                  <div className={`glass-panel border-white/5 rounded-2xl p-4.5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
                     <div>
                       <label className="text-[9px] font-mono font-bold text-zinc-500 block mb-1.5">KATALOG PENGUJIAN</label>
                       <div className="grid grid-cols-3 gap-2 text-center text-xs">
@@ -1269,7 +1269,7 @@ export default function MacromoleculeLab() {
                 
                 {/* Options Panel (5 Columns) */}
                 <div className="lg:col-span-5 space-y-4">
-                  <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+                  <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
                     <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-orange-400 block pb-2 border-b border-zinc-850">REAKTOR SABUN MANDI SINTESIS</span>
                     
                     {/* Fat select */}

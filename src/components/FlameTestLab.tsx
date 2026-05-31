@@ -34,6 +34,7 @@ interface UserAccount {
 }
 
 interface FlameTestLabProps {
+  theme?: 'dark' | 'light';
   currentUser?: UserAccount | null;
 }
 
@@ -208,7 +209,7 @@ const INTRO_TEXTS = [
   }
 ];
 
-export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
+export default function FlameTestLab({ currentUser, theme = 'dark' }: FlameTestLabProps) {
   // State variables for simulation setup
   const [bunsenOn, setBunsenOn] = useState<boolean>(true);
   const [flameMode, setFlameMode] = useState<'luminous' | 'non-luminous'>('non-luminous'); // non-luminous is the hot blue flame
@@ -548,7 +549,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
             <div className="glass-panel rounded-2xl p-6 border-slate-800/80 flex flex-col md:flex-row gap-6 relative overflow-hidden" id="simulation-workbench">
               
               {/* Bunsen & Wire Simulator Frame */}
-              <div id="flame-burner-viewport" className="flex-1 bg-slate-950 rounded-xl border border-slate-850 p-4 flex flex-col justify-between items-center h-[340px] relative overflow-hidden flame-burner-viewport">
+              <div id="flame-burner-viewport" className={`flex-1 rounded-xl border p-4 flex flex-col justify-between items-center h-[340px] relative overflow-hidden flame-burner-viewport ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                 <div className="absolute top-2 left-2 flex flex-col gap-1.5 z-10">
                   <span className="text-[9.5px] font-mono text-slate-500 tracking-wider">BUNSEN_STAGE_01</span>
                   {wireState === 'contaminated' && (
@@ -572,7 +573,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                 {/* Cobalt Glass Filter overlay HUD */}
                 {cobaltGlass && (
                   <div className="absolute inset-0 bg-blue-700/30 border-4 border-indigo-650 pointer-events-none z-10 flex items-center justify-center">
-                    <span className="font-mono text-xs font-black text-blue-300 uppercase tracking-widest bg-slate-900/90 border border-blue-500/40 px-3 py-1 rounded-full animate-pulse">
+                    <span className={`font-mono text-xs font-black text-blue-300 uppercase tracking-widest border border-blue-500/40 px-3 py-1 rounded-full animate-pulse ${theme === 'dark' ? 'bg-slate-900/90' : 'bg-slate-100/90'}`}>
                       Mode Filter Kaca Kobalt Biru Aktif
                     </span>
                   </div>
@@ -654,7 +655,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                   <div className="w-14 h-16 bg-gradient-to-r from-slate-700 via-slate-650 to-slate-800 border-t border-slate-600 rounded-t-sm z-20" />
                   
                   {/* Bunsen collar air intake hole */}
-                  <div className="w-12 h-6 bg-slate-900 border-y border-slate-800 flex items-center justify-around z-20">
+                  <div className={`w-12 h-6 border-y flex items-center justify-around z-20 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                     <div className={`w-3 h-3 rounded-full ${flameMode === 'non-luminous' ? 'bg-slate-950' : 'bg-amber-500/20 border border-amber-500/40'}`} />
                     <div className={`w-3 h-3 rounded-full ${flameMode === 'non-luminous' ? 'bg-slate-950' : 'bg-amber-500/20 border border-amber-500/40'}`} />
                   </div>
@@ -677,7 +678,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                     <button
                       onClick={toggleFlameVent}
                       disabled={!bunsenOn}
-                      className="px-3 py-1.5 bg-slate-900 border border-slate-800 text-slate-350 hover:text-white rounded-lg text-[10.5px] font-mono cursor-pointer disabled:opacity-40"
+                      className={`px-3 py-1.5 border rounded-lg text-[10.5px] font-mono cursor-pointer disabled:opacity-40 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-350 hover:text-white' : 'bg-slate-100 border-slate-300 text-slate-600 hover:text-slate-900'}`}
                     >
                       Regulasi Collar ({flameMode === 'luminous' ? 'Kuning / Lubang Tutup' : 'Biru / Lubang Buka'})
                     </button>
@@ -716,7 +717,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                       <ChevronRight className="w-3.5 h-3.5 opacity-60 group-hover:translate-x-0.5 transition-transform" />
                     </button>
 
-                    <div className="p-3 bg-slate-950 rounded-xl border border-dashed border-slate-800 text-[10.5px] text-slate-400 space-y-1">
+                    <div className={`p-3 rounded-xl border border-dashed text-[10.5px] space-y-1 ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                       <span className="font-bold text-slate-300 font-mono text-[9px] uppercase tracking-wider"> HCl Peledak Pembersih:</span>
                       <p className="text-slate-500 leading-tight">Berfungsi mengubah sulfida/oksida logam menjadi garam klorida yang sangat mudah menguap pada temperatur fluks.</p>
                     </div>
@@ -767,7 +768,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
             <div className="glass-panel rounded-2xl p-6 border-slate-800/80 grid grid-cols-1 md:grid-cols-12 gap-6 relative" id="atomic-bohr-excitation-center">
               
               {/* Bohr animation canvas SVG (col span 5) */}
-              <div id="bohr-excitation-viewport" className="md:col-span-5 bg-slate-950 rounded-xl border border-slate-900 py-6 px-4 flex flex-col items-center justify-center relative overflow-hidden h-[240px] bohr-excitation-viewport">
+              <div id="bohr-excitation-viewport" className={`md:col-span-5 rounded-xl border py-6 px-4 flex flex-col items-center justify-center relative overflow-hidden h-[240px] bohr-excitation-viewport ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="absolute top-2 left-2 text-[9px] font-mono text-slate-500 tracking-wider">BOHR_MODEL_TRANSITION</span>
                 
                 {excitationProgress === 'exciting' && (
@@ -884,7 +885,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                         style={{ left: `${((671 - activeSampleOnWire.wavelength) / (671 - 404)) * 90 + 5}%` }}
                       />
                     ) : (
-                      <div className="absolute inset-0 bg-slate-950/70" />
+                      <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-slate-950/70' : 'bg-slate-100/70'}`} />
                     )}
                   </div>
                   <div className="flex justify-between text-[9px] font-mono text-slate-500 px-1">
@@ -896,7 +897,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                 </div>
 
                 {/* Mathematical calculations table */}
-                <div className="grid grid-cols-2 gap-4 bg-slate-950/80 border border-slate-900 rounded-xl p-4">
+                <div className={`grid grid-cols-2 gap-4 border rounded-xl p-4 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
                   <div className="space-y-1">
                     <span className="text-[9px] uppercase font-mono text-slate-500 tracking-wider">Frekuensi Radiasi (f):</span>
                     <p className="text-xs text-white font-mono leading-tight">
@@ -963,7 +964,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
 
                       <div className="flex justify-between items-center">
                         <span className="text-xs font-black text-white font-sans">{salt.name}</span>
-                        <span className="text-[9px] font-mono bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800 text-slate-400">
+                        <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                           {salt.symbol}⁺ᵡ
                         </span>
                       </div>
@@ -1037,7 +1038,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                 </thead>
                 <tbody className="divide-y divide-slate-900">
                   {METAL_SALTS.map((m) => (
-                    <tr key={m.id} className="hover:bg-slate-900/20 transition-all">
+                    <tr key={m.id} className={`transition-all ${theme === 'dark' ? 'hover:bg-slate-900/20' : 'hover:bg-slate-200'}`}>
                       <td className="py-3.5 px-4 font-bold text-white flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: m.flameColorHex }} />
                         <span>{m.name}</span>
@@ -1218,7 +1219,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                   <div className="space-y-2.5">
                     <h3 className="text-2xl font-black text-white">Kuis Selesai!</h3>
                     <p className="text-slate-400 text-xs">Evaluasi kemajuan belajar Kimia Unsur Golongan Utama.</p>
-                    <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono">
+                    <div className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border text-xs font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                       <span>Skor Akhir: </span>
                       <span className="text-emerald-400 font-bold font-mono">
                         {quizScore} / {QUIZ_QUESTIONS.length} Benar ({Math.round((quizScore / QUIZ_QUESTIONS.length) * 100)}%)
@@ -1238,7 +1239,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
                         setQuizStarted(false);
                         setIsQuizFinished(false);
                       }}
-                      className="px-5 py-2.5 bg-slate-900 border border-slate-800 text-slate-400 hover:text-white text-xs font-black uppercase tracking-wider rounded-xl cursor-pointer"
+                      className={`px-5 py-2.5 border text-xs font-black uppercase tracking-wider rounded-xl cursor-pointer ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-300 text-slate-600 hover:text-slate-900'}`}
                     >
                       Kembali ke Menu
                     </button>
@@ -1297,7 +1298,7 @@ export default function FlameTestLab({ currentUser }: FlameTestLabProps) {
 
                   {/* Explanation panel of high school standards */}
                   {showExplanation && (
-                    <div className="p-4 bg-slate-950/80 border border-slate-900 rounded-xl space-y-1.5 animate-fade-in">
+                    <div className={`p-4 border rounded-xl space-y-1.5 animate-fade-in ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
                       <div className="flex items-center gap-1.5 text-emerald-400 font-black text-[10.5px] uppercase tracking-wider">
                         <Info className="w-4 h-4 shrink-0" />
                         Penjelasan Ilmiah Kelas XII:

@@ -22,6 +22,7 @@ import { UserAccount, ActivityLog } from '../types';
 import { motion } from 'motion/react';
 
 interface LeaderboardProps {
+  theme?: 'dark' | 'light';
   currentUser: UserAccount | null;
   onNavigate: (view: string) => void;
 }
@@ -49,7 +50,7 @@ interface PublicActivity {
   timestamp: string;
 }
 
-export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProps) {
+export default function Leaderboard({ currentUser, onNavigate, theme = 'dark' }: LeaderboardProps) {
   const [activeTab, setActiveTab] = useState<'atom' | 'periodic' | 'badges'>('atom');
   const [profiles, setProfiles] = useState<PublicProfile[]>([]);
   const [liveActivities, setLiveActivities] = useState<PublicActivity[]>([]);
@@ -165,7 +166,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
         );
       default:
         return (
-          <div className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900/60 text-slate-400 border border-slate-800 font-mono text-xs">
+          <div className={`flex items-center justify-center w-7 h-7 rounded-full border font-mono text-xs ${theme === 'dark' ? 'bg-slate-900/60 text-slate-400 border-slate-800' : 'bg-slate-100/60 text-slate-600 border-slate-300'}`}>
             {rank}
           </div>
         );
@@ -225,7 +226,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
 
         {/* Current user's stats summary */}
         {currentUser ? (
-          <div className="p-4 bg-slate-950/70 border border-teal-500/15 rounded-xl space-y-3 w-full md:w-[260px] self-stretch flex flex-col justify-between shrink-0">
+          <div className={`p-4 border border-teal-500/15 rounded-xl space-y-3 w-full md:w-[260px] self-stretch flex flex-col justify-between shrink-0 ${theme === 'dark' ? 'bg-slate-950/70' : 'bg-slate-100/70'}`}>
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-teal-500 text-slate-950 flex items-center justify-center font-bold text-sm tracking-wide">
                 {currentUser.name.substring(0, 2).toUpperCase()}
@@ -252,7 +253,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
             </div>
           </div>
         ) : (
-          <div className="p-5 bg-slate-950/50 border border-slate-800 rounded-xl text-center md:w-[260px] shrink-0 space-y-3">
+          <div className={`p-5 border rounded-xl text-center md:w-[260px] shrink-0 space-y-3 ${theme === 'dark' ? 'bg-slate-950/50 border-slate-800' : 'bg-slate-100/50 border-slate-300'}`}>
             <p className="text-xs text-slate-400">Hubungkan profil belajar Anda untuk berpartisipasi di papan peringkat global.</p>
             <button 
               onClick={() => onNavigate('dashboard')} // Triggers modal by returning to dashboard
@@ -271,10 +272,10 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
           <div className="lg:col-span-8 space-y-4">
             
             {/* Search and Category Filter Tabs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-slate-950/50 border border-slate-800 rounded-xl p-3.5">
+            <div className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border rounded-xl p-3.5 ${theme === 'dark' ? 'bg-slate-950/50 border-slate-800' : 'bg-slate-100/50 border-slate-300'}`}>
               
               {/* Tabs */}
-              <div className="inline-flex gap-1.5 bg-slate-900 rounded-lg p-1 border border-slate-850 self-start sm:self-auto">
+              <div className={`inline-flex gap-1.5 rounded-lg p-1 border self-start sm:self-auto ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                 <button
                   onClick={() => setActiveTab('atom')}
                   className={`px-3.5 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
@@ -319,7 +320,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
                     placeholder="Cari nama peneliti..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-slate-900/60 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500/50"
+                    className={`w-full border rounded-lg pl-9 pr-3 py-1.5 text-xs placeholder-slate-500 focus:outline-none focus:border-teal-500/50 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800 text-white' : 'bg-slate-100/60 border-slate-300 text-slate-900'}`}
                   />
                 </div>
                 
@@ -343,7 +344,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
             </div>
 
             {/* Main Ranking Table/List */}
-            <div className="bg-slate-950/40 border border-slate-850/80 rounded-xl overflow-hidden">
+            <div className={`border rounded-xl overflow-hidden ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850/80' : 'bg-slate-100/40 border-slate-300'}`}>
               {loading ? (
                 <div className="p-12 text-center space-y-3">
                   <div className="w-8 h-8 rounded-full border-2 border-slate-800 border-t-teal-500 animate-spin mx-auto" />
@@ -351,7 +352,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
                 </div>
               ) : filteredProfiles.length === 0 ? (
                 <div className="p-12 text-center space-y-2">
-                  <div className="p-3.5 bg-slate-900/40 border border-slate-800 rounded-full w-12 h-12 flex items-center justify-center text-slate-500 mx-auto">
+                  <div className={`p-3.5 border rounded-full w-12 h-12 flex items-center justify-center mx-auto ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800 text-slate-500' : 'bg-slate-100/40 border-slate-300 text-slate-600'}`}>
                     <Search className="w-5 h-5" />
                   </div>
                   <h4 className="text-xs font-bold text-white uppercase font-mono tracking-wider pt-2">Data Tidak Ditemukan</h4>
@@ -361,7 +362,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
                 <div className="divide-y divide-slate-900/75">
                   
                   {/* Table Header */}
-                  <div className="grid grid-cols-12 gap-3 px-5 py-3 text-[10px] font-mono font-black uppercase text-slate-500 tracking-wider bg-slate-900/25 border-b border-slate-900">
+                  <div className={`grid grid-cols-12 gap-3 px-5 py-3 text-[10px] font-mono font-black uppercase tracking-wider border-b ${theme === 'dark' ? 'text-slate-500 bg-slate-900/25 border-slate-900' : 'text-slate-600 bg-slate-100/25 border-slate-300'}`}>
                     <div className="col-span-2 text-center">PERINGKAT</div>
                     <div className="col-span-6">NAMA PENELITI</div>
                     <div className="col-span-4 text-right">CAPAIAN PRESTASI</div>
@@ -460,7 +461,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
             </div>
 
             {/* Additional informational banner */}
-            <div className="p-4 bg-slate-900/30 border border-slate-800/80 rounded-xl flex items-start gap-3">
+            <div className={`p-4 border rounded-xl flex items-start gap-3 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-800/80' : 'bg-slate-100/30 border-slate-300'}`}>
               <Sparkles className="w-4 h-4 text-teal-404 text-teal-400 shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <h5 className="text-xs font-bold text-white uppercase font-mono">Sinkronisasi Instan</h5>
@@ -473,7 +474,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
           {/* RIGHT: REAL-TIME ACTIVITY STREAM TICKER */}
           <div className="lg:col-span-4 space-y-4">
             
-            <div className="bg-slate-950/40 border border-slate-850 rounded-xl p-4.5 space-y-4">
+            <div className={`border rounded-xl p-4.5 space-y-4 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
               
               {/* Header */}
               <div className="flex items-center justify-between border-b border-slate-900 pb-3">
@@ -504,7 +505,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
                   liveActivities.map((act) => (
                     <div 
                       key={act.id}
-                      className="p-3 bg-slate-900/40 hover:bg-slate-900/80 border border-slate-850 hover:border-slate-800 rounded-xl space-y-2 transition-all"
+                      className={`p-3 border rounded-xl space-y-2 transition-all ${theme === 'dark' ? 'bg-slate-900/40 hover:bg-slate-900/80 border-slate-850 hover:border-slate-800' : 'bg-slate-100/40 hover:bg-slate-200 border-slate-300 hover:border-slate-400'}`}
                     >
                       <div className="flex items-center justify-between gap-2">
                         <span className="font-bold text-[10.5px] text-slate-200 hover:text-teal-350 truncate block max-w-[120px]">
@@ -517,9 +518,9 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
                         </div>
                       </div>
 
-                      <div className="p-1.5 bg-slate-950/70 border border-slate-850 rounded-lg space-y-1">
+                      <div className={`p-1.5 border rounded-lg space-y-1 ${theme === 'dark' ? 'bg-slate-950/70 border-slate-850' : 'bg-slate-100/70 border-slate-300'}`}>
                         <div className="flex items-center gap-1.5">
-                          <div className="p-1 bg-slate-900 rounded border border-slate-800 text-xs shrink-0">
+                          <div className={`p-1 rounded border text-xs shrink-0 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                             {getActivityIcon(act.activityType)}
                           </div>
                           <span className="text-[10px] font-mono text-teal-400 font-bold tracking-tight truncate block max-w-[150px]">
@@ -543,7 +544,7 @@ export default function Leaderboard({ currentUser, onNavigate }: LeaderboardProp
         </div>
       ) : (
         /* Prompt user to authenticate */
-        <div className="p-12 text-center bg-slate-950/60 border border-slate-800 rounded-2xl max-w-lg mx-auto space-y-5">
+        <div className={`p-12 text-center border rounded-2xl max-w-lg mx-auto space-y-5 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
           <div className="mx-auto w-12 h-12 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/10 flex items-center justify-center">
             <Trophy className="w-6 h-6" />
           </div>

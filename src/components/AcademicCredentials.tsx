@@ -29,6 +29,7 @@ import { UserAccount } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface AcademicCredentialsProps {
+  theme?: 'dark' | 'light';
   currentUser: UserAccount | null;
   onNavigate?: (view: string) => void;
 }
@@ -47,7 +48,7 @@ interface SmartBadge {
   glow: string;
 }
 
-export default function AcademicCredentials({ currentUser, onNavigate }: AcademicCredentialsProps) {
+export default function AcademicCredentials({ currentUser, onNavigate, theme = 'dark' }: AcademicCredentialsProps) {
   const [activeTab, setActiveTab] = useState<'badges' | 'certificate' | 'verification'>('badges');
   const [profileData, setProfileData] = useState<UserAccount | null>(currentUser);
   const [gradedReportsCount, setGradedReportsCount] = useState<number>(0);
@@ -488,7 +489,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
           </p>
         </div>
 
-        <div className="p-4 bg-slate-950/80 border border-teal-500/30 rounded-xl space-y-2.5 text-xs w-full md:w-[240px] shrink-0">
+        <div className={`p-4 border border-teal-500/30 rounded-xl space-y-2.5 text-xs w-full md:w-[240px] shrink-0 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>
           <div className="flex items-center justify-between">
             <span className="text-slate-500 font-mono uppercase text-[9px]">Lencana Aktif:</span>
             <strong className="text-teal-400 font-mono font-bold">{unlockedBadgesCount} / {badgesList.length}</strong>
@@ -561,7 +562,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
       {/* TAB 1: SMART BADGES */}
       {activeTab === 'badges' && (
         <div className="space-y-6 print:hidden">
-          <div className="bg-slate-950/40 border border-slate-800 p-5 rounded-xl">
+          <div className={`border p-5 rounded-xl ${theme === 'dark' ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
             <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider mb-1">Mekanisme Gamifikasi Kredensial</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
               Lencana Akademik ChemVibe secara cerdas mendeteksi tingkat pemahaman praktikum Anda secara real-time. Unsur atom yang berhasil disusun, nilai modul ujian periodik, serta verifikasi laporan praktikum dari pengajar Anda akan membuka lencana prestisius dengan poin reward sains instan!
@@ -605,7 +606,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
                         </span>
                       )
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-slate-900 border border-slate-800 text-slate-400 font-mono text-[9px] font-bold rounded">
+                      <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 border font-mono text-[9px] font-bold rounded ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                         🔒 LOCKED
                       </span>
                     )}
@@ -640,7 +641,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
                     </div>
 
                     {isVerified && (
-                      <div className="p-2.5 bg-slate-950/80 rounded-lg border border-slate-900/60 font-mono text-[9.5px] text-zinc-400 space-y-1 mb-2">
+                      <div className={`p-2.5 rounded-lg border font-mono text-[9.5px] space-y-1 mb-2 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900/60 text-zinc-400' : 'bg-slate-100/80 border-slate-300 text-slate-600'}`}>
                         <div className="flex justify-between">
                           <span className="text-zinc-500 uppercase text-[9px]">Audit DB:</span>
                           <span className="text-emerald-400 font-bold uppercase text-[9px]">AKTIF &amp; ENKRIPSI</span>
@@ -694,7 +695,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
       {/* TAB 2: CERTIFICATE GENERATOR */}
       {activeTab === 'certificate' && (
         <div className="space-y-6">
-          <div className="bg-slate-950/40 border border-slate-800 p-5 rounded-xl space-y-4 print:hidden">
+          <div className={`border p-5 rounded-xl space-y-4 print:hidden ${theme === 'dark' ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div className="space-y-1">
                 <h3 className="text-xs font-mono font-black text-teal-300 uppercase tracking-wider">Formulir Penerbitan Sertifikat</h3>
@@ -727,7 +728,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
                   type="text"
                   value={certificateName}
                   onChange={(e) => setCertificateName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-teal-400 font-sans"
+                  className={`w-full border rounded-lg p-2.5 text-xs focus:outline-none focus:border-teal-400 font-sans ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                   placeholder="Masukkan nama lengkap Anda..."
                 />
               </div>
@@ -762,7 +763,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
               <button
                 onClick={handlePrintCertificate}
                 disabled={!isCertificateAuthorized}
-                className="px-3.5 py-2 bg-slate-950/90 border border-slate-800 text-teal-400 hover:text-white font-mono text-[10px] uppercase font-black rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xl hover:shadow-teal-500/10 disabled:opacity-30 disabled:pointer-events-none"
+                className={`px-3.5 py-2 border text-teal-400 font-mono text-[10px] uppercase font-black rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xl hover:shadow-teal-500/10 disabled:opacity-30 disabled:pointer-events-none ${theme === 'dark' ? 'bg-slate-950/90 border-slate-800 hover:text-white' : 'bg-slate-100/90 border-slate-300 hover:text-slate-900'}`}
               >
                 <Printer className="w-3.5 h-3.5" />
                 <span>Cetak / Cetak PDF</span>
@@ -770,7 +771,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
               <button
                 onClick={() => alert("Sertifikat berhasil diekspor sebagai draft visual!")}
                 disabled={!isCertificateAuthorized}
-                className="px-3.5 py-2 bg-slate-950/90 border border-slate-800 text-slate-350 hover:text-white font-mono text-[10px] uppercase font-black rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xl disabled:opacity-30 disabled:pointer-events-none"
+                className={`px-3.5 py-2 border font-mono text-[10px] uppercase font-black rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-xl disabled:opacity-30 disabled:pointer-events-none ${theme === 'dark' ? 'bg-slate-950/90 border-slate-800 text-slate-350 hover:text-white' : 'bg-slate-100/90 border-slate-300 text-slate-600 hover:text-slate-900'}`}
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Unduh</span>
@@ -837,7 +838,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
                 </div>
 
                 {/* Metadata & Achievement Badges Grid in Certificate */}
-                <div className="max-w-lg mx-auto py-3 bg-slate-950/60 border border-slate-800 rounded-xl px-4 grid grid-cols-3 gap-2 text-[10.5px] font-mono print:bg-white print:border-gray-300 print:text-black print:shadow-none">
+                <div className={`max-w-lg mx-auto py-3 border rounded-xl px-4 grid grid-cols-3 gap-2 text-[10.5px] font-mono print:bg-white print:border-gray-300 print:text-black print:shadow-none ${theme === 'dark' ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                   <div className="text-center border-r border-slate-900 last:border-0 print:border-gray-200">
                     <span className="text-slate-500 block text-[8px] uppercase">Predikat</span>
                     <strong className="text-teal-400 font-semibold tracking-tight print:text-black uppercase">
@@ -904,7 +905,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
 
             {/* Authorized stamp overlay block when locked */}
             {!isCertificateAuthorized && (
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-950/70 p-6 text-center text-slate-300 print:hidden rounded-lg">
+              <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center print:hidden rounded-lg ${theme === 'dark' ? 'bg-slate-950/70 text-slate-300' : 'bg-slate-100/70 text-slate-600'}`}>
                 <Bookmark className="w-12 h-12 text-teal-400 mb-3 animate-bounce" />
                 <h4 className="text-sm font-black font-mono uppercase tracking-widest text-white">Pratinjau Kredensial Terkunci</h4>
                 <p className="text-xs text-slate-400 max-w-sm leading-relaxed mt-1.5 mb-4">
@@ -923,7 +924,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
       {/* TAB 3: VERIFICATION SYSTEM */}
       {activeTab === 'verification' && (
         <div className="space-y-6 print:hidden">
-          <div className="bg-slate-950/40 border border-slate-800 p-6 rounded-2xl space-y-4">
+          <div className={`border p-6 rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
             <div className="space-y-1">
               <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">Sistem Verifikasi Kredensial Terbuka (Public Registry)</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -938,7 +939,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
                   value={verificationSearch}
                   onChange={(e) => setVerificationSearch(e.target.value)}
                   placeholder="Masukkan ID Registrasi (Contoh: report_[ID_Siswa] / CERT-CV-2026 atau No. Registrasi Piagam)"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 pl-4 text-xs font-mono text-white placeholder-slate-600 focus:outline-none focus:border-teal-400"
+                  className={`w-full border rounded-xl p-3 pl-4 text-xs font-mono placeholder-slate-600 focus:outline-none focus:border-teal-400 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                   required
                 />
               </div>
@@ -964,7 +965,7 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="bg-slate-950/60 border border-slate-800 p-6 rounded-2xl space-y-5"
+                className={`border p-6 rounded-2xl space-y-5 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}
               >
                 {searchResult.error ? (
                   <div className="p-4 bg-rose-500/5 text-rose-400 border border-rose-500/15 rounded-xl text-xs flex gap-2">
@@ -991,63 +992,63 @@ export default function AcademicCredentials({ currentUser, onNavigate }: Academi
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-                      <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1">
+                      <div className={`p-3 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                         <span className="text-slate-500 block text-[9px] uppercase">NAMA PEMILIK KREDENSIAL:</span>
                         <span className="text-white font-bold">{searchResult.studentName || searchResult.studentId}</span>
                       </div>
                       
-                      <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1">
+                      <div className={`p-3 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                         <span className="text-slate-500 block text-[9px] uppercase">JENIS KREDENSIAL:</span>
                         <span className="text-white font-bold uppercase">{searchResult.type === 'report' ? 'LAPORAN VIRTUAL LAB (GRADED)' : 'PIAGAM SERTIFIKAT PRESTASI'}</span>
                       </div>
 
                       {searchResult.type === 'report' ? (
                         <>
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1">
+                          <div className={`p-3 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">NILAI EVALUASI GURU:</span>
                             <span className="text-teal-400 font-bold">{searchResult.grade} / 100</span>
                           </div>
                           
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1">
+                          <div className={`p-3 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">TANGGAL SUBMISI:</span>
                             <span className="text-zinc-300 font-bold">{new Date(searchResult.submittedAt || Date.now()).toLocaleDateString('id-ID')}</span>
                           </div>
 
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1 md:col-span-2">
+                          <div className={`p-3 rounded-lg border space-y-1 md:col-span-2 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">KOMENTAR / ULASAN PENGAJAR:</span>
                             <p className="text-zinc-300 font-semibold italic mt-1 leading-relaxed">&ldquo;{searchResult.teacherFeedback}&rdquo;</p>
                           </div>
                         </>
                       ) : searchResult.type === 'badge_signed' ? (
                         <>
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1">
+                          <div className={`p-3 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">Nama Lencana:</span>
                             <span className="text-teal-400 font-bold">{searchResult.badgeName}</span>
                           </div>
 
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1">
+                          <div className={`p-3 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">Bobot Poin:</span>
                             <span className="text-white font-bold">+{searchResult.points} Poin</span>
                           </div>
 
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1 md:col-span-2">
+                          <div className={`p-3 rounded-lg border space-y-1 md:col-span-2 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">Tanda Tangan Kriptografi (SHA-256):</span>
                             <span className="text-emerald-400 select-all font-mono break-all text-[11px] font-bold block">{searchResult.signature}</span>
                           </div>
 
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1 md:col-span-2">
+                          <div className={`p-3 rounded-lg border space-y-1 md:col-span-2 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">Status Keaslian:</span>
                             <span className="text-emerald-450 font-bold text-[11px] block">✓ {searchResult.status}</span>
                           </div>
                         </>
                       ) : (
                         <>
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1">
+                          <div className={`p-3 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">AKREDITASI DEWAN:</span>
                             <span className="text-teal-400 font-bold">{searchResult.status}</span>
                           </div>
 
-                          <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800 space-y-1">
+                          <div className={`p-3 rounded-lg border space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
                             <span className="text-slate-500 block text-[9px] uppercase">OTORITAS PENERBIT:</span>
                             <span className="text-zinc-300 font-bold">{searchResult.issuedBy}</span>
                           </div>

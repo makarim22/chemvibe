@@ -184,7 +184,11 @@ const MIXTURES: Mixture[] = [
   }
 ];
 
-export default function ColloidLab() {
+interface ColloidLabProps {
+  theme?: 'dark' | 'light';
+}
+
+export default function ColloidLab({ theme = 'dark' }: ColloidLabProps) {
   const [activeSegment, setActiveSegment] = useState<'tyndall' | 'synthesis' | 'properties'>('tyndall');
 
   // ==========================================
@@ -762,10 +766,14 @@ export default function ColloidLab() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-slate-950 text-white rounded-3xl border border-slate-850 overflow-hidden shadow-2xl flex flex-col font-sans" id="colloid-lab-root">
+    <div className={`w-full min-h-screen ${theme === 'dark' ? 'bg-slate-950 text-white border-slate-850' : 'bg-slate-50 text-slate-900 border-slate-200'} rounded-3xl border overflow-hidden shadow-2xl flex flex-col font-sans`} id="colloid-lab-root">
       
       {/* Lab Hero Header Section */}
-      <div className="bg-gradient-to-r from-teal-950 via-slate-950 to-indigo-950 p-6 sm:p-8 border-b border-slate-900 relative">
+      <div className={`p-6 sm:p-8 border-b relative ${
+        theme === 'dark'
+          ? 'bg-gradient-to-r from-teal-950 via-slate-950 to-indigo-950 border-slate-900'
+          : 'bg-gradient-to-r from-teal-50 via-slate-50 to-indigo-50 border-slate-200'
+      }`}>
         <div className="absolute top-0 right-0 w-80 h-80 bg-teal-400/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-12 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -784,7 +792,7 @@ export default function ColloidLab() {
           </div>
 
           <div className="flex gap-2">
-            <div className="px-3.5 py-2 bg-slate-900/80 border border-slate-800 rounded-2xl flex items-center gap-2">
+            <div className={`px-3.5 py-2 border rounded-2xl flex items-center gap-2 ${theme === 'dark' ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-100/80 border-slate-300'}`}>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <div className="text-left font-mono text-[9px]">
                 <p className="text-slate-500 leading-none">STATUS PENELITIAN</p>
@@ -795,13 +803,15 @@ export default function ColloidLab() {
         </div>
 
         {/* Tab Navigation Menu */}
-        <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-850 max-w-md w-full items-center mt-6 gap-1 select-none">
+        <div className={`flex flex-col gap-2 p-1 rounded-xl border w-full md:w-56 shrink-0 mt-6 ${
+          theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-200 border-slate-300'
+        }`}>
           <button
             onClick={() => setActiveSegment('tyndall')}
-            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            className={`py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-start gap-2 cursor-pointer ${
               activeSegment === 'tyndall' 
-                ? 'bg-slate-900 border border-slate-800 text-teal-400 shadow'
-                : 'text-slate-450 hover:text-white'
+                ? 'bg-slate-950 border border-slate-800 text-teal-400 shadow'
+                : (theme === 'dark' ? 'text-slate-450 hover:text-white' : 'text-slate-700 hover:text-slate-900')
             }`}
           >
             <Eye className="w-4 h-4" />
@@ -810,10 +820,10 @@ export default function ColloidLab() {
           
           <button
             onClick={() => setActiveSegment('synthesis')}
-            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            className={`py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-start gap-2 cursor-pointer ${
               activeSegment === 'synthesis' 
-                ? 'bg-slate-900 border border-slate-800 text-teal-400 shadow'
-                : 'text-slate-450 hover:text-white'
+                ? 'bg-slate-950 border border-slate-800 text-teal-400 shadow'
+                : (theme === 'dark' ? 'text-slate-450 hover:text-white' : 'text-slate-700 hover:text-slate-900')
             }`}
           >
             <Flame className="w-4 h-4" />
@@ -822,10 +832,10 @@ export default function ColloidLab() {
 
           <button
             onClick={() => setActiveSegment('properties')}
-            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            className={`py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-start gap-2 cursor-pointer ${
               activeSegment === 'properties' 
-                ? 'bg-slate-900 border border-slate-800 text-teal-400 shadow'
-                : 'text-slate-450 hover:text-white'
+                ? 'bg-slate-950 border border-slate-800 text-teal-400 shadow'
+                : (theme === 'dark' ? 'text-slate-450 hover:text-white' : 'text-slate-700 hover:text-slate-900')
             }`}
           >
             <Sliders className="w-4 h-4" />
@@ -846,7 +856,7 @@ export default function ColloidLab() {
             <div className="lg:col-span-5 space-y-6">
               
               {/* Select Mixture Container */}
-              <div className="p-5 bg-slate-900/40 border border-slate-850 rounded-2xl space-y-4">
+              <div className={`p-5 border rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="flex items-center gap-2">
                   <Beaker className="w-4 animate-bounce h-4 text-teal-450" />
                   <h3 className="text-xs font-mono font-black uppercase tracking-wider text-slate-350">Pengaturan Campuran Larutan</h3>
@@ -894,7 +904,7 @@ export default function ColloidLab() {
               </div>
 
               {/* Laser Beam Settings Grid */}
-              <div className="p-5 bg-slate-900/40 border border-slate-850 rounded-2xl space-y-4">
+              <div className={`p-5 border rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <Sliders className="w-4 h-4 text-teal-400" />
@@ -926,7 +936,7 @@ export default function ColloidLab() {
                     value={laserPower}
                     onChange={(e) => setLaserPower(Number(e.target.value))}
                     disabled={!laserOn}
-                    className="w-full accent-teal-400 bg-slate-950 cursor-pointer h-1.5 rounded-lg"
+                    className={`w-full accent-teal-400 cursor-pointer h-1.5 rounded-lg ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}
                   />
                 </div>
 
@@ -977,20 +987,28 @@ export default function ColloidLab() {
             <div className="lg:col-span-7 space-y-6">
               
               {/* Beaker Laser Bench Box */}
-              <div className="p-6 bg-[#030712] border border-slate-850 rounded-3xl relative flex flex-col items-center justify-center min-h-[280px] overflow-hidden">
-                <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-slate-950/90 to-transparent pointer-events-none" />
+              <div className={`p-6 rounded-3xl relative flex flex-col items-center justify-center min-h-[280px] overflow-hidden border ${
+                theme === 'dark' 
+                  ? 'bg-[#030712] border-slate-850'
+                  : 'bg-white border-slate-200'
+              }`}>
+                <div className={`absolute inset-x-0 bottom-0 h-10 pointer-events-none ${
+                    theme === 'dark' 
+                      ? 'bg-gradient-to-t from-slate-950/90 to-transparent'
+                      : 'bg-gradient-to-t from-slate-50/90 to-transparent'
+                }`} />
                 
                 {/* Benchmark Title */}
                 <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-ping" />
-                  <span className="text-[9px] font-mono font-black text-slate-400 uppercase tracking-widest bg-slate-950/80 px-2 py-0.5 rounded border border-slate-900 shadow">
+                  <span className={`text-[9px] font-mono font-black uppercase tracking-widest px-2 py-0.5 rounded border shadow ${theme === 'dark' ? 'text-slate-400 bg-slate-950/80 border-slate-900' : 'text-slate-600 bg-slate-100/80 border-slate-300'}`}>
                     MEJA EKSPERIMEN OPTIK SIFAT TYNDALL
                   </span>
                 </div>
 
                 {/* Laser light emitter model Left */}
                 <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col items-center z-15">
-                  <div className="w-10 h-6 bg-slate-900 border border-slate-750 rounded-lg flex items-center justify-center shadow-md relative">
+                  <div className={`w-10 h-6 border border-slate-750 rounded-lg flex items-center justify-center shadow-md relative ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                     <div className="w-3 h-3 bg-zinc-700 border border-zinc-600 rounded-full" />
                     {/* Tiny glowing emitter hole */}
                     <div className={`absolute right-0 w-1.5 h-2 rounded-r-md ${
@@ -1094,7 +1112,7 @@ export default function ColloidLab() {
                 </div>
 
                 {/* Small indicator label */}
-                <div className="text-center font-mono text-[10px] mt-2 bg-slate-900 border border-slate-850 px-3.5 py-1.5 rounded-xl z-10 max-w-sm">
+                <div className={`text-center font-mono text-[10px] mt-2 border px-3.5 py-1.5 rounded-xl z-10 max-w-sm ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                   {currentMix.name}: <span className="font-extrabold text-teal-450">{currentMix.subType}</span>
                 </div>
               </div>
@@ -1103,7 +1121,7 @@ export default function ColloidLab() {
               <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
                 
                 {/* Microscope interactive Canvas Panel (60%) */}
-                <div className="md:col-span-7 bg-slate-950 p-4 border border-slate-850 rounded-2xl space-y-3.5">
+                <div className={`md:col-span-7 p-4 border rounded-2xl space-y-3.5 ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Eye className="w-4 h-4 text-pink-400 animate-pulse" />
@@ -1132,7 +1150,7 @@ export default function ColloidLab() {
                       max="100"
                       value={brownianSpeed}
                       onChange={(e) => setBrownianSpeed(Number(e.target.value))}
-                      className="flex-1 accent-pink-500 bg-slate-900 h-1 rounded cursor-pointer"
+                      className={`flex-1 accent-pink-500 h-1 rounded cursor-pointer ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                     />
                   </div>
                 </div>
@@ -1165,7 +1183,7 @@ export default function ColloidLab() {
                     </div>
                   </div>
 
-                  <div className="p-3 bg-slate-950 rounded-xl border border-slate-900">
+                  <div className={`p-3 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <div className="flex gap-2 text-[10.5px] leading-relaxed">
                       <Info className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
                       <p className="text-slate-400 font-sans">{currentMix.tyndallDescription}</p>
@@ -1176,7 +1194,7 @@ export default function ColloidLab() {
               </div>
 
               {/* Bento Board: The 8 Colloid Classification Helper Card */}
-              <div className="p-5 bg-slate-900/20 border border-slate-850 rounded-2xl space-y-3.5">
+              <div className={`p-5 border rounded-2xl space-y-3.5 ${theme === 'dark' ? 'bg-slate-900/20 border-slate-850' : 'bg-slate-100/20 border-slate-300'}`}>
                 <div className="flex items-center gap-2">
                   <Layers className="w-4 h-4 text-indigo-400" />
                   <h4 className="text-[10px] font-mono font-black uppercase text-indigo-400 tracking-wider">Tabel 8 Jenis Sistem Koloid Berdasarkan Fase &amp; Medium</h4>
@@ -1259,7 +1277,7 @@ export default function ColloidLab() {
             
             {/* Left Control Synthetizer (5 cols) */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="p-5 bg-slate-900/40 border border-slate-850 rounded-2xl space-y-4">
+              <div className={`p-5 border rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="flex items-center gap-2">
                   <Flame className="w-5 h-5 text-amber-400" />
                   <h3 className="text-xs font-mono font-black uppercase tracking-wider text-slate-350">Pengolahan &amp; Metode Pembuatan Colloid</h3>
@@ -1319,7 +1337,7 @@ export default function ColloidLab() {
               </div>
 
               {/* Chemical Equations Box */}
-              <div className="p-5 bg-slate-900/20 border border-slate-850 rounded-2xl space-y-3">
+              <div className={`p-5 border rounded-2xl space-y-3 ${theme === 'dark' ? 'bg-slate-900/20 border-slate-850' : 'bg-slate-100/20 border-slate-300'}`}>
                 <h4 className="text-[10px] font-mono font-black text-rose-450 uppercase tracking-widest border-b border-slate-905 pb-1">
                   PERSAMAAN REAKSI KIMIA SINTESIS
                 </h4>
@@ -1357,11 +1375,11 @@ export default function ColloidLab() {
             {/* Right Interactive Lab Bench Graphic (7 cols) */}
             <div className="lg:col-span-7 space-y-6">
               
-              <div className="p-6 bg-[#030712] border border-slate-850 rounded-3xl relative flex flex-col items-center justify-center min-h-[360px] overflow-hidden">
+              <div className={`p-6 border rounded-3xl relative flex flex-col items-center justify-center min-h-[360px] overflow-hidden ${theme === 'dark' ? 'bg-[#030712] border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                 <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-slate-950/90 to-transparent pointer-events-none" />
                 
                 {/* Title */}
-                <span className="absolute top-4 left-4 text-[9px] font-mono font-black text-slate-400 uppercase tracking-widest bg-slate-950/80 px-2.5 py-1 rounded border border-slate-900 shadow">
+                <span className={`absolute top-4 left-4 text-[9px] font-mono font-black uppercase tracking-widest px-2.5 py-1 rounded border shadow ${theme === 'dark' ? 'text-slate-400 bg-slate-950/80 border-slate-900' : 'text-slate-600 bg-slate-100/80 border-slate-300'}`}>
                   REAKTOR SINTESIS REAKSI KIMIA BENCH
                 </span>
 
@@ -1434,7 +1452,7 @@ export default function ColloidLab() {
                 </div>
 
                 {/* Step indicators row */}
-                <div className="flex items-center gap-1.5 mt-8 z-10 bg-slate-900/90 border border-slate-850 p-2.5 rounded-2xl w-full max-w-sm justify-between">
+                <div className={`flex items-center gap-1.5 mt-8 z-10 border p-2.5 rounded-2xl w-full max-w-sm justify-between ${theme === 'dark' ? 'bg-slate-900/90 border-slate-850' : 'bg-slate-100/90 border-slate-300'}`}>
                   <div className="flex gap-1 font-mono text-[9px] items-center">
                     <span className="text-zinc-500">PROGRES:</span>
                     <span className={`w-4 h-4 rounded-full flex items-center justify-center font-bold font-mono text-[8px] ${synthStep >= 1 ? 'bg-amber-400 text-slate-950' : 'bg-slate-950 text-slate-500'}`}>1</span>
@@ -1454,7 +1472,7 @@ export default function ColloidLab() {
               </div>
 
               {/* Action area control trigger buttons */}
-              <div className="bg-slate-900/40 border border-slate-850 p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className={`border p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                 
                 <div className="flex-1 text-left">
                   <span className="text-[9px] font-mono text-amber-500 font-bold uppercase tracking-widest block mb-0.5">NURATIVE ALUR EKSPERIMENT</span>
@@ -1464,7 +1482,7 @@ export default function ColloidLab() {
                 <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
                   <button
                     onClick={resetSynthExperiments}
-                    className="p-3 bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white rounded-xl transition-all cursor-pointer"
+                    className={`p-3 border rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'bg-slate-950 border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900'}`}
                     title="Reset Reaktor"
                   >
                     <RotateCcw className="w-4 h-4" />
@@ -1503,7 +1521,7 @@ export default function ColloidLab() {
           <div className="space-y-8">
             
             {/* Top Properties Subtabs buttons selection */}
-            <div className="flex max-w-sm bg-slate-900 p-0.5 rounded-xl border border-slate-850 items-center justify-center gap-0.5 select-none text-[11px] font-mono shadow-inner">
+            <div className={`flex max-w-sm p-0.5 rounded-xl border items-center justify-center gap-0.5 select-none text-[11px] font-mono shadow-inner ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
               <button
                 onClick={() => setPropTab('electro')}
                 className={`flex-1 py-1.5 rounded-lg font-bold uppercase tracking-wider text-center transition-all cursor-pointer leading-tight ${
@@ -1544,7 +1562,7 @@ export default function ColloidLab() {
                 
                 {/* Left controls column */}
                 <div className="lg:col-span-5 space-y-6">
-                  <div className="p-5 bg-slate-900/40 border border-slate-850 rounded-2xl space-y-4">
+                  <div className={`p-5 border rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex items-center gap-2">
                       <Zap className="w-5 h-5 text-teal-450 animate-pulse" />
                       <h4 className="text-xs font-mono font-black uppercase text-slate-300">Teori Elektroforesis Koloid</h4>
@@ -1554,7 +1572,7 @@ export default function ColloidLab() {
                       Partikel koloid memiliki lapisan listrik ganda yang bermuatan negatif atau positif di permukaannya. Jika sol dimasukkan ke pipa U dan dipasang beda potensial listrik (anode (+) dan katode (-)), partikel koloid bermuatan akan termigrasi/bergerak mengalir secara spesifik mengarah ke muatan elektrode yang berlawanan polaritas!
                     </p>
 
-                    <div className="p-3 bg-slate-950 rounded-xl space-y-2 border border-slate-900 text-xs">
+                    <div className={`p-3 rounded-xl space-y-2 border text-xs ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <p className="text-zinc-500 font-mono text-[9px] uppercase font-black">UJICOBA DENGAN JENIS KOLOID:</p>
                       
                       <div className="flex gap-2">
@@ -1683,7 +1701,7 @@ export default function ColloidLab() {
 
                   </div>
 
-                  <div className="mt-8 bg-slate-900 border border-slate-850 p-3 rounded-2xl w-full text-center text-[11px] font-sans">
+                  <div className={`mt-8 border p-3 rounded-2xl w-full text-center text-[11px] font-sans ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="font-bold text-teal-400">INFO EKSPERIMEN: </span>
                     {voltageOn ? (
                       colloidTypeCharged === 'positive'
@@ -1705,7 +1723,7 @@ export default function ColloidLab() {
                 
                 {/* Left control panel (5 cols) */}
                 <div className="lg:col-span-5 space-y-6">
-                  <div className="p-5 bg-slate-900/40 border border-slate-850 rounded-2xl space-y-4">
+                  <div className={`p-5 border rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex items-center gap-2">
                       <Sliders className="w-5 h-5 text-amber-400" />
                       <h4 className="text-xs font-mono font-black uppercase text-slate-300">Teori Koagulasi &amp; Aturan Schulze-Hardy</h4>
@@ -1715,14 +1733,14 @@ export default function ColloidLab() {
                       Stabilitas koloid terjaga oleh gaya tolak-menolak elektrostatik antarpartikel yang sejenis. Jika muatan di permukaan partikel koloid ini dinetralkan oleh ion dengan muatan berlawanan (dari garam dapur, kapur, dsb.), partikel tersebut akan berkondensasi saling bertumbukan membentuk makro-gumpalan yang mengendap (Koagulasi).
                     </p>
 
-                    <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-900 space-y-2.5">
+                    <div className={`p-4 rounded-xl border space-y-2.5 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                       <span className="text-[9px] font-mono text-zinc-500 uppercase font-black tracking-widest block">TAMBAHKAN ELEKTROLIT BERIKUT</span>
                       
                       <div className="grid grid-cols-1 gap-2">
                         <button
                           onClick={() => triggerCoagulation('nacl')}
                           disabled={isCoagulatingAnim}
-                          className="w-full text-left p-3 bg-slate-900 border border-slate-850 hover:bg-slate-850 text-xs rounded-xl flex items-center justify-between cursor-pointer transition-all"
+                          className={`w-full text-left p-3 border hover:bg-slate-850 text-xs rounded-xl flex items-center justify-between cursor-pointer transition-all ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}
                         >
                           <span className="font-semibold text-sky-400">Natrium Klorida (NaCl)</span>
                           <span className="px-1.5 py-0.5 bg-sky-505/10 border border-sky-500/20 rounded font-mono text-[8px] text-sky-400">Na⁺ Kation</span>
@@ -1730,7 +1748,7 @@ export default function ColloidLab() {
                         <button
                           onClick={() => triggerCoagulation('cacl2')}
                           disabled={isCoagulatingAnim}
-                          className="w-full text-left p-3 bg-slate-900 border border-slate-850 hover:bg-slate-850 text-xs rounded-xl flex items-center justify-between cursor-pointer transition-all"
+                          className={`w-full text-left p-3 border hover:bg-slate-850 text-xs rounded-xl flex items-center justify-between cursor-pointer transition-all ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}
                         >
                           <span className="font-semibold text-amber-400">Kalsium Klorida (CaCl₂)</span>
                           <span className="px-1.5 py-0.5 bg-amber-500/10 border border-amber-500/20 rounded font-mono text-[8px] text-amber-400">Ca²⁺ Kation</span>
@@ -1738,7 +1756,7 @@ export default function ColloidLab() {
                         <button
                           onClick={() => triggerCoagulation('alcl3')}
                           disabled={isCoagulatingAnim}
-                          className="w-full text-left p-3 bg-slate-900 border border-slate-850 hover:bg-slate-850 text-xs rounded-xl flex items-center justify-between cursor-pointer transition-all"
+                          className={`w-full text-left p-3 border hover:bg-slate-850 text-xs rounded-xl flex items-center justify-between cursor-pointer transition-all ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}
                         >
                           <span className="font-semibold text-rose-450">Aluminium Klorida (AlCl₃)</span>
                           <span className="px-1.5 py-0.5 bg-rose-500/10 border border-rose-550/20 rounded font-mono text-[8px] text-rose-450 font-bold">Al³⁺ Kation</span>
@@ -1749,7 +1767,7 @@ export default function ColloidLab() {
                     <div className="pt-2">
                       <button
                         onClick={resetCoagulation}
-                        className="w-full py-2.5 bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs font-mono font-bold uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                        className={`w-full py-2.5 border rounded-xl text-xs font-mono font-bold uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer ${theme === 'dark' ? 'bg-slate-950 border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900'}`}
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         <span>Reset Beaker Koloid</span>
@@ -1759,7 +1777,7 @@ export default function ColloidLab() {
                 </div>
 
                 {/* Right Beaker of mud coagulation animation (7 cols) */}
-                <div className="lg:col-span-7 bg-[#030712] border border-slate-850 p-6 rounded-3xl relative flex flex-col items-center justify-center min-h-[300px]">
+                <div className={`lg:col-span-7 border p-6 rounded-3xl relative flex flex-col items-center justify-center min-h-[300px] ${theme === 'dark' ? 'bg-[#030712] border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                   
                   {/* Beaker with dynamic sediment generation */}
                   <div className="relative w-40 h-44 border-x-4 border-b-6 border-slate-300/40 rounded-b-2xl rounded-t-lg overflow-hidden flex flex-col justify-end shadow-inner mb-4">
@@ -1800,7 +1818,7 @@ export default function ColloidLab() {
                     </div>
                   </div>
 
-                  <div className="p-4 bg-slate-900 border border-slate-850 rounded-2xl w-full space-y-2">
+                  <div className={`p-4 border rounded-2xl w-full space-y-2 ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="text-[9px] font-mono font-black text-amber-500 uppercase tracking-widest block">RESPONS KOAGULASI</span>
                     <p className="text-xs text-slate-300 leading-relaxed font-sans">{coagResult}</p>
                   </div>
@@ -1816,7 +1834,7 @@ export default function ColloidLab() {
                 
                 {/* Left dialect column (5 cols) */}
                 <div className="lg:col-span-5 space-y-6">
-                  <div className="p-5 bg-slate-900/40 border border-slate-850 rounded-2xl space-y-4">
+                  <div className={`p-5 border rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex items-center gap-2">
                       <Filter className="w-5 h-5 text-indigo-400 animate-pulse" />
                       <h4 className="text-xs font-mono font-black uppercase text-slate-300">Teori Dialisis Koloid</h4>
@@ -1826,12 +1844,12 @@ export default function ColloidLab() {
                       Larutan koloid seringkali dinodai kontaminan zat terlarut ataupun ion kecil lain. Guna memurnikannya, cairan koloid dibungkus dalam kantong semipermeabel (semacam membran parchment/selofan) dan dicelupkan ke tangki air mengalir. Ion klorida (Cl⁻) dan kation (Na⁺) yang sangat kecil berdifusi bebas melewati pori halus membran keluar kantong, menyisakan partikel koloid murni tetap terperangkap steril di dalam kantong!
                     </p>
 
-                    <div className="p-3 bg-slate-950 rounded-xl space-y-1.5 border border-slate-900 text-xs">
+                    <div className={`p-3 rounded-xl space-y-1.5 border text-xs ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <div className="flex justify-between items-center font-mono text-[9px] text-zinc-500">
                         <span>ION KONTAMINAN TERISOLASI</span>
                         <span className="text-white font-bold">{dialysisPureGrade} dari 10</span>
                       </div>
-                      <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                      <div className={`w-full h-2 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                         <div 
                           className="bg-indigo-500 h-full transition-all duration-[1000ms] ease-out"
                           style={{ width: `${dialysisPureGrade * 10}%` }}
@@ -1846,7 +1864,7 @@ export default function ColloidLab() {
                           setDialysisActive(false);
                           setRunningWaterTimer(false);
                         }}
-                        className="p-3 bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white rounded-xl transition-all cursor-pointer"
+                        className={`p-3 border rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'bg-slate-950 border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900'}`}
                         title="Isi Ulang Impurities"
                       >
                         <RotateCcw className="w-4 h-4" />
@@ -1892,7 +1910,7 @@ export default function ColloidLab() {
                     )}
 
                     {/* Semipermeable membrane pocket suspended in center */}
-                    <div className="w-24 h-32 border-4 border-indigo-400/50 rounded-b-full bg-slate-900 p-3 flex flex-col justify-center items-center shadow-2xl relative">
+                    <div className={`w-24 h-32 border-4 border-indigo-400/50 rounded-b-full p-3 flex flex-col justify-center items-center shadow-2xl relative ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                       
                       {/* Capsule cap string hanger */}
                       <div className="absolute top-[-30px] w-0.5 h-8 bg-zinc-400" />
@@ -1925,7 +1943,7 @@ export default function ColloidLab() {
 
                   </div>
 
-                  <div className="mt-6 bg-slate-900 border border-slate-850 p-3 rounded-xl w-full text-center text-[10.5px] font-sans">
+                  <div className={`mt-6 border p-3 rounded-xl w-full text-center text-[10.5px] font-sans ${theme === 'dark' ? 'bg-slate-900 border-slate-850' : 'bg-slate-100 border-slate-300'}`}>
                     {dialysisPureGrade > 0 ? (
                       dialysisActive ? (
                         <p className={`text-yellow-400 animate-pulse font-bold`}>

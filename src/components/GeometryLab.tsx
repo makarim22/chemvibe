@@ -54,7 +54,7 @@ const rotate3D = (x: number, y: number, z: number, angleX: number, angleY: numbe
   return { x: x1, y: y2, z: z2 };
 };
 
-export default function GeometryLab() {
+export default function GeometryLab({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [selectedMolecule, setSelectedMolecule] = useState<VSEPRMolecule>(MOLECULES_DATA[1]); // Default H2O
   const [renderMode, setRenderMode] = useState<'webgl' | 'classic'>('webgl');
   const [angleX, setAngleX] = useState<number>(15);
@@ -963,7 +963,7 @@ export default function GeometryLab() {
                 };
 
                 return (
-                  <div className="p-4 bg-slate-950/60 border border-slate-900 rounded-2xl space-y-3 shadow-inner">
+                  <div className={`p-4 border rounded-2xl space-y-3 shadow-inner ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                     <div className="flex justify-between items-center pb-2 border-b border-rose-500/10">
                       <span className="text-[10px] font-sans text-yellow-500 font-extrabold uppercase tracking-wider block">
                         Deklarasi Rumus Umum VSEPR
@@ -973,7 +973,7 @@ export default function GeometryLab() {
                       </span>
                     </div>
 
-                    <div className="flex flex-col items-center justify-center py-4 bg-slate-905/40 rounded-xl border border-slate-900/50 relative overflow-hidden">
+                    <div className={`flex flex-col items-center justify-center py-4 rounded-xl border relative overflow-hidden ${theme === 'dark' ? 'bg-slate-905/40 border-slate-900/50' : 'bg-slate-100/40 border-slate-300'}`}>
                       {/* VSEPR big rendered visual */}
                       <div className="flex items-baseline font-serif text-3xl font-black mb-4 select-none tracking-tight">
                         <span className="text-white bg-zinc-805 px-2 py-0.5 rounded border border-zinc-700/50 mr-1 cursor-help" title="A = Atom Pusat">A</span>
@@ -989,17 +989,17 @@ export default function GeometryLab() {
 
                       {/* Annotated breakdown list */}
                       <div className="w-full px-2 grid grid-cols-1 gap-2 text-[10px] font-mono text-slate-400">
-                        <div className="p-2 bg-slate-950/45 rounded-lg border border-slate-900/60 flex items-center justify-between leading-none">
+                        <div className={`p-2 rounded-lg border flex items-center justify-between leading-none ${theme === 'dark' ? 'bg-slate-950/45 border-slate-900/60' : 'bg-slate-100/45 border-slate-300'}`}>
                           <span className="text-zinc-400 font-bold">Atom Pusat <span className="text-white text-[11px] font-sans font-extrabold px-1.5 py-0.5 rounded bg-zinc-800/40 border border-zinc-750 ml-1">A</span></span>
                           <span className="text-amber-400 font-black">{details.central}</span>
                         </div>
                         
-                        <div className="p-2 bg-slate-950/45 rounded-lg border border-slate-900/60 flex items-center justify-between leading-none font-semibold">
+                        <div className={`p-2 rounded-lg border flex items-center justify-between leading-none font-semibold ${theme === 'dark' ? 'bg-slate-950/45 border-slate-900/60' : 'bg-slate-100/45 border-slate-300'}`}>
                           <span className="text-zinc-400 font-bold">Domain Ikatan <span className="text-cyan-450 text-[11px] font-sans font-extrabold px-1.5 py-0.5 rounded bg-zinc-800/40 border border-zinc-750 ml-1">X<sub>{n}</sub></span></span>
                           <span className="text-cyan-400 font-black">{n} x {details.ligand}</span>
                         </div>
 
-                        <div className="p-2 bg-slate-950/45 rounded-lg border border-slate-900/60 flex items-center justify-between leading-none font-semibold">
+                        <div className={`p-2 rounded-lg border flex items-center justify-between leading-none font-semibold ${theme === 'dark' ? 'bg-slate-950/45 border-slate-900/60' : 'bg-slate-100/45 border-slate-300'}`}>
                           <span className="text-zinc-400 font-bold">Domain Bebas <span className="text-violet-400 text-[11px] font-sans font-extrabold px-1.5 py-0.5 rounded bg-zinc-800/40 border border-zinc-750 ml-1">E<sub>{m}</sub></span></span>
                           <span className={m > 0 ? "text-violet-400 font-black" : "text-zinc-500 font-bold"}>
                             {m > 0 ? `${m} Pasang (Lone Pairs)` : "0 (Tidak Ada)"}

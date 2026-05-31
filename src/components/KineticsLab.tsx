@@ -100,7 +100,7 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
   }
 ];
 
-export default function KineticsLab() {
+export default function KineticsLab({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   // Simulation factors states
   const [concentrationA, setConcentrationA] = useState<number>(30); // Number of A particles (Red)
   const [concentrationB, setConcentrationB] = useState<number>(30); // Number of B particles (Blue)
@@ -1106,7 +1106,7 @@ export default function KineticsLab() {
                 />
 
                 {/* Absolut float metrics banner */}
-                <div className="absolute bottom-3 left-3 bg-slate-950/90 border border-zinc-800/80 px-3 py-2 rounded-lg text-[10.5px] font-mono leading-none text-zinc-400 space-y-1.5 backdrop-blur-sm shadow-xl">
+                <div className={`absolute bottom-3 left-3 border border-zinc-800/80 px-3 py-2 rounded-lg text-[10.5px] font-mono leading-none space-y-1.5 backdrop-blur-sm shadow-xl ${theme === 'dark' ? 'bg-slate-950/90 text-zinc-400' : 'bg-slate-100/90 text-slate-600'}`}>
                   <div className="flex items-center gap-2 font-bold justify-between">
                     <span className="text-red-400">● Zat [A]:</span>
                     <span className="text-white">{countA} mol</span>

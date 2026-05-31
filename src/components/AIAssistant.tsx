@@ -31,7 +31,7 @@ interface ChatMessage {
   timestamp: string;
 }
 
-export default function AIAssistant() {
+export default function AIAssistant({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     try {
       const saved = localStorage.getItem('chemvibe_ai_chat_history');
@@ -243,7 +243,7 @@ export default function AIAssistant() {
           return <strong key={idx} className="font-extrabold text-teal-300">{chunk.slice(2, -2)}</strong>;
         }
         if (chunk.startsWith('`') && chunk.endsWith('`')) {
-          return <code key={idx} className="bg-slate-950 px-1.5 py-0.5 rounded font-mono text-xs text-orange-400 border border-slate-900">{chunk.slice(1, -1)}</code>;
+          return <code key={idx} className={`px-1.5 py-0.5 rounded font-mono text-xs text-orange-400 border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>{chunk.slice(1, -1)}</code>;
         }
         return chunk;
       });
@@ -255,8 +255,8 @@ export default function AIAssistant() {
         const lang = lines[0].replace('```', '').trim() || 'chemistry';
         const code = lines.slice(1, -1).join('\n');
         return (
-          <div key={index} className="my-3 overflow-hidden rounded-xl border border-slate-800 bg-slate-950">
-            <div className="flex items-center justify-between bg-slate-900 border-b border-slate-800 px-3.5 py-1.5 text-[10px] font-mono text-slate-500 font-bold uppercase tracking-wider">
+          <div key={index} className={`my-3 overflow-hidden rounded-xl border ${theme === 'dark' ? 'border-slate-800 bg-slate-950' : 'border-slate-300 bg-slate-100'}`}>
+            <div className={`flex items-center justify-between border-b px-3.5 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-500' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
               <span>{lang} block</span>
               <span className="text-teal-500 animate-pulse">active snippet</span>
             </div>
@@ -332,7 +332,7 @@ export default function AIAssistant() {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleClearHistory}
-            className="px-3.5 py-1.5 bg-slate-900 border border-slate-800 text-xs font-mono font-bold text-slate-400 hover:text-red-400 hover:border-red-500/30 rounded-xl transition-all cursor-pointer flex items-center gap-1.5"
+            className={`px-3.5 py-1.5 border text-xs font-mono font-bold hover:text-red-400 hover:border-red-500/30 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}
             title="Bersihkan seluruh riwayat percakapan"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -344,12 +344,16 @@ export default function AIAssistant() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch min-h-[580px]">
         
         {/* Left Side: Dynamic Chat Panel (8 cols out of 12) */}
-        <div className="lg:col-span-7 xl:col-span-8 flex flex-col bg-slate-900/40 border border-slate-800/80 rounded-3xl overflow-hidden shadow-xl min-h-[500px]">
+        <div className={`lg:col-span-7 xl:col-span-8 flex flex-col border rounded-3xl overflow-hidden shadow-xl min-h-[500px] ${
+          theme === 'dark' ? 'bg-slate-900/40 border-slate-800/80' : 'bg-white border-slate-200'
+        }`}>
           {/* Header indicator */}
-          <div className="bg-slate-900/60 border-b border-slate-800/80 px-4 py-3 flex items-center justify-between">
+          <div className={`border-b px-4 py-3 flex items-center justify-between ${
+            theme === 'dark' ? 'bg-slate-900/60 border-slate-800/80' : 'bg-slate-50 border-slate-200'
+          }`}>
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-              <div className="text-xs font-mono font-bold text-slate-200">Kecerdasan Buatan Aktif</div>
+              <div className={`text-xs font-mono font-bold ${theme === 'dark' ? 'text-slate-200' : 'text-slate-700'}`}>Kecerdasan Buatan Aktif</div>
             </div>
             <div className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
               <Database className="w-3 h-3" />
@@ -397,11 +401,11 @@ export default function AIAssistant() {
 
             {isLoading && (
               <div className="flex gap-3.5 max-w-[85%] mr-auto animate-pulse">
-                <div className="w-8.5 h-8.5 rounded-xl shrink-0 bg-slate-900 border border-slate-800 flex items-center justify-center text-amber-500">
+                <div className={`w-8.5 h-8.5 rounded-xl shrink-0 border flex items-center justify-center text-amber-500 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                   <Bot className="w-4 h-4 text-amber-400 animate-spin" />
                 </div>
                 <div className="space-y-1">
-                  <div className="px-4 py-3 bg-slate-950/50 border border-slate-800 rounded-2xl rounded-tl-none relative">
+                  <div className={`px-4 py-3 border rounded-2xl rounded-tl-none relative ${theme === 'dark' ? 'bg-slate-950/50 border-slate-800' : 'bg-slate-100/50 border-slate-300'}`}>
                     <div className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-bounce" style={{ animationDelay: '0ms' }} />
                       <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -430,14 +434,14 @@ export default function AIAssistant() {
               e.preventDefault();
               handleSendMessage(inputVal);
             }} 
-            className="p-3 border-t border-slate-800/85 bg-slate-950/55 flex gap-2"
+            className={`p-3 border-t flex gap-2 ${theme === 'dark' ? 'border-slate-800/85 bg-slate-950/55' : 'border-slate-300 bg-slate-100/55'}`}
           >
             <input
               type="text"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
               placeholder="Tanyakan rumus senyawa, stoikiometri, atau analisis praktikum Anda..."
-              className="flex-1 bg-slate-950 border border-slate-800 text-xs md:text-sm text-slate-100 placeholder-zinc-550 pl-4 pr-3 py-3 rounded-2xl focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/20 font-sans"
+              className={`flex-1 border text-xs md:text-sm placeholder-zinc-550 pl-4 pr-3 py-3 rounded-2xl focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/20 font-sans ${theme === 'dark' ? 'bg-slate-950 border-slate-800 text-slate-100' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
               disabled={isLoading}
             />
             <button
@@ -451,16 +455,20 @@ export default function AIAssistant() {
         </div>
 
         {/* Right Side: Tabbed Lab Toolkit Drawer Panel (4 cols out of 12) */}
-        <div className="lg:col-span-5 xl:col-span-4 flex flex-col bg-slate-900/25 border border-slate-800/60 rounded-3xl overflow-hidden shadow-xl min-h-[500px]">
+        <div className={`lg:col-span-5 xl:col-span-4 flex flex-col border rounded-3xl overflow-hidden shadow-xl min-h-[500px] ${
+          theme === 'dark' ? 'bg-slate-900/25 border-slate-800/60' : 'bg-white border-slate-200'
+        }`}>
           
           {/* Tab Selection Header buttons */}
-          <div className="grid grid-cols-3 bg-slate-900/60 border-b border-slate-800 text-center text-xs font-bold select-none cursor-pointer">
+          <div className={`grid grid-cols-3 border-b text-center text-xs font-bold select-none cursor-pointer ${
+            theme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-50 border-slate-200'
+          }`}>
             <button
               onClick={() => setActiveTab('prompts')}
               className={`py-3 flex flex-col items-center gap-1 transition-all ${
                 activeTab === 'prompts' 
                   ? 'text-teal-400 border-b-2 border-teal-500 bg-slate-950/30' 
-                  : 'text-slate-400 hover:text-slate-200'
+                  : 'text-slate-400 hover:text-slate-600'
               }`}
             >
               <HelpCircle className="w-4 h-4" />
@@ -506,7 +514,7 @@ export default function AIAssistant() {
                       key={pIdx}
                       onClick={() => handleSendMessage(preset.prompt)}
                       disabled={isLoading}
-                      className="w-full text-left p-3 rounded-2xl bg-slate-950/40 border border-slate-850 hover:border-teal-500/40 hover:bg-teal-500/2 active:scale-[0.99] transition-all cursor-pointer block group duration-100 disabled:opacity-40 disabled:pointer-events-none"
+                      className={`w-full text-left p-3 rounded-2xl border hover:border-teal-500/40 hover:bg-teal-500/2 active:scale-[0.99] transition-all cursor-pointer block group duration-100 disabled:opacity-40 disabled:pointer-events-none ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}
                     >
                       <div className="flex justify-between items-center">
                         <span className="text-xs font-bold text-teal-300 group-hover:text-teal-200 font-sans">{preset.title}</span>
@@ -528,7 +536,7 @@ export default function AIAssistant() {
                 </div>
 
                 <form onSubmit={calculateDilution} className="space-y-3 text-xs">
-                  <div className="bg-slate-950/65 border border-slate-850 p-3.5 rounded-2xl flex flex-wrap justify-center gap-2 font-mono text-[10.5px] text-slate-400">
+                  <div className={`border p-3.5 rounded-2xl flex flex-wrap justify-center gap-2 font-mono text-[10.5px] ${theme === 'dark' ? 'bg-slate-950/65 border-slate-850 text-slate-400' : 'bg-slate-100/65 border-slate-300 text-slate-600'}`}>
                     <span className="text-teal-400">M₁</span> · <span className="text-teal-400">V₁</span> = <span className="text-teal-400">M₂</span> · <span className="text-teal-400">V₂</span>
                   </div>
 
@@ -541,7 +549,7 @@ export default function AIAssistant() {
                         value={m1}
                         onChange={(e) => setM1(e.target.value)}
                         placeholder="Cari M₁ (kosongkan)"
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2 text-white focus:outline-none focus:border-teal-500 placeholder-zinc-700"
+                        className={`w-full border rounded-xl p-2 focus:outline-none focus:border-teal-500 placeholder-zinc-700 ${theme === 'dark' ? 'bg-slate-950 border-slate-850 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                       />
                     </div>
                     <div className="space-y-1">
@@ -552,7 +560,7 @@ export default function AIAssistant() {
                         value={v1}
                         onChange={(e) => setV1(e.target.value)}
                         placeholder="Cari V₁ (kosongkan)"
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2 text-white focus:outline-none focus:border-teal-500 placeholder-zinc-700"
+                        className={`w-full border rounded-xl p-2 focus:outline-none focus:border-teal-500 placeholder-zinc-700 ${theme === 'dark' ? 'bg-slate-950 border-slate-850 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                       />
                     </div>
                   </div>
@@ -566,7 +574,7 @@ export default function AIAssistant() {
                         value={m2}
                         onChange={(e) => setM2(e.target.value)}
                         placeholder="Cari M₂ (kosongkan)"
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2 text-white focus:outline-none focus:border-teal-500 placeholder-zinc-700"
+                        className={`w-full border rounded-xl p-2 focus:outline-none focus:border-teal-500 placeholder-zinc-700 ${theme === 'dark' ? 'bg-slate-950 border-slate-850 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                       />
                     </div>
                     <div className="space-y-1">
@@ -577,7 +585,7 @@ export default function AIAssistant() {
                         value={v2}
                         onChange={(e) => setV2(e.target.value)}
                         placeholder="Cari V₂ (kosongkan)"
-                        className="w-full bg-slate-950 border border-slate-850 rounded-xl p-2 text-white focus:outline-none focus:border-teal-500 placeholder-zinc-700"
+                        className={`w-full border rounded-xl p-2 focus:outline-none focus:border-teal-500 placeholder-zinc-700 ${theme === 'dark' ? 'bg-slate-950 border-slate-850 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                       />
                     </div>
                   </div>
@@ -586,7 +594,7 @@ export default function AIAssistant() {
                     <button
                       type="button"
                       onClick={clearDilution}
-                      className="flex-1 py-2 bg-slate-900 border border-slate-800 text-zinc-300 font-bold rounded-xl cursor-pointer hover:bg-slate-850 active:scale-95 transition-all font-mono text-[10px]"
+                      className={`flex-1 py-2 border text-zinc-300 font-bold rounded-xl cursor-pointer hover:bg-slate-850 active:scale-95 transition-all font-mono text-[10px] ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
                     >
                       Reset Formulir
                     </button>
@@ -599,7 +607,7 @@ export default function AIAssistant() {
                   </div>
 
                   {calcResult && (
-                    <div className="bg-slate-950 border border-teal-500/30 p-3 rounded-2xl animate-fade-in flex items-center gap-2 text-xs text-teal-300 font-bold font-mono">
+                    <div className={`border border-teal-500/30 p-3 rounded-2xl animate-fade-in flex items-center gap-2 text-xs text-teal-300 font-bold font-mono ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                       <ClipboardCheck className="w-4.5 h-4.5 text-teal-400 shrink-0" />
                       <span>{calcResult}</span>
                     </div>
@@ -607,15 +615,21 @@ export default function AIAssistant() {
                 </form>
 
                 {/* Balance assistant hint block */}
-                <div className="mt-5 bg-slate-950/40 border border-slate-850 p-4 rounded-2xl space-y-2">
-                  <h5 className="text-[11px] font-bold text-slate-100 flex items-center gap-1.5 leading-none">
+                <div className={`mt-5 p-4 rounded-2xl space-y-2 border ${
+                  theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-50 border-slate-200'
+                }`}>
+                  <h5 className={`text-[11px] font-bold flex items-center gap-1.5 leading-none ${
+                    theme === 'dark' ? 'text-slate-100' : 'text-slate-800'
+                  }`}>
                     <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     <span>Butuh Penyetaraan Reaksi?</span>
                   </h5>
-                  <p className="text-[10px] text-zinc-400 leading-relaxed font-sans">
+                  <p className={`text-[10px] leading-relaxed font-sans ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-600'}`}>
                     Asisten AI kami sangat pakar menyetarakan reaksi redoks atau reaksi stoiko kompleks. Cukup copy format ini dan diskusikan di samping:
                   </p>
-                  <div className="bg-slate-950 p-2 rounded-xl font-mono text-[9px] text-teal-400 border border-slate-900 flex justify-between items-center mt-1">
+                  <div className={`p-2 rounded-xl font-mono text-[9px] border flex justify-between items-center mt-1 ${
+                    theme === 'dark' ? 'bg-slate-950 text-teal-400 border-slate-900' : 'bg-slate-100 text-teal-700 border-slate-200'
+                  }`}>
                     <span>"Setarakan reaksi: Fe2+ + MnO4- =&gt; Fe3+ + Mn2+"</span>
                   </div>
                 </div>
@@ -633,7 +647,7 @@ export default function AIAssistant() {
                 <div className="space-y-3 font-mono text-[10.5px]">
                   
                   {/* Item card list */}
-                  <div className="bg-slate-950/60 border border-slate-850 p-3 rounded-2xl flex justify-between items-center">
+                  <div className={`border p-3 rounded-2xl flex justify-between items-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                     <div>
                       <div className="text-[9.5px] text-zinc-500 uppercase leading-none font-bold">Tetapan Gas Ideal (R)</div>
                       <div className="text-slate-100 mt-1 font-bold">0.08206 L · atm / mol · K</div>
@@ -641,7 +655,7 @@ export default function AIAssistant() {
                     <span className="text-[10px] text-teal-400 font-bold bg-teal-500/5 px-2 py-0.5 rounded-lg border border-teal-500/10">8.314 J/mol·K</span>
                   </div>
 
-                  <div className="bg-slate-950/60 border border-slate-850 p-3 rounded-2xl flex justify-between items-center">
+                  <div className={`border p-3 rounded-2xl flex justify-between items-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                     <div>
                       <div className="text-[9.5px] text-zinc-500 uppercase leading-none font-bold">Tetapan Faraday (F)</div>
                       <div className="text-slate-100 mt-1 font-bold">96,485 C / mol elektron</div>
@@ -649,7 +663,7 @@ export default function AIAssistant() {
                     <span className="text-[9px] text-indigo-400 font-bold bg-indigo-500/5 px-2 py-0.5 rounded-lg border border-indigo-500/10">9.65e4</span>
                   </div>
 
-                  <div className="bg-slate-950/60 border border-slate-850 p-3 rounded-2xl flex justify-between items-center">
+                  <div className={`border p-3 rounded-2xl flex justify-between items-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                     <div>
                       <div className="text-[9.5px] text-zinc-500 uppercase leading-none font-bold">Bilangan Avogadro (Nₐ)</div>
                       <div className="text-slate-100 mt-1 font-bold">6.022 × 10²³ partikel/mol</div>
@@ -657,7 +671,7 @@ export default function AIAssistant() {
                     <span className="text-[9px] text-amber-400 font-bold bg-amber-500/5 px-2 py-0.5 rounded-lg border border-amber-500/10">N_A</span>
                   </div>
 
-                  <div className="bg-slate-950/60 border border-slate-850 p-3 rounded-2xl flex justify-between items-center">
+                  <div className={`border p-3 rounded-2xl flex justify-between items-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                     <div>
                       <div className="text-[9.5px] text-zinc-500 uppercase leading-none font-bold">Hasil Kali Ion Air (K_w)</div>
                       <div className="text-slate-100 mt-1 font-bold">1.0 × 10⁻¹⁴ (pada 25°C)</div>
@@ -665,7 +679,7 @@ export default function AIAssistant() {
                     <span className="text-[9px] text-rose-400 font-bold bg-rose-500/5 px-2 py-0.5 rounded-lg border border-rose-500/10">pH 7</span>
                   </div>
 
-                  <div className="bg-slate-950/60 border border-slate-850 p-3 rounded-2xl flex justify-between items-center">
+                  <div className={`border p-3 rounded-2xl flex justify-between items-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                     <div>
                       <div className="text-[9.5px] text-zinc-500 uppercase leading-none font-bold">Konstanta Planck (h)</div>
                       <div className="text-slate-100 mt-1 font-bold">6.626 × 10⁻³⁴ J · s</div>
@@ -675,7 +689,7 @@ export default function AIAssistant() {
 
                 </div>
 
-                <div className="bg-slate-950/40 p-3.5 border border-slate-850 rounded-2xl space-y-1.5 font-sans">
+                <div className={`p-3.5 border rounded-2xl space-y-1.5 font-sans ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                   <h4 className="text-[11px] font-bold text-white flex items-center gap-1">
                     <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
                     <span>Petunjuk Penggunaan Konstanta</span>

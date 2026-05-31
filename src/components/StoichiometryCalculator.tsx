@@ -8,7 +8,7 @@ import { REACTIONS_DATA } from '../data';
 import { StoichReaction } from '../types';
 import { Scale, Info } from 'lucide-react';
 
-export default function StoichiometryCalculator() {
+export default function StoichiometryCalculator({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [selectedReaction, setSelectedReaction] = useState<StoichReaction>(REACTIONS_DATA[0]); // Default Water synthesis
   const [mass1, setMass1] = useState<string>('10.0'); // Mass of reactant 1 in grams
   const [mass2, setMass2] = useState<string>('80.0'); // Mass of reactant 2 in grams
@@ -74,7 +74,7 @@ export default function StoichiometryCalculator() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Reactants inputs side options (Span 5) */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="glass-panel rounded-2xl p-6 space-y-5 border border-slate-800 bg-slate-900/50">
+          <div className={`glass-panel rounded-2xl p-6 space-y-5 border ${theme === 'dark' ? 'border-slate-800 bg-slate-900/50' : 'border-slate-300 bg-slate-100/50'}`}>
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
               <Scale className="w-5 h-5 text-teal-400" />
               Pilih Reaksi Kimia
@@ -119,7 +119,7 @@ export default function StoichiometryCalculator() {
                     value={mass1}
                     aria-label={`Massa ${selectedReaction.reactants[0].symbol} dalam gram`}
                     onChange={(e) => setMass1(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg p-2 text-white font-mono text-sm focus:border-teal-500 focus:outline-none"
+                    className={`w-full border rounded-lg p-2 font-mono text-sm focus:border-teal-500 focus:outline-none ${theme === 'dark' ? 'bg-slate-950/80 border-slate-800 text-white' : 'bg-slate-100/80 border-slate-300 text-slate-900'}`}
                     placeholder="Masukkan massa"
                   />
                   <span className="text-[10px] text-slate-505 font-mono block text-slate-500">
@@ -136,7 +136,7 @@ export default function StoichiometryCalculator() {
                     value={mass2}
                     aria-label={`Massa ${selectedReaction.reactants[1].symbol} dalam gram`}
                     onChange={(e) => setMass2(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg p-2 text-white font-mono text-sm focus:border-teal-500 focus:outline-none"
+                    className={`w-full border rounded-lg p-2 font-mono text-sm focus:border-teal-500 focus:outline-none ${theme === 'dark' ? 'bg-slate-950/80 border-slate-800 text-white' : 'bg-slate-100/80 border-slate-300 text-slate-900'}`}
                     placeholder="Masukkan massa"
                   />
                   <span className="text-[10px] text-slate-505 font-mono block text-slate-500">
@@ -150,14 +150,14 @@ export default function StoichiometryCalculator() {
 
         {/* Math results diagnostic display grid (Span 7) */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="glass-panel rounded-2xl p-6 space-y-6 border border-slate-800 bg-slate-900/50">
+          <div className={`glass-panel rounded-2xl p-6 space-y-6 border ${theme === 'dark' ? 'border-slate-800 bg-slate-900/50' : 'border-slate-300 bg-slate-100/50'}`}>
             <h3 className="text-sm font-mono text-slate-500 font-bold uppercase tracking-widest">
               Laporan Hasil Stoikiometri
             </h3>
 
             {/* Calculations summaries row metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-850 flex flex-col justify-between">
+              <div className={`p-4 rounded-xl border flex flex-col justify-between ${theme === 'dark' ? 'bg-slate-950/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                 <div>
                   <span className="text-[10px] font-mono text-slate-500">LIMITING REACTANT</span>
                   <div className="text-lg font-black text-teal-400 font-sans tracking-tight mt-1">
@@ -169,7 +169,7 @@ export default function StoichiometryCalculator() {
                 </p>
               </div>
 
-              <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-850 flex flex-col justify-between">
+              <div className={`p-4 rounded-xl border flex flex-col justify-between ${theme === 'dark' ? 'bg-slate-950/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                 <div>
                   <span className="text-[10px] font-mono text-slate-500">EXCESS LEFTOVER SPEC</span>
                   <div className="text-lg font-black text-amber-500 font-sans tracking-tight mt-1">
@@ -190,7 +190,7 @@ export default function StoichiometryCalculator() {
               <div className="space-y-2">
                 {theoreticalYield.length > 0 ? (
                   theoreticalYield.map((p) => (
-                    <div key={p.symbol} className="flex justify-between items-center bg-slate-950/40 p-3.5 rounded-xl border border-slate-850">
+                    <div key={p.symbol} className={`flex justify-between items-center p-3.5 rounded-xl border ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                       <div>
                         <span className="text-xs font-black font-sans text-white">{p.name} ({p.symbol})</span>
                         <p className="text-[10px] text-slate-500 font-mono">

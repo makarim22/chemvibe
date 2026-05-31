@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 
 interface AdaptiveFeedbackWidgetProps {
+  theme?: 'dark' | 'light';
   activeView: string;
 }
 
@@ -39,7 +40,7 @@ interface Challenge {
   hint: string;
 }
 
-export default function AdaptiveFeedbackWidget({ activeView }: AdaptiveFeedbackWidgetProps) {
+export default function AdaptiveFeedbackWidget({ activeView, theme = 'dark' }: AdaptiveFeedbackWidgetProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [localState, setLocalState] = useState<any>(null);
   const [aiAnalysis, setAiAnalysis] = useState<string>('');
@@ -523,7 +524,7 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
             triggerAudioFeedback('click');
             setIsOpen(true);
           }}
-          className="relative flex items-center gap-2 px-5 py-3 rounded-full bg-slate-900 border border-slate-800 text-pink-400 font-sans text-xs font-black transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer hover:border-pink-500/30 group"
+          className={`relative flex items-center gap-2 px-5 py-3 rounded-full border text-pink-400 font-sans text-xs font-black transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer hover:border-pink-500/30 group ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
           aria-label="Buka Tutor Kimia Adaptif"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-indigo-500/10 rounded-full blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -546,7 +547,7 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-slate-950/70 backdrop-blur-xs cursor-pointer"
+              className={`absolute inset-0 backdrop-blur-xs cursor-pointer ${theme === 'dark' ? 'bg-slate-950/70' : 'bg-slate-100/70'}`}
             />
 
             {/* Sidebar drawer canvas */}
@@ -555,13 +556,13 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 23, stiffness: 220 }}
-              className="relative w-full max-w-lg bg-slate-955 border-l border-slate-850 h-full flex flex-col shadow-2xl relative z-10 overflow-hidden"
+              className={`relative w-full max-w-lg border-l h-full flex flex-col shadow-2xl relative z-10 overflow-hidden ${theme === 'dark' ? 'bg-slate-955 border-slate-850' : 'bg-slate-100 border-slate-300'}`}
               id="unique-adaptive-feedback-panel"
             >
               <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-pink-500 via-indigo-500 to-teal-400" />
 
               {/* Drawer Header Segment */}
-              <div className="p-5 border-b border-slate-900 bg-slate-950/80 sticky top-0 z-10 flex items-center justify-between">
+              <div className={`p-5 border-b sticky top-0 z-10 flex items-center justify-between ${theme === 'dark' ? 'border-slate-900 bg-slate-950/80' : 'border-slate-300 bg-slate-100/80'}`}>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center">
                     <Brain className="w-5 h-5 text-pink-400" />
@@ -577,7 +578,7 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
                 
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1.5 rounded-full hover:bg-slate-900 border border-transparent hover:border-slate-800 text-slate-400 hover:text-white transition-all cursor-pointer"
+                  className={`p-1.5 rounded-full border border-transparent transition-all cursor-pointer ${theme === 'dark' ? 'hover:bg-slate-900 hover:border-slate-800 text-slate-400 hover:text-white' : 'hover:bg-slate-200 hover:border-slate-400 text-slate-600 hover:text-slate-900'}`}
                   aria-label="Tutup Panel Tutor"
                 >
                   <X className="w-4 h-4" />
@@ -585,7 +586,7 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
               </div>
 
               {/* Lab Metadata Header display */}
-              <div className="px-5 py-3.5 bg-slate-900/40 flex items-center justify-between border-b border-slate-900 leading-tight">
+              <div className={`px-5 py-3.5 flex items-center justify-between border-b leading-tight ${theme === 'dark' ? 'bg-slate-900/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="flex flex-col">
                   <span className="text-[9px] font-mono uppercase text-slate-500">Eksperimen Aktif:</span>
                   <span className="text-xs font-black font-mono text-teal-400 uppercase mt-0.5">{getLabTitle(activeView)}</span>
@@ -705,7 +706,7 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
                               {isDone ? (
                                 <span className="text-[9px] font-mono bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded-md uppercase font-bold">✓ SELESAI</span>
                               ) : (
-                                <span className="text-[9px] font-mono bg-slate-950 text-slate-500 border border-slate-900 px-2 py-0.5 rounded-md uppercase font-bold">SEDANG DICARI</span>
+                                <span className={`text-[9px] font-mono border px-2 py-0.5 rounded-md uppercase font-bold ${theme === 'dark' ? 'bg-slate-950 text-slate-500 border-slate-900' : 'bg-slate-100 text-slate-600 border-slate-300'}`}>SEDANG DICARI</span>
                               )}
                             </div>
 
@@ -717,7 +718,7 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
                                   exit={{ height: 0, opacity: 0 }}
                                   className="overflow-hidden"
                                 >
-                                  <div className="mt-3 p-3 bg-slate-950/60 border border-teal-500/20 rounded-lg text-[10.5px] text-teal-300 font-sans leading-relaxed flex items-start gap-2">
+                                  <div className={`mt-3 p-3 border border-teal-500/20 rounded-lg text-[10.5px] text-teal-300 font-sans leading-relaxed flex items-start gap-2 ${theme === 'dark' ? 'bg-slate-950/60' : 'bg-slate-100/60'}`}>
                                     <Sparkles className="w-3.5 h-3.5 text-yellow-405 shrink-0 mt-0.5" />
                                     <p><strong>Tips Guru:</strong> {c.hint}</p>
                                   </div>
@@ -772,7 +773,7 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="p-4 bg-slate-950 border border-slate-900 rounded-xl space-y-3 text-xs leading-relaxed max-h-96 overflow-y-auto"
+                        className={`p-4 border rounded-xl space-y-3 text-xs leading-relaxed max-h-96 overflow-y-auto ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}
                       >
                         {aiError && (
                           <div className="text-rose-455 font-mono flex items-center gap-1.5">
@@ -800,7 +801,7 @@ Berikan penjelasan dengan nada ramah, ringkas, profesional, murni mendidik, meng
               </div>
 
               {/* Bottom Educational micro tip footer */}
-              <div className="p-4 bg-slate-950 border-t border-slate-900 text-[10px] text-slate-400 flex items-start gap-2 max-h-24 select-none shrink-0">
+              <div className={`p-4 border-t text-[10px] flex items-start gap-2 max-h-24 select-none shrink-0 ${theme === 'dark' ? 'bg-slate-950 border-slate-900 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                 <Info className="w-3.5 h-3.5 text-pink-400 shrink-0 mt-0.5" />
                 <div className="leading-relaxed">
                   <strong>Belajar Adaptif:</strong> Tutor memonitor state aktif di balik simulator. Jika analisis tidak berjalan ganti parameter atau segarkan simulasian Anda!

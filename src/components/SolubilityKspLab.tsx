@@ -39,6 +39,7 @@ interface UserAccount {
 }
 
 interface SolubilityKspLabProps {
+  theme?: 'dark' | 'light';
   currentUser?: UserAccount | null;
 }
 
@@ -136,7 +137,7 @@ const INSOLUBLE_SALTS: SolubleSalt[] = [
   }
 ];
 
-export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps) {
+export default function SolubilityKspLab({ currentUser, theme = 'dark' }: SolubilityKspLabProps) {
   const [activeSubView, setActiveSubView] = useState<'ksp-sim' | 'ion-effect' | 'ksp-quiz'>('ksp-sim');
 
   // --- STATE LAB SIMULATOR ---
@@ -605,7 +606,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
               </div>
 
               {/* Beaker Status & Info HUD */}
-              <div className="w-full bg-slate-950/60 p-4 rounded-xl border border-slate-900 space-y-1 text-center">
+              <div className={`w-full p-4 rounded-xl border space-y-1 text-center ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                 <span className="text-[9px] font-mono text-slate-500 block uppercase">STATUS PERSYARATAN DISOLUSI:</span>
                 <span className={`text-base font-black uppercase tracking-tight block ${pptStatus.colorClass}`}>
                   {pptStatus.label}
@@ -649,8 +650,8 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                 </div>
 
                 {/* Sub Description */}
-                <div className="p-4 bg-slate-950/90 rounded-xl border border-slate-900 space-y-3 text-xs">
-                  <div className="flex justify-between items-center bg-slate-900/50 p-2 rounded-lg">
+                <div className={`p-4 rounded-xl border space-y-3 text-xs ${theme === 'dark' ? 'bg-slate-950/90 border-slate-900' : 'bg-slate-100/90 border-slate-300'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-lg ${theme === 'dark' ? 'bg-slate-900/50' : 'bg-slate-100/50'}`}>
                     <span className="font-bold text-slate-100">{selectedSalt.name} ({selectedSalt.formula})</span>
                     <span className="font-mono text-amber-400 font-bold">Ksp = {selectedSalt.kspText}</span>
                   </div>
@@ -676,7 +677,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                 <div className="space-y-4">
                   
                   {/* Slider A: Salt Quantity in mmol */}
-                  <div className="p-4 bg-slate-950/40 border border-slate-900 rounded-xl space-y-2">
+                  <div className={`p-4 border rounded-xl space-y-2 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-400 font-bold">Garam {selectedSalt.formula} Dimasukkan:</span>
                       <span className="font-mono font-black text-amber-400 text-sm">{(addedSaltMmol).toFixed(3)} mmol</span>
@@ -698,7 +699,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                   </div>
 
                   {/* Slider B: Solvent Water Volume in mL */}
-                  <div className="p-4 bg-slate-950/40 border border-slate-900 rounded-xl space-y-2">
+                  <div className={`p-4 border rounded-xl space-y-2 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-400 font-bold">Volume Air Pelarut (Akuades):</span>
                       <span className="font-mono font-black text-white text-sm">{beakerVolume} mL</span>
@@ -722,7 +723,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                 </div>
 
                 {/* Mathematical Theory & Equation Details for Ksp MIPA XI */}
-                <div className="p-4 bg-slate-950 border border-slate-900 rounded-2xl space-y-4">
+                <div className={`p-4 border rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                   <div className="flex justify-between items-center border-b border-slate-900 pb-2">
                     <span className="text-xs font-black text-white">HASIL PERHITUNGAN KIMIA SMA KELAS XI</span>
                     <button 
@@ -736,7 +737,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     
-                    <div className="space-y-1 bg-slate-900/40 p-3 rounded-xl border border-slate-900">
+                    <div className={`space-y-1 p-3 rounded-xl border ${theme === 'dark' ? 'bg-slate-900/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                       <span className="text-[9px] text-slate-500 font-mono block">Kelarutan Murni (s) dalam H₂O murni:</span>
                       <p className="text-base font-black text-white font-mono">
                         {calculatePureSolubility().toExponential(3)} M
@@ -746,7 +747,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                       </p>
                     </div>
 
-                    <div className="space-y-1 bg-slate-900/40 p-3 rounded-xl border border-slate-900">
+                    <div className={`space-y-1 p-3 rounded-xl border ${theme === 'dark' ? 'bg-slate-900/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                       <span className="text-[9px] text-slate-500 font-mono block">Batas Larut Maksimal (Gram):</span>
                       <p className="text-base font-black text-emerald-400 font-mono">
                         {(calculatePureSolubility() * selectedSalt.molarMass * (beakerVolume / 1000) * 1000).toFixed(3)} mg
@@ -759,7 +760,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                   </div>
 
                   {/* Henderson formulation for solubility ratio display */}
-                  <div className="font-mono text-xs p-3 bg-slate-900/60 rounded-xl leading-relaxed text-slate-300">
+                  <div className={`font-mono text-xs p-3 rounded-xl leading-relaxed ${theme === 'dark' ? 'bg-slate-900/60 text-slate-300' : 'bg-slate-100/60 text-slate-600'}`}>
                     <span className="text-[8.5px] text-amber-400 uppercase font-black tracking-widest block mb-1">Poli-Formulasi Hasil Kali Kelarutan:</span>
                     {selectedSalt.moleculesRatio === '1:1' && (
                       <p className="text-slate-405 text-[11px]">
@@ -807,13 +808,13 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                 </div>
 
                 {/* Sub Description */}
-                <div className="p-4 bg-slate-955 bg-slate-950/80 rounded-xl border border-slate-900 space-y-2 text-xs">
+                <div className={`p-4 rounded-xl border space-y-2 text-xs ${theme === 'dark' ? 'bg-slate-955 bg-slate-950/80 border-slate-900' : 'bg-slate-100 bg-slate-100/80 border-slate-300'}`}>
                   <div className="flex justify-between items-center text-slate-300">
                     <span className="font-bold">Garam Target: {selectedSalt.formula}</span>
                     <span className="font-mono text-cyan-400 font-bold">Ksp: {selectedSalt.kspText}</span>
                   </div>
 
-                  <div className="p-3 bg-slate-900 rounded-lg text-[11.5px] font-mono text-slate-400">
+                  <div className={`p-3 rounded-lg text-[11.5px] font-mono ${theme === 'dark' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600'}`}>
                     {selectedSalt.id !== 'aloh3' ? (
                       <p>
                         Adisi dari garam kuat pendonor ion <span className="text-amber-400 font-bold">{selectedSalt.commonIonSymbol}</span> melalui agen pengion <span className="text-white font-bold">{selectedSalt.commonIonAgent}</span>.
@@ -828,7 +829,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
 
                 {/* Slider Ion Senama / pH control */}
                 {selectedSalt.id !== 'aloh3' ? (
-                  <div className="p-4 bg-slate-950/40 border border-slate-900 rounded-xl space-y-3">
+                  <div className={`p-4 border rounded-xl space-y-3 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-400 font-bold">Konsentrasi Ion Senama ({selectedSalt.commonIonSymbol}):</span>
                       <span className="font-mono font-black text-amber-400 text-sm">{commonIonConc.toFixed(3)} M</span>
@@ -851,7 +852,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                     </div>
                   </div>
                 ) : (
-                  <div className="p-4 bg-slate-950/40 border border-slate-900 rounded-xl space-y-3">
+                  <div className={`p-4 border rounded-xl space-y-3 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-400 font-bold">Derajat Keasaman Media (pH Beaker):</span>
                       <span className="font-mono font-black text-cyan-400 text-sm">pH {phValue.toFixed(1)}</span>
@@ -878,7 +879,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                 {/* Analytical comparisons showing dramatic drop in s */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   
-                  <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-1">
+                  <div className={`p-4 rounded-xl border space-y-1 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="text-[9px] uppercase font-mono text-slate-550 block">Kelarutan dalam Air Murni:</span>
                     <p className="text-lg font-mono font-black text-white">{calculatePureSolubility().toExponential(2)} M</p>
                     <p className="text-[10px] text-slate-500 leading-normal">
@@ -886,7 +887,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                     </p>
                   </div>
 
-                  <div className="p-4 bg-slate-950 rounded-xl border border-amber-900/30 space-y-1">
+                  <div className={`p-4 rounded-xl border border-amber-900/30 space-y-1 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                     <span className="text-[9px] uppercase font-mono text-amber-500 block">Kelarutan Sesaat Akibat Gangguan:</span>
                     <p className="text-lg font-mono font-black text-amber-400">{calculateActualSolubility().toExponential(2)} M</p>
                     
@@ -904,7 +905,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                 </div>
 
                 {/* Theoretical concept highlights */}
-                <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-850 space-y-2 text-xs">
+                <div className={`p-4 rounded-xl border space-y-2 text-xs ${theme === 'dark' ? 'bg-slate-900/50 border-slate-850' : 'bg-slate-100/50 border-slate-300'}`}>
                   <div className="flex items-center gap-1.5 text-amber-400 font-bold text-[11px]">
                     <Info className="w-4 h-4" />
                     Penjelasan MIPA Kelas XI:
@@ -942,7 +943,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                 </p>
               </div>
 
-              <div className="p-4 bg-slate-950 rounded-2xl text-[11.5px] text-slate-400 max-w-sm mx-auto space-y-1 text-left border border-slate-900">
+              <div className={`p-4 rounded-2xl text-[11.5px] max-w-sm mx-auto space-y-1 text-left border ${theme === 'dark' ? 'bg-slate-950 text-slate-400 border-slate-900' : 'bg-slate-100 text-slate-600 border-slate-300'}`}>
                 <p className="flex items-center gap-2"><CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Jumlah Soal: 5 Pilihan Ganda</p>
                 <p className="flex items-center gap-2"><CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Standar Kurikulum: MIPA Kimia XI, UTBK</p>
                 <p className="flex items-center gap-2"><CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Integrasi: Menyimpan skor ke dabase siswa</p>
@@ -973,7 +974,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
               </div>
 
               {/* Progress Bar Visualizer */}
-              <div className="w-full max-w-xs mx-auto bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-900">
+              <div className={`w-full max-w-xs mx-auto h-3 rounded-full overflow-hidden border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <div 
                   className="bg-gradient-to-r from-amber-500 to-emerald-500 h-full transition-all duration-1000"
                   style={{ width: `${(quizScore / KSP_QUIZ_QUESTIONS.length) * 100}%` }}
@@ -983,7 +984,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
               <div className="flex justify-center gap-3 pt-4">
                 <button
                   onClick={restartQuiz}
-                  className="px-5 py-2.5 bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-350 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  className={`px-5 py-2.5 hover:bg-slate-850 border rounded-xl text-xs font-bold transition-all cursor-pointer ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-350 hover:text-white' : 'bg-slate-100 border-slate-300 text-slate-600 hover:text-slate-900'}`}
                 >
                   Ulangi Evaluasi
                 </button>
@@ -1024,7 +1025,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
                           : 'bg-slate-950/40 border-slate-900/60 text-slate-300 hover:bg-slate-900/30 hover:text-white hover:border-slate-800'
                       }`}
                     >
-                      <span className="w-5 h-5 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center font-bold text-[10px] text-slate-400 shrink-0 mt-0.5">
+                      <span className={`w-5 h-5 rounded-full border flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                         {String.fromCharCode(65 + i)}
                       </span>
                       <span>{opt}</span>
@@ -1056,7 +1057,7 @@ export default function SolubilityKspLab({ currentUser }: SolubilityKspLabProps)
 
               {/* Comprehensive explanation view after submission */}
               {showExplanation && (
-                <div className="p-5 bg-slate-950 border border-slate-900 rounded-2xl animate-fade-in space-y-2">
+                <div className={`p-5 border rounded-2xl animate-fade-in space-y-2 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                   <div className="flex items-center gap-2 text-xs font-bold font-mono">
                     {selectedOption === KSP_QUIZ_QUESTIONS[currentQuestionIndex].correct ? (
                       <span className="text-emerald-400">✓ JAWABAN ANDA BENAR!</span>

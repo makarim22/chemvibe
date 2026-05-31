@@ -4,6 +4,7 @@ import { BookOpen, Search, X, Info, Sparkles, AlertCircle, Bookmark } from 'luci
 import { GLOSSARY_MAP, GlossaryItem } from './GlossaryData';
 
 interface GlossaryWidgetProps {
+  theme?: 'dark' | 'light';
   activeView: string;
 }
 
@@ -29,7 +30,7 @@ const LAB_NAMES: Record<string, string> = {
   'macromolecule-lab': 'Makromolekul & Polimer'
 };
 
-export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
+export default function GlossaryWidget({ activeView, theme = 'dark' }: GlossaryWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'current' | 'all'>('current');
@@ -103,7 +104,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
       >
         <button
           onClick={() => setIsOpen(true)}
-          className="relative flex items-center gap-2 px-4.5 py-3 rounded-full bg-slate-900 border border-slate-800 text-teal-400 font-sans text-xs font-bold transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer hover:border-teal-500/30 group"
+          className={`relative flex items-center gap-2 px-4.5 py-3 rounded-full border text-teal-400 font-sans text-xs font-bold transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer hover:border-teal-500/30 group ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}
           aria-label="Buka Glosarium Istilah Kimia"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-teal-500/10 to-indigo-550/10 rounded-full blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -125,7 +126,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-slate-950/70 backdrop-blur-xs cursor-pointer"
+              className={`absolute inset-0 backdrop-blur-xs cursor-pointer ${theme === 'dark' ? 'bg-slate-950/70' : 'bg-slate-100/70'}`}
             />
 
             {/* Sidebar Slider Draw Panel */}
@@ -134,13 +135,13 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 23, stiffness: 220 }}
-              className="relative w-full max-w-lg bg-slate-955 border-l border-slate-850 h-full flex flex-col shadow-2xl relative z-10 overflow-hidden"
+              className={`relative w-full max-w-lg border-l h-full flex flex-col shadow-2xl relative z-10 overflow-hidden ${theme === 'dark' ? 'bg-slate-955 border-slate-850' : 'bg-slate-100 border-slate-300'}`}
               id="unique-glossary-panel"
             >
               <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-teal-500 via-sky-400 to-indigo-500" />
 
               {/* Header Box */}
-              <div className="p-5 border-b border-slate-900 bg-slate-950/80 sticky top-0 z-10 flex items-center justify-between">
+              <div className={`p-5 border-b sticky top-0 z-10 flex items-center justify-between ${theme === 'dark' ? 'border-slate-900 bg-slate-950/80' : 'border-slate-300 bg-slate-100/80'}`}>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-505/20 flex items-center justify-center">
                     <BookOpen className="w-5 h-5 text-teal-400" />
@@ -156,7 +157,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
                 
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1.5 rounded-full hover:bg-slate-900 border border-transparent hover:border-slate-800 text-slate-400 hover:text-white transition-all cursor-pointer"
+                  className={`p-1.5 rounded-full border border-transparent transition-all cursor-pointer ${theme === 'dark' ? 'hover:bg-slate-900 hover:border-slate-800 text-slate-400 hover:text-white' : 'hover:bg-slate-200 hover:border-slate-400 text-slate-600 hover:text-slate-900'}`}
                   aria-label="Tutup Glosarium"
                 >
                   <X className="w-4 h-4" />
@@ -164,8 +165,8 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
               </div>
 
               {/* Tab Selector Segment */}
-              <div className="px-5 pt-3.5 pb-2.5 bg-slate-950/30 flex items-center justify-between border-b border-slate-900 select-none">
-                <div className="flex gap-1.5 bg-slate-900/60 p-1 rounded-xl border border-slate-900">
+              <div className={`px-5 pt-3.5 pb-2.5 flex items-center justify-between border-b select-none ${theme === 'dark' ? 'bg-slate-950/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}>
+                <div className={`flex gap-1.5 p-1 rounded-xl border ${theme === 'dark' ? 'bg-slate-900/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                   {isLabView && (
                     <button
                       onClick={() => setActiveTab('current')}
@@ -198,7 +199,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
               </div>
 
               {/* Live Search Input Section */}
-              <div className="p-4 bg-slate-950/40 border-b border-slate-900">
+              <div className={`p-4 border-b ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                 <div className="relative">
                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                   <input
@@ -210,7 +211,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
                         ? "Cari istilah di modul lab aktif..."
                         : "Cari ribuan istilah di seantero ChemVibe..."
                     }
-                    className="w-full bg-slate-900/90 border border-slate-800 rounded-xl py-2.5 pl-10 pr-9 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/20 transition-all font-sans"
+                    className={`w-full border rounded-xl py-2.5 pl-10 pr-9 text-xs placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/20 transition-all font-sans ${theme === 'dark' ? 'bg-slate-900/90 border-slate-800 text-white' : 'bg-slate-100/90 border-slate-300 text-slate-900'}`}
                   />
                   {searchQuery && (
                     <button
@@ -229,7 +230,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
                   searchResults.map((item, idx) => (
                     <div
                       key={idx}
-                      className="group bg-slate-900/40 hover:bg-slate-900/70 border border-slate-850 hover:border-slate-750 p-4.5 rounded-2xl transition-all duration-200"
+                      className={`group border p-4.5 rounded-2xl transition-all duration-200 ${theme === 'dark' ? 'bg-slate-900/40 hover:bg-slate-900/70 border-slate-850 hover:border-slate-750' : 'bg-slate-100/40 hover:bg-slate-200 border-slate-300 hover:border-slate-400'}`}
                     >
                       <div className="flex items-start justify-between gap-3 mb-2">
                         <h4 className="text-[13px] font-black text-white font-mono tracking-tight group-hover:text-teal-300 transition-colors">
@@ -237,7 +238,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
                         </h4>
                         
                         {'originalLab' in item && (
-                          <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-indigo-300">
+                          <span className={`text-[9px] font-mono px-2 py-0.5 rounded border text-indigo-300 ${theme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                             {item.originalLab}
                           </span>
                         )}
@@ -249,7 +250,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
                   ))
                 ) : (
                   <div className="py-12 px-4 text-center space-y-3">
-                    <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-600">
+                    <div className={`w-12 h-12 rounded-full border flex items-center justify-center mx-auto text-slate-600 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                       <AlertCircle className="w-5 h-5 text-slate-500" />
                     </div>
                     <div>
@@ -263,7 +264,7 @@ export default function GlossaryWidget({ activeView }: GlossaryWidgetProps) {
               </div>
 
               {/* Bottom Educational Tip Footer */}
-              <div className="p-4 bg-slate-950 border-t border-slate-900 text-[10px] text-slate-400 flex items-start gap-2 max-h-24 select-none shrink-0">
+              <div className={`p-4 border-t text-[10px] flex items-start gap-2 max-h-24 select-none shrink-0 ${theme === 'dark' ? 'bg-slate-950 border-slate-900 text-slate-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                 <Info className="w-3.5 h-3.5 text-teal-400 shrink-0 mt-0.5" />
                 <div className="leading-relaxed">
                   <strong>Tips Belajar:</strong> Glosarium bersifat dinamis! Saat menjelajah simulator yang berbeda, glosarium di tab utama akan beralih mempelajari konsep dasar topik praktikum terkait secara otomatis.

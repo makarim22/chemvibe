@@ -48,6 +48,7 @@ interface DashboardHomeProps {
   activities: ActivityLog[];
   onTriggerAuth: () => void;
   onUpdateClass?: (classCode: string, className: string) => void;
+  theme: 'dark' | 'light';
 }
 
 export default function DashboardHome({ 
@@ -57,7 +58,8 @@ export default function DashboardHome({
   currentUser,
   activities,
   onTriggerAuth,
-  onUpdateClass
+  onUpdateClass,
+  theme
 }: DashboardHomeProps) {
   // We can pick sodium flashcard representation
   const featuredFlashcard = FLASHCARDS_DATA[0]; // Na card
@@ -201,7 +203,7 @@ export default function DashboardHome({
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Hero Welcome banner */}
-      <section className="relative overflow-hidden rounded-2xl h-48 md:h-64 flex flex-col justify-center px-6 md:px-10 border border-slate-800 bg-slate-900 overflow-hidden shadow-2xl">
+      <section className={`relative overflow-hidden rounded-2xl h-48 md:h-64 flex flex-col justify-center px-6 md:px-10 border ${theme === 'dark' ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white'} overflow-hidden shadow-2xl`}>
         <div className="absolute inset-0 z-0 opacity-40">
           <img 
             alt="Cosmic Space Lab Nebula" 
@@ -209,7 +211,7 @@ export default function DashboardHome({
             referrerPolicy="no-referrer"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8WBzK3okRTOUwJYRKmouCnAI827FREUe-alRIIsY98e-DOgUGX_OKY313xsbbGEHTrvWecKZqL4si1C20gpU6r5hjvrT_U8JXIMbtKFTooKe6p1O4XoVZ41Eiyp41oiNDbmk8V8zij1DTEQv78Dbyyw7UuUYl2jpu9M891GXcZLRdwua2lGPwujuPSDEJi31N5p-F6zivTRxKyovcK6k6TSrKNnU0P0R2Skn9vfptIiS8beJeVM3gxIT6e6VsnQKD5LES6XpMEAw"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/45 to-transparent"></div>
+          <div className={`absolute inset-0 ${theme === 'dark' ? 'bg-gradient-to-r from-slate-950 via-slate-900/45' : 'bg-gradient-to-r from-white via-white/80'} to-transparent`}></div>
         </div>
         <div className="relative z-10 space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-xs text-teal-400 font-medium tracking-wide">
@@ -217,7 +219,7 @@ export default function DashboardHome({
             Quantum Laboratory Online
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="font-sans text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white animate-fade-in">
+            <h1 className={`font-sans text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'} animate-fade-in`}>
               Welcome Back, {currentUser ? currentUser.name : 'Student'}.
             </h1>
             {currentUser && (
@@ -240,7 +242,7 @@ export default function DashboardHome({
               </div>
             )}
           </div>
-          <p className="text-slate-300 text-sm md:text-base font-normal leading-relaxed">
+          <p className={`text-sm md:text-base font-normal leading-relaxed ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>
             {currentUser 
               ? <>Sesi lab Anda aktif. Konsol mengamankan seluruh progress kuis, skor pencapaian, dan grafik kemajuan belajar virtual Anda.</>
               : <>Your quantum analysis of the Halogen group is <span className="text-teal-400 font-bold">82% complete</span>. Silakan masuk/daftar buat mentrack progress permanen.</>
@@ -251,7 +253,7 @@ export default function DashboardHome({
 
       {/* Papan Pengumuman Guru / Class Announcements */}
       {announcements.length > 0 && (
-        <section className="bg-slate-950/40 border border-indigo-500/15 rounded-2xl p-5 space-y-4">
+        <section className={`border border-indigo-500/15 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-950/40' : 'bg-slate-100/40'}`}>
           <div className="flex items-center gap-2">
             <Megaphone className="w-4 h-4 text-indigo-400 animate-pulse" />
             <h3 className="text-xs font-mono font-black text-white uppercase tracking-wider">
@@ -260,7 +262,7 @@ export default function DashboardHome({
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {announcements.map((ann) => (
-              <div key={ann.id} className="p-4 bg-slate-900/35 border border-slate-850 rounded-xl space-y-2.5 relative">
+              <div key={ann.id} className={`p-4 border rounded-xl space-y-2.5 relative ${theme === 'dark' ? 'bg-slate-900/35 border-slate-850' : 'bg-slate-100/35 border-slate-300'}`}>
                 <div className="flex justify-between items-start">
                   <span className={`px-2 py-0.5 font-mono text-[8.5px] font-black uppercase rounded ${
                     ann.category === 'tugas' 
@@ -288,7 +290,7 @@ export default function DashboardHome({
 
       {/* Kolom Hubungan Kelas Guru & Siswa */}
       {currentUser && currentUser.role !== 'guru' && (
-        <section className="bg-slate-950/40 border border-slate-850 rounded-2xl p-5" id="classroom-student-connector bg-slate-900 border-indigo-500/10">
+        <section className={`border rounded-2xl p-5 ${theme === 'dark' ? 'bg-slate-950/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`} id="classroom-student-connector">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
               <GraduationCap className="w-5 h-5 text-pink-400 shrink-0" />
@@ -329,7 +331,7 @@ export default function DashboardHome({
                     placeholder="Kode Kelas (e.g. CHEM-3901)"
                     value={classCodeInput}
                     onChange={(e) => setClassCodeInput(e.target.value)}
-                    className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-650 focus:outline-none focus:border-pink-500 font-mono w-full sm:w-[220px]"
+                    className={`border rounded-xl px-3 py-1.5 text-xs placeholder-slate-650 focus:outline-none focus:border-pink-500 font-mono w-full sm:w-[220px] ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                   />
                   {classError && (
                     <span className="absolute -bottom-4.5 left-1 text-[8.5px] text-rose-450 font-mono w-48 truncate leading-none">
@@ -359,7 +361,9 @@ export default function DashboardHome({
           </h2>
           <p className="text-xs text-slate-500 mt-1">Eksplorasi modul kimia interaktif berdasarkan tingkat/kelas kurikulum nasional.</p>
         </div>
-        <div className="flex bg-slate-900/65 border border-slate-800/80 p-1 rounded-xl gap-1 shrink-0 self-start sm:self-auto shadow-inner">
+        <div className={`flex border p-1 rounded-xl gap-1 shrink-0 self-start sm:self-auto shadow-inner ${
+          'bg-slate-900/65 border-slate-800/80' // This is the dark mode default
+        }`}>
           <button
             onClick={() => setSelectedGrade('all')}
             className={`px-4.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
@@ -510,6 +514,23 @@ export default function DashboardHome({
             </div>
             <p className="text-slate-400 text-xs leading-relaxed">
               Determine limiting reactants, compute relative molar ratios, molecular weights, and exact grams yields of reactants instantly.
+            </p>
+          </div>
+        )}
+
+        {(selectedGrade === 'all' || selectedGrade === 'X') && (
+          <div 
+            onClick={() => onNavigate('green-chemistry')}
+            className="md:col-span-4 group glass-panel rounded-2xl p-6 hover:border-teal-500/50 hover:shadow-md transition-all duration-300 cursor-pointer space-y-4"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500/20 transition-all">
+                <Sparkles className="w-4.5 h-4.5" />
+              </div>
+              <h4 className="text-lg font-bold text-white group-hover:text-teal-400 transition-colors">Kimia Hijau</h4>
+            </div>
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Eksplorasi prinsip-prinsip kimia hijau, pengurangan limbah, dan penerapan keberlanjutan dalam industri kimia modern.
             </p>
           </div>
         )}
@@ -718,6 +739,23 @@ export default function DashboardHome({
           </div>
         )}
 
+        {(selectedGrade === 'all' || selectedGrade === 'XI') && (
+          <div 
+            onClick={() => onNavigate('acid-base-intro')}
+            className="md:col-span-4 group glass-panel rounded-2xl p-6 hover:border-teal-500/50 hover:shadow-md transition-all duration-300 cursor-pointer space-y-4"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 group-hover:bg-teal-500/20 transition-all">
+                <FlaskConical className="w-4.5 h-4.5" />
+              </div>
+              <h4 className="text-lg font-bold text-white group-hover:text-teal-400 transition-colors">Pengantar Asam-Basa</h4>
+            </div>
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Memahami teori asam-basa Arrhenius, Brønsted-Lowry, dan Lewis melalui simulasi pH sederhana dan interaksi molekuler.
+            </p>
+          </div>
+        )}
+
         {(selectedGrade === 'all' || selectedGrade === 'XII') && (
           <div 
             onClick={() => onNavigate('macromolecule-lab')}
@@ -731,6 +769,40 @@ export default function DashboardHome({
             </div>
             <p className="text-slate-400 text-xs leading-relaxed">
               Belajar gugus biologis: uji karbohidrat (Benedict &amp; Iodium), model pI zwitterion asam amino, ketidakjenuhan lipid &amp; penyabunan, serta perakitan polimer sintetis.
+            </p>
+          </div>
+        )}
+
+        {(selectedGrade === 'all' || selectedGrade === 'XI') && (
+          <div 
+            onClick={() => onNavigate('petroleum')}
+            className="md:col-span-4 group glass-panel rounded-2xl p-6 hover:border-teal-500/50 hover:shadow-md transition-all duration-300 cursor-pointer space-y-4"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-slate-500/10 border border-slate-500/20 flex items-center justify-center text-slate-400 group-hover:bg-slate-500/20 transition-all">
+                <Droplet className="w-4.5 h-4.5" />
+              </div>
+              <h4 className="text-lg font-bold text-white group-hover:text-teal-400 transition-colors">Minyak Bumi</h4>
+            </div>
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Eksplorasi proses distilasi bertingkat minyak bumi, fraksi-fraksi penyusunnya, dan dampak lingkungan pembakarannya.
+            </p>
+          </div>
+        )}
+
+        {(selectedGrade === 'all' || selectedGrade === 'XII') && (
+          <div 
+            onClick={() => onNavigate('element-reactivity')}
+            className="md:col-span-4 group glass-panel rounded-2xl p-6 hover:border-teal-500/50 hover:shadow-md transition-all duration-300 cursor-pointer space-y-4"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-500/20 transition-all">
+                <Atom className="w-4.5 h-4.5" />
+              </div>
+              <h4 className="text-lg font-bold text-white group-hover:text-teal-400 transition-colors">Reaktivitas Unsur</h4>
+            </div>
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Analisis tren periodik reaktivitas logam alkali, alkali tanah, dan halogen golongan IA-VIIA melalui eksperimen virtual komparatif.
             </p>
           </div>
         )}
@@ -771,7 +843,7 @@ export default function DashboardHome({
                   style={{ height: `${ml.level}%` }}
                 >
                   {/* Tooltip on hover */}
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-950 border border-teal-550/40 text-[9px] px-2 py-0.5 rounded text-white opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-20 pointer-events-none whitespace-nowrap">
+                  <div className={`absolute -top-8 left-1/2 -translate-x-1/2 border border-teal-550/40 text-[9px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-20 pointer-events-none whitespace-nowrap ${theme === 'dark' ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-900'}`}>
                     {ml.level}% Mastery
                   </div>
                 </div>
@@ -818,7 +890,7 @@ export default function DashboardHome({
             {activities.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-48 overflow-y-auto pr-1">
                 {activities.slice(0, 4).map((act, idx) => (
-                  <div key={act.id || idx} className="flex gap-2.5 p-2 rounded-xl bg-slate-900/60 border border-slate-900 text-xs">
+                  <div key={act.id || idx} className={`flex gap-2.5 p-2 rounded-xl border text-xs ${theme === 'dark' ? 'bg-slate-900/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                     <div className="w-5.5 h-5.5 shrink-0 rounded-md bg-teal-500/10 border border-teal-500/20 text-teal-400 font-mono text-[9px] font-black flex items-center justify-center">
                       {act.activityType === 'quiz_completed' ? 'Q' : 'F'}
                     </div>
@@ -835,7 +907,7 @@ export default function DashboardHome({
                 ))}
               </div>
             ) : (
-              <div className="text-center py-5 bg-slate-900/20 border border-dashed border-slate-800 rounded-xl text-slate-500 text-[10.5px] font-mono">
+              <div className={`text-center py-5 border border-dashed rounded-xl text-[10.5px] font-mono ${theme === 'dark' ? 'bg-slate-900/20 border-slate-800 text-slate-500' : 'bg-slate-100/20 border-slate-300 text-slate-600'}`}>
                 Belum ada aktivitas terekam. Selesaikan kuis evaluasi di Lab agar progress Anda mulai teracak.
               </div>
             )}
@@ -861,7 +933,7 @@ export default function DashboardHome({
               className={`relative w-44 aspect-[5/7] cursor-pointer card-inner ${flipped ? 'card-flip' : ''}`}
             >
               {/* Card FRONT */}
-              <div className="absolute inset-0 bg-slate-900 rounded-xl shadow-2xl p-4 text-slate-200 flex flex-col justify-between backface-hidden border-2 border-slate-700">
+              <div className={`absolute inset-0 rounded-xl shadow-2xl p-4 flex flex-col justify-between backface-hidden border-2 border-slate-700 ${theme === 'dark' ? 'bg-slate-900 text-slate-200' : 'bg-slate-100 text-slate-900'}`}>
                 <div className="absolute inset-1.5 border-[1.5px] border-teal-500/20 rounded-lg pointer-events-none"></div>
                 <div className="flex justify-between items-start pointer-events-none">
                   <span className="font-mono text-xs font-bold text-slate-500">11</span>
@@ -878,7 +950,7 @@ export default function DashboardHome({
               </div>
 
               {/* Card BACK */}
-              <div className="absolute inset-0 bg-slate-950 border border-teal-500/50 rounded-xl shadow-2xl p-4 text-teal-100 flex flex-col justify-between [transform:rotateY(180deg)] backface-hidden">
+              <div className={`absolute inset-0 border border-teal-500/50 rounded-xl shadow-2xl p-4 text-teal-100 flex flex-col justify-between [transform:rotateY(180deg)] backface-hidden ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                 <div className="absolute inset-1.5 border border-teal-500/20 rounded-lg pointer-events-none"></div>
                 <div className="text-center flex-1 flex flex-col justify-center items-center gap-1.5 pointer-events-none">
                   <span className="text-[8px] tracking-widest text-teal-400 font-bold uppercase">Properties</span>

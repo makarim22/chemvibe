@@ -634,7 +634,7 @@ function generateMoleculeData(groupId: string, carbonCount: number): { atoms: At
 // ORGANIC LAB COMPONENT CODE
 // ==========================================
 
-export default function OrganicLab() {
+export default function OrganicLab({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
   const [activeTab, setActiveTab] = useState<'explorer' | 'reactions' | 'quiz'>('explorer');
 
   // EXPLORER STATE
@@ -1087,7 +1087,7 @@ export default function OrganicLab() {
             <div className="lg:col-span-4 flex flex-col gap-5">
               
               {/* Group selection box */}
-              <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+              <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
                 <div>
                   <label className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 block">KATEGORI GUGUS FUNGSI</label>
                   <select
@@ -1124,7 +1124,7 @@ export default function OrganicLab() {
               </div>
 
               {/* Physical Properties Trend Card */}
-              <div className="glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-5 space-y-4">
+              <div className={`glass-panel border-white/5 rounded-2xl p-5 space-y-4 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-teal-400 block pb-2 border-b border-zinc-850">TREND SIFAT GUGUS</span>
                 
                 <div className="space-y-3.5 text-xs">
@@ -1285,7 +1285,7 @@ export default function OrganicLab() {
               </div>
 
               {/* Compound Specs Sheet Details */}
-              <div className="glass-panel border-white/5 bg-slate-900/45 rounded-2xl p-6 space-y-5">
+              <div className={`glass-panel border-white/5 rounded-2xl p-6 space-y-5 ${theme === 'dark' ? 'bg-slate-900/45' : 'bg-slate-100/45'}`}>
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 border-b border-zinc-850 gap-2">
                   <div>
                     <span className="text-[10px] font-mono text-teal-400 font-bold uppercase tracking-widest block">IUPAC &amp; DATA SPEKTROSKOPI</span>
@@ -1377,7 +1377,7 @@ export default function OrganicLab() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 
                 {/* Control card */}
-                <div className="lg:col-span-5 glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-6 space-y-5">
+                <div className={`lg:col-span-5 glass-panel border-white/5 rounded-2xl p-6 space-y-5 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
                   <h3 className="text-base font-bold text-white font-sans flex items-center gap-1.5 border-b border-zinc-850 pb-3">
                     <FlaskConical className="w-4 h-4 text-teal-400" />
                     Reaktor Adisi Alkena
@@ -1530,7 +1530,7 @@ export default function OrganicLab() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 
                 {/* Reactor control card (5 cols) */}
-                <div className="lg:col-span-5 glass-panel border-white/5 bg-slate-900/40 rounded-2xl p-6 space-y-5">
+                <div className={`lg:col-span-5 glass-panel border-white/5 rounded-2xl p-6 space-y-5 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
                   <h3 className="text-base font-bold text-white font-sans flex items-center gap-1.5 border-b border-zinc-850 pb-3">
                     <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
                     Sintesis Parfum Buah (Esterifikasi)
@@ -1669,7 +1669,7 @@ export default function OrganicLab() {
 
             {/* CASE C: SUBSTITUTION VS ELIMINATION COMPARISON */}
             {rxType === 'sub_elim' && (
-              <div className="glass-panel border-white/5 bg-slate-900/45 rounded-2xl p-6 space-y-6">
+              <div className={`glass-panel border-white/5 rounded-2xl p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/45' : 'bg-slate-100/45'}`}>
                 <div className="p-4 bg-teal-500/5 border border-teal-500/10 rounded-xl space-y-1">
                   <h4 className="text-sm font-bold text-teal-300">Teori Substitusi vs Eliminasi Senyawa Karbon</h4>
                   <p className="text-xs text-zinc-400 leading-relaxed text-[11px]">

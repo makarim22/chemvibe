@@ -30,6 +30,7 @@ import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 
 interface VirtualReportLabProps {
+  theme?: 'dark' | 'light';
   currentUser: UserAccount | null;
   activities: ActivityLog[];
   onNavigate?: (view: string) => void;
@@ -124,7 +125,7 @@ const LAB_TOPICS = [
   }
 ];
 
-export default function VirtualReportLab({ currentUser, activities, onNavigate }: VirtualReportLabProps) {
+export default function VirtualReportLab({ currentUser, activities, onNavigate, theme = 'dark' }: VirtualReportLabProps) {
   const [selectedTopicId, setSelectedTopicId] = useState<string>('bohr-atom');
   const [studentName, setStudentName] = useState<string>('');
   const [studentClass, setStudentClass] = useState<string>('XI-MIPA 1');
@@ -456,17 +457,17 @@ ${conclusion}
         <div className={`lg:col-span-4 space-y-4 print:hidden ${isPreviewMode ? 'hidden lg:block' : ''}`}>
           
           {/* Target Select Area */}
-          <div className="bg-slate-950/60 border border-slate-800 p-4.5 rounded-xl space-y-3.5">
+          <div className={`border p-4.5 rounded-xl space-y-3.5 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
             <label className="text-[10px] font-mono text-slate-400 font-extrabold uppercase tracking-widest block">
               1. Pilih Topik Eksperimen
             </label>
             <select
               value={selectedTopicId}
               onChange={(e) => setSelectedTopicId(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 text-white font-sans text-xs rounded-lg px-2.5 py-2.5 focus:outline-none focus:border-teal-500 cursor-pointer appearance-none shadow-md"
+              className={`w-full border font-sans text-xs rounded-lg px-2.5 py-2.5 focus:outline-none focus:border-teal-500 cursor-pointer appearance-none shadow-md ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
             >
               {LAB_TOPICS.map((topic) => (
-                <option key={topic.id} value={topic.id} className="bg-slate-950 text-slate-300">
+                <option key={topic.id} value={topic.id} className={` ${theme === 'dark' ? 'bg-slate-950 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
                   {topic.title}
                 </option>
               ))}
@@ -474,7 +475,7 @@ ${conclusion}
 
             <button
               onClick={handleImportLogSummary}
-              className="w-full py-2 bg-slate-900 hover:bg-slate-850 hover:text-white border border-slate-800 text-[10px] font-mono font-bold text-teal-400 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              className={`w-full py-2 hover:bg-slate-850 border text-[10px] font-mono font-bold text-teal-400 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${theme === 'dark' ? 'bg-slate-900 hover:text-white border-slate-800' : 'bg-slate-100 hover:text-slate-900 border-slate-300'}`}
               title="Menggunakan catatan aktivitas kuis Anda yang aktif untuk mengisi data tabel laporan."
             >
               <RefreshCw className="w-3.5 h-3.5" />
@@ -483,7 +484,7 @@ ${conclusion}
           </div>
 
           {/* Student details details bar */}
-          <div className="bg-slate-950/60 border border-slate-800 p-4.5 rounded-xl space-y-3.5">
+          <div className={`border p-4.5 rounded-xl space-y-3.5 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
             <span className="text-[10px] font-mono text-slate-400 font-extrabold uppercase tracking-widest block">
               2. Identitas Mahasiswa / Peneliti
             </span>
@@ -496,7 +497,7 @@ ${conclusion}
                   value={studentName}
                   onChange={(e) => setStudentName(e.target.value)}
                   placeholder="Contoh: Jaka Makarim"
-                  className="w-full bg-slate-900 border border-slate-800 text-white p-2 rounded-md focus:outline-none focus:border-teal-500"
+                  className={`w-full border p-2 rounded-md focus:outline-none focus:border-teal-500 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
 
@@ -507,7 +508,7 @@ ${conclusion}
                   value={studentClass}
                   onChange={(e) => setStudentClass(e.target.value)}
                   placeholder="Contoh: XII - MIPA 2"
-                  className="w-full bg-slate-900 border border-slate-800 text-white p-2 rounded-md focus:outline-none focus:border-teal-500"
+                  className={`w-full border p-2 rounded-md focus:outline-none focus:border-teal-500 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
 
@@ -518,7 +519,7 @@ ${conclusion}
                   value={institution}
                   onChange={(e) => setInstitution(e.target.value)}
                   placeholder="Contoh: SMAN 1 Digital"
-                  className="w-full bg-slate-900 border border-slate-800 text-white p-2 rounded-md focus:outline-none focus:border-teal-500"
+                  className={`w-full border p-2 rounded-md focus:outline-none focus:border-teal-500 ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
 
@@ -528,20 +529,20 @@ ${conclusion}
                   type="date" 
                   value={reportDate}
                   onChange={(e) => setReportDate(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 text-white p-2 rounded-md focus:outline-none focus:border-teal-500 font-mono"
+                  className={`w-full border p-2 rounded-md focus:outline-none focus:border-teal-500 font-mono ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
             </div>
           </div>
           
           {/* Guru Evaluation & Submission Card */}
-          <div className="bg-slate-950/60 border border-slate-800 p-4.5 rounded-xl space-y-3.5 text-xs print:hidden">
+          <div className={`border p-4.5 rounded-xl space-y-3.5 text-xs print:hidden ${theme === 'dark' ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
             <span className="text-[10px] font-mono text-slate-450 font-extrabold uppercase tracking-widest block">
               3. Evaluasi &amp; Ajukan ke Guru
             </span>
             
             {dbReport ? (
-              <div className="p-3 bg-slate-900 border border-slate-800 rounded-lg space-y-2">
+              <div className={`p-3 border rounded-lg space-y-2 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold text-slate-500 uppercase">Status Pengajuan:</span>
                   {dbReport.status === 'graded' ? (
@@ -562,7 +563,7 @@ ${conclusion}
                       <strong className="text-lg font-mono text-teal-400 font-black">{dbReport.grade} / 100</strong>
                     </div>
                     {dbReport.teacherFeedback && (
-                      <div className="text-[11px] text-zinc-300 italic bg-slate-950 p-2 rounded border border-slate-800/60 mt-1 leading-relaxed">
+                      <div className={`text-[11px] text-zinc-300 italic p-2 rounded border mt-1 leading-relaxed ${theme === 'dark' ? 'bg-slate-950 border-slate-800/60' : 'bg-slate-100 border-slate-300'}`}>
                         &ldquo;{dbReport.teacherFeedback}&rdquo;
                       </div>
                     )}
@@ -581,7 +582,7 @@ ${conclusion}
                 )}
               </div>
             ) : (
-              <div className="p-3 bg-slate-900/40 border border-slate-900 rounded-lg text-[11px] text-slate-450 leading-relaxed">
+              <div className={`p-3 border rounded-lg text-[11px] leading-relaxed ${theme === 'dark' ? 'bg-slate-900/40 border-slate-900 text-slate-450' : 'bg-slate-100/40 border-slate-300 text-slate-600'}`}>
                 Belum diajukan. Gunakan tombol di bawah ini untuk menyerahkan draf laporan Anda langsung ke portal penilai pengajar.
               </div>
             )}
@@ -597,12 +598,12 @@ ${conclusion}
           </div>
 
           {/* Quick Actions Shelf */}
-          <div className="bg-slate-950/60 border border-slate-800 p-4.5 rounded-xl space-y-2 text-xs">
+          <div className={`border p-4.5 rounded-xl space-y-2 text-xs ${theme === 'dark' ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-100/60 border-slate-300'}`}>
             <span className="text-[10px] font-mono text-zinc-500 font-bold uppercase tracking-widest block mb-2">4. Lembar Draft Tindakan</span>
             
             <button
               onClick={handleSaveDraft}
-              className="w-full py-2 bg-slate-900 hover:bg-slate-850 text-white rounded-lg border border-slate-800 transition-all flex items-center justify-center gap-1.5 font-sans font-bold cursor-pointer"
+              className={`w-full py-2 hover:bg-slate-850 rounded-lg border transition-all flex items-center justify-center gap-1.5 font-sans font-bold cursor-pointer ${theme === 'dark' ? 'bg-slate-900 text-white border-slate-800' : 'bg-slate-100 text-slate-900 border-slate-300'}`}
             >
               {isSaved ? (
                 <>
@@ -619,7 +620,7 @@ ${conclusion}
 
             <button
               onClick={handleCopyMarkdown}
-              className="w-full py-2 bg-slate-900 hover:bg-slate-850 text-slate-300 rounded-lg border border-slate-800 transition-all flex items-center justify-center gap-1.5 font-sans font-semibold cursor-pointer"
+              className={`w-full py-2 hover:bg-slate-850 rounded-lg border transition-all flex items-center justify-center gap-1.5 font-sans font-semibold cursor-pointer ${theme === 'dark' ? 'bg-slate-900 text-slate-300 border-slate-800' : 'bg-slate-100 text-slate-600 border-slate-300'}`}
             >
               {copySuccess ? (
                 <span className="text-emerald-400 font-bold">Terpopulasi ke Clipboard!</span>
@@ -647,7 +648,7 @@ ${conclusion}
         <div className={`lg:col-span-8 space-y-4 ${isPreviewMode ? 'lg:col-span-12' : ''}`}>
           
           {/* Main Printable Document Sheet (Uses formal traditional A4 paper layout) */}
-          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 md:p-10 shadow-2xl space-y-6 relative overflow-hidden select-text transition-all print:border-0 print:p-0 print:bg-white print:text-black">
+          <div className={`border rounded-2xl p-6 md:p-10 shadow-2xl space-y-6 relative overflow-hidden select-text transition-all print:border-0 print:p-0 print:bg-white print:text-black ${theme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
             
             {/* Elegant Letterhead Header Decoration */}
             <div className="border-b-4 border-double border-teal-500/30 pb-4.5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 print:border-black">
@@ -662,14 +663,14 @@ ${conclusion}
                   ID Dokumen: CRV-{selectedTopicId.toUpperCase()}-{Date.now().toString().slice(-5)} / LAB-LOG-2026
                 </p>
               </div>
-              <div className="text-right font-mono text-[9.5px] text-zinc-400 bg-slate-900/60 p-2 border border-slate-800 rounded-lg print:text-black print:bg-white print:border-gray-500 pointer-events-none self-end md:self-center shrink-0">
+              <div className={`text-right font-mono text-[9.5px] p-2 border rounded-lg print:text-black print:bg-white print:border-gray-500 pointer-events-none self-end md:self-center shrink-0 ${theme === 'dark' ? 'text-zinc-400 bg-slate-900/60 border-slate-800' : 'text-slate-600 bg-slate-100/60 border-slate-300'}`}>
                 <span>STATUS DATA: </span>
                 <strong className="text-teal-400 font-black print:text-black">TERVERIFIKASI SISTEM</strong>
               </div>
             </div>
 
             {/* Student Metadata Table */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans p-4 bg-slate-900/40 rounded-xl border border-slate-900 print:text-black print:bg-white print:border-gray-400">
+            <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans p-4 rounded-xl border print:text-black print:bg-white print:border-gray-400 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
               <div className="space-y-1">
                 <div className="flex">
                   <span className="w-28 text-zinc-500 font-medium shrink-0 print:text-black">Nama Peneliti :</span>
@@ -715,7 +716,7 @@ ${conclusion}
                     onChange={(e) => setObjectives(e.target.value)}
                     rows={3}
                     placeholder="Masukkan tujuan percobaan di sini..."
-                    className="w-full bg-slate-900/40 border border-slate-800 text-slate-300 p-3 rounded-lg focus:outline-none focus:border-teal-500 print:bg-white print:text-black print:p-0 print:border-0"
+                    className={`w-full border p-3 rounded-lg focus:outline-none focus:border-teal-500 print:bg-white print:text-black print:p-0 print:border-0 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800 text-slate-300' : 'bg-slate-100/40 border-slate-300 text-slate-600'}`}
                   />
                 )}
               </div>
@@ -734,7 +735,7 @@ ${conclusion}
                     onChange={(e) => setTheory(e.target.value)}
                     rows={4}
                     placeholder="Formula atau dasar hukum sains..."
-                    className="w-full bg-slate-900/40 border border-slate-800 text-slate-300 p-3 rounded-lg focus:outline-none focus:border-teal-500 text-xs print:bg-white print:text-black print:p-0 print:border-0"
+                    className={`w-full border p-3 rounded-lg focus:outline-none focus:border-teal-500 text-xs print:bg-white print:text-black print:p-0 print:border-0 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800 text-slate-300' : 'bg-slate-100/40 border-slate-300 text-slate-600'}`}
                   />
                 )}
               </div>
@@ -753,7 +754,7 @@ ${conclusion}
                     value={apparatus}
                     onChange={(e) => setApparatus(e.target.value)}
                     placeholder="Contoh: Titrator ChemVibe, Sensor Sinyal..."
-                    className="w-full bg-slate-900/40 border border-slate-800 text-slate-300 p-3 rounded-lg focus:outline-none focus:border-teal-500 text-xs font-mono print:bg-white print:text-black print:p-0 print:border-0"
+                    className={`w-full border p-3 rounded-lg focus:outline-none focus:border-teal-500 text-xs font-mono print:bg-white print:text-black print:p-0 print:border-0 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800 text-slate-300' : 'bg-slate-100/40 border-slate-300 text-slate-600'}`}
                   />
                 )}
               </div>
@@ -780,7 +781,7 @@ ${conclusion}
 
                 <div className="overflow-x-auto rounded-xl border border-slate-900 print:border-gray-400">
                   <table className="w-full text-xs text-left text-slate-300 print:text-black">
-                    <thead className="bg-slate-950 font-mono text-slate-500 text-[10px] border-b border-slate-900 print:bg-gray-100 print:text-black print:border-gray-400">
+                    <thead className={`font-mono text-[10px] border-b print:bg-gray-100 print:text-black print:border-gray-400 ${theme === 'dark' ? 'bg-slate-950 text-slate-500 border-slate-900' : 'bg-slate-100 text-slate-600 border-slate-300'}`}>
                       <tr>
                         <th className="p-3 w-1/3">Variabel / Parameter Uji</th>
                         <th className="p-3">Hasil / Nilai Terukur</th>
@@ -791,7 +792,7 @@ ${conclusion}
                     </thead>
                     <tbody className="divide-y divide-slate-900/60 print:divide-y print:divide-gray-400">
                       {observations.map((row, idx) => (
-                        <tr key={idx} className="hover:bg-slate-900/20 print:hover:bg-white">
+                        <tr key={idx} className={`print:hover:bg-white ${theme === 'dark' ? 'hover:bg-slate-900/20' : 'hover:bg-slate-200'}`}>
                           <td className="p-2 w-1/3">
                             {isPreviewMode ? (
                               <span className="font-extrabold text-white print:text-black block">{row.variable}</span>
@@ -879,7 +880,7 @@ ${conclusion}
                     onChange={(e) => setConclusion(e.target.value)}
                     rows={3}
                     placeholder="Masukkan kesimpulan pembelajaran di sini..."
-                    className="w-full bg-slate-900/40 border border-slate-800 text-slate-300 p-3 rounded-lg focus:outline-none focus:border-teal-500 text-xs print:bg-white print:text-black print:p-0 print:border-0"
+                    className={`w-full border p-3 rounded-lg focus:outline-none focus:border-teal-500 text-xs print:bg-white print:text-black print:p-0 print:border-0 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800 text-slate-300' : 'bg-slate-100/40 border-slate-300 text-slate-600'}`}
                   />
                 )}
               </div>
@@ -897,7 +898,7 @@ ${conclusion}
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-                    <div className="md:col-span-1 text-center bg-slate-905 bg-slate-900/60 p-4 rounded-lg border border-slate-800/85 print:bg-white print:border-gray-400">
+                    <div className={`md:col-span-1 text-center p-4 rounded-lg border print:bg-white print:border-gray-400 ${theme === 'dark' ? 'bg-slate-905 bg-slate-900/60 border-slate-800/85' : 'bg-slate-100 bg-slate-100/60 border-slate-300'}`}>
                       <span className="text-[9px] font-mono text-slate-500 block uppercase">NILAI EVALUASI</span>
                       <strong className="text-3xl font-mono text-teal-400 font-extrabold print:text-black">{dbReport.grade} / 100</strong>
                     </div>

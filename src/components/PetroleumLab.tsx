@@ -34,6 +34,7 @@ import { UserAccount } from '../types';
 
 interface PetroleumLabProps {
   currentUser: UserAccount | null;
+  theme: 'dark' | 'light';
 }
 
 // 1. Fractions of Crude Oil Data
@@ -280,7 +281,7 @@ const QUIZ_QUESTIONS = [
   }
 ];
 
-export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
+export default function PetroleumLab({ currentUser, theme = 'dark' }: PetroleumLabProps) {
   const [activeTab, setActiveTab] = useState<'distillation' | 'octane' | 'treatment' | 'quiz'>('distillation');
 
   // Tab 1: Distillation State
@@ -625,7 +626,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
   };
 
   return (
-    <div id="petroleum-fractions-lab-view" className="w-full min-h-[calc(100vh-4rem)] p-4 md:p-8 space-y-6 bg-slate-950 text-slate-200">
+    <div id="petroleum-fractions-lab-view" className={`w-full min-h-[calc(100vh-4rem)] p-4 md:p-8 space-y-6 ${theme === 'dark' ? 'bg-slate-950 text-slate-200' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* Visual Header Banner */}
       <div className="relative p-6 md:p-8 rounded-2xl bg-gradient-to-r from-teal-950/40 via-yellow-950/10 to-slate-900 border border-teal-900/30 overflow-hidden shadow-xl">
@@ -652,43 +653,43 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
             </p>
           </div>
 
-          <div className="flex gap-2.5 shrink-0 bg-slate-950/80 p-1.5 rounded-xl border border-slate-900">
+          <div className={`flex flex-col gap-2 p-1 rounded-xl border w-full md:w-56 shrink-0 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-200 border-slate-300'}`}>
             <button
               onClick={() => setActiveTab('distillation')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left ${
                 activeTab === 'distillation'
                   ? 'bg-gradient-to-r from-yellow-500/20 to-teal-500/20 text-yellow-400 border border-yellow-500/30'
-                  : 'text-zinc-450 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-450 hover:text-white' : 'text-slate-600 hover:text-slate-900')
               }`}
             >
               Distilasi Bertingkat
             </button>
             <button
               onClick={() => setActiveTab('octane')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left ${
                 activeTab === 'octane'
                   ? 'bg-gradient-to-r from-yellow-500/20 to-teal-500/20 text-yellow-400 border border-yellow-500/30'
-                  : 'text-zinc-450 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-450 hover:text-white' : 'text-slate-600 hover:text-slate-900')
               }`}
             >
               Simulator Oktan &amp; Mesin
             </button>
             <button
               onClick={() => setActiveTab('treatment')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left ${
                 activeTab === 'treatment'
                   ? 'bg-gradient-to-r from-yellow-500/20 to-teal-500/20 text-yellow-400 border border-yellow-500/30'
-                  : 'text-zinc-450 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-450 hover:text-white' : 'text-slate-600 hover:text-slate-900')
               }`}
             >
               Proses Pemurnian
             </button>
             <button
               onClick={() => setActiveTab('quiz')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider relative ${
+              className={`px-3 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider text-left relative ${
                 activeTab === 'quiz'
                   ? 'bg-gradient-to-r from-yellow-500/20 to-teal-500/20 text-yellow-400 border border-yellow-500/30'
-                  : 'text-zinc-450 hover:text-white'
+                  : (theme === 'dark' ? 'text-zinc-450 hover:text-white' : 'text-slate-600 hover:text-slate-900')
               }`}
             >
               Evaluasi Kuis
@@ -703,7 +704,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
           {/* Column Controller and Dynamic Visualization Panel */}
-          <div className="lg:col-span-7 bg-slate-900/25 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-6">
+          <div className={`lg:col-span-7 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/25 border-slate-900' : 'bg-white border-slate-200'}`}>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-900 pb-4">
               <div className="space-y-1">
                 <h3 className="text-sm font-sans font-bold text-white flex items-center gap-1.5">
@@ -729,7 +730,9 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
             </div>
 
             {/* Simulated Temperature Knob Slider */}
-            <div className={`p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-3.5 transition-all ${isSimulatingDistillation ? 'opacity-45 pointer-events-none' : ''}`}>
+            <div className={`p-4 rounded-xl border space-y-3.5 transition-all ${isSimulatingDistillation ? 'opacity-45 pointer-events-none' : ''} ${
+              theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-white border-slate-200'
+            }`}>
               <div className="flex justify-between items-center text-xs font-mono">
                 <span className="text-zinc-500 font-bold uppercase">Suhu Reaktor Utama (Furnace):</span>
                 <span className="px-2 py-0.5 bg-yellow-550/15 text-yellow-405 border border-yellow-500/20 rounded font-black text-sm">
@@ -744,7 +747,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                 value={columnTemp}
                 disabled={isSimulatingDistillation}
                 onChange={(e) => setColumnTemp(Number(e.target.value))}
-                className="w-full accent-yellow-450 h-2 bg-slate-900 rounded-lg cursor-pointer"
+                className={`w-full accent-yellow-450 h-2 rounded-lg cursor-pointer ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
               />
               <div className="flex justify-between text-[10px] font-mono text-zinc-650">
                 <span>0°C (Minyak Mentah)</span>
@@ -756,12 +759,14 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
 
             {/* Dynamic Step visualizer during simulation */}
             {isSimulatingDistillation && (
-              <div className="p-4 bg-teal-950/15 border border-teal-900/30 rounded-xl space-y-2 font-mono text-xs text-zinc-300">
+              <div className={`p-4 rounded-xl border space-y-2 font-mono text-xs ${
+                theme === 'dark' ? 'bg-teal-950/15 border-teal-900/30 text-zinc-300' : 'bg-teal-50 border-teal-200 text-slate-800'
+              }`}>
                 <div className="flex justify-between items-center text-[10px] font-bold text-teal-400 uppercase tracking-widest">
                   <span>Progress Aliran Reaktan:</span>
                   <span className="animate-pulse text-emerald-450">Fase: {distillationStep.toUpperCase()}</span>
                 </div>
-                <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden relative border border-slate-900">
+                <div className={`w-full h-2 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-200'} rounded-full overflow-hidden relative border border-slate-900`}>
                   <div 
                     className="bg-gradient-to-r from-teal-500 to-emerald-400 h-full transition-all duration-300 animate-pulse"
                     style={{ 
@@ -776,10 +781,12 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
             )}
 
             {/* Fractionating Tower Interactive SVG Render */}
-            <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-900/60 flex flex-col md:flex-row gap-5 items-stretch min-h-[460px]">
+            <div className={`p-4 rounded-xl border flex flex-col md:flex-row gap-5 items-stretch min-h-[460px] ${
+              theme === 'dark' ? 'bg-slate-950/60 border-slate-900/60' : 'bg-white border-slate-200'
+            }`}>
               
               {/* Vertical Schematic of the tower */}
-              <div className="w-full md:w-1/2 flex flex-col justify-between border-l border-r border-slate-800 bg-slate-950/80 rounded-lg p-2.5 space-y-1 relative">
+              <div className={`w-full md:w-1/2 flex flex-col justify-between border-l border-r rounded-lg p-2.5 space-y-1 relative ${theme === 'dark' ? 'border-slate-800 bg-slate-950/80' : 'border-slate-300 bg-slate-100/80'}`}>
                 
                 {/* Furnace Base graphic */}
                 <div className="absolute -bottom-1 -left-2.5 right-0 h-10 w-2.5 md:w-3 bg-rose-500/10 border-l border-rose-500/30 rounded-l animate-pulse pointer-events-none" />
@@ -830,7 +837,9 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
 
               {/* Furnacing Heater Fire graphic simulation */}
               <div className="w-full md:w-1/2 flex flex-col justify-between space-y-4">
-                <div className="p-4 bg-slate-900/40 rounded-xl border border-slate-900 flex-1 flex flex-col justify-center items-center text-center space-y-3 relative overflow-hidden">
+                <div className={`p-4 rounded-xl border flex-1 flex flex-col justify-center items-center text-center space-y-3 relative overflow-hidden ${
+                  theme === 'dark' ? 'bg-slate-900/40 border-slate-900' : 'bg-slate-100 border-slate-200'
+                }`}>
                   <div className="absolute right-0 top-0 w-24 h-24 bg-rose-500/5 rounded-full blur-xl pointer-events-none" />
                   
                   <div className="relative">
@@ -853,7 +862,11 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                     </div>
                   </div>
 
-                  <div className="w-full bg-slate-950 p-3 rounded-lg border border-slate-900 font-mono text-[10.5px] text-zinc-400 text-left space-y-1">
+                  <div className={`p-4 rounded-xl border font-mono text-[10.5px] text-left space-y-1 ${
+                theme === 'dark'
+                  ? 'bg-slate-950 border-slate-900 text-zinc-400'
+                  : 'bg-slate-200 border-slate-300 text-slate-800'
+              }`}>
                     <div className="text-zinc-550 text-[9px] uppercase font-bold">Analisis Termofisika Menara:</div>
                     <div>• Suhu Fraksionator Default: <strong className="text-white">{columnTemp}°C</strong></div>
                     <div>• Rentang Senyawa Aktif: <strong className="text-yellow-405">{activeFraction.carbonRange}</strong></div>
@@ -865,7 +878,9 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
             </div>
 
             {/* Distillation Log output console */}
-            <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 font-mono space-y-1.5">
+            <div className={`p-4 rounded-xl border font-mono space-y-1.5 ${
+                theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-white border-slate-200'
+              }`}>
               <span className="text-[9.5px] uppercase text-zinc-505 font-bold block">Hasil Log Aliran &amp; Kondensasi Menara:</span>
               <div className="text-[10.5px] space-y-1.5 max-h-[120px] overflow-y-auto leading-relaxed divide-y divide-slate-900/60">
                 {distillationLogs.map((log, lIdx) => {
@@ -894,7 +909,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.2 }}
-                className="bg-slate-900/25 border border-slate-900 rounded-2xl p-6 space-y-6 flex-1 flex flex-col justify-between"
+                className={`border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/25 border-slate-900' : 'bg-white border-slate-200'} p-6 space-y-6 flex-1 flex flex-col justify-between`}
               >
                 <div className="space-y-5">
                   <div className="flex items-center gap-3.5">
@@ -910,12 +925,12 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
 
                   {/* Boiling range indicators */}
                   <div className="grid grid-cols-2 gap-3 font-mono text-xs">
-                    <div className="p-3 bg-slate-950 rounded-xl border border-slate-900/60 text-center">
+                    <div className={`p-3 rounded-xl border text-center ${theme === 'dark' ? 'bg-slate-950 border-slate-900/60' : 'bg-slate-100 border-slate-200'}`}>
                       <span className="text-[9px] text-zinc-550 uppercase tracking-wider block mb-0.5">Rentang Karbon</span>
                       <strong className="text-teal-400 text-sm font-black">{activeFraction.carbonRange}</strong>
                     </div>
 
-                    <div className="p-3 bg-slate-950 rounded-xl border border-slate-900/60 text-center">
+                    <div className={`p-3 rounded-xl border text-center ${theme === 'dark' ? 'bg-slate-950 border-slate-900/60' : 'bg-slate-100 border-slate-200'}`}>
                       <span className="text-[9px] text-zinc-550 uppercase tracking-wider block mb-0.5">Suhu Titik Didih</span>
                       <strong className="text-yellow-450 text-sm font-black">{activeFraction.boilingPoint}</strong>
                     </div>
@@ -926,7 +941,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                     <p className="text-zinc-300 text-sm leading-relaxed font-sans">{activeFraction.description}</p>
                   </div>
 
-                  <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-2">
+                  <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} space-y-2`}>
                     <h4 className="text-xs font-mono font-bold text-teal-400 uppercase tracking-widest flex items-center gap-1.5">
                       <CheckCircle className="w-4 h-4 text-emerald-450" />
                       Kegunaan di Industri &amp; Kehidupan:
@@ -951,7 +966,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
           {/* Octane Mixing Controller Console */}
-          <div className="lg:col-span-7 bg-slate-900/25 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-6">
+          <div className={`lg:col-span-7 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/25 border-slate-900' : 'bg-white border-slate-200'}`}>
             <div className="space-y-1">
               <h3 className="text-sm font-sans font-bold text-white flex items-center gap-1.5">
                 <Sliders className="w-4 h-4 text-yellow-405" />
@@ -995,15 +1010,15 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
             </div>
 
             {/* Isooctane and Heptane Mixer Slider */}
-            <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-5">
+            <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} space-y-5`}>
               
               {/* Formula explanation */}
               <div className="grid grid-cols-2 gap-4 text-xs font-mono text-zinc-450">
-                <div className="p-2.5 bg-slate-900/40 rounded-lg border border-slate-905">
+                <div className={`p-2.5 rounded-lg border ${theme === 'dark' ? 'bg-slate-900/40 border-slate-905' : 'bg-slate-100 border-slate-200'}`}>
                   <span className="text-[9.5px] text-emerald-400 font-bold block mb-1">🌿 Iso-Oktana (100)</span>
                   Senyawa alkana rantai bercabang (2,2,4-trimetilpentana) yang tahan kompresi, terbakar merata tanpa getaran.
                 </div>
-                <div className="p-2.5 bg-slate-900/40 rounded-lg border border-slate-905">
+                <div className={`p-2.5 rounded-lg border ${theme === 'dark' ? 'bg-slate-900/40 border-slate-905' : 'bg-slate-100 border-slate-200'}`}>
                   <span className="text-[9.5px] text-rose-455 font-bold block mb-1">⚠️ n-Heptana (0)</span>
                   Senyawa alkana rantai lurus jenuh yang mudah meledak prematur sebelum waktunya, pemicu knocking.
                 </div>
@@ -1022,7 +1037,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                   step="1"
                   value={isooctanePercent}
                   onChange={(e) => handleIsooctaneChange(Number(e.target.value))}
-                  className="w-full accent-emerald-500 h-2 bg-slate-900 rounded-lg cursor-pointer"
+                  className={`w-full accent-emerald-500 h-2 rounded-lg cursor-pointer ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                 />
                 <div className="flex justify-between text-[9px] font-mono text-zinc-650">
                   <span>90% n-heptana (Oktan Ringan)</span>
@@ -1044,7 +1059,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                   step="1"
                   value={compressionRatio}
                   onChange={(e) => setCompressionRatio(Number(e.target.value))}
-                  className="w-full accent-yellow-450 h-2 bg-slate-900 rounded-lg cursor-pointer"
+                  className={`w-full accent-yellow-450 h-2 rounded-lg cursor-pointer ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                 />
                 <div className="flex justify-between text-[9px] font-mono text-zinc-650">
                   <span>7:1 (Mesin Jadul 1980)</span>
@@ -1056,7 +1071,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
             </div>
 
             {/* Additive selection mixer */}
-            <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-3">
+            <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} space-y-3`}>
               <span className="text-[10px] font-mono text-zinc-550 uppercase font-black block">Pencampuran Zat Aditif (Anti-Knocking Boosters):</span>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
                 {[
@@ -1124,14 +1139,14 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                 </button>
               )}
 
-              <div className="flex-1 p-2.5 bg-slate-950 rounded-xl border border-slate-900 font-mono text-[10px] text-zinc-500 flex items-center gap-2">
+              <div className={`flex-1 p-2.5 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} font-mono text-[10px] text-zinc-500 flex items-center gap-2`}>
                 <Info className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
                 <span>Tekanan bensin minim oktan memicu preignition (meledak sendirinya akibat panas gesek).</span>
               </div>
             </div>
 
             {/* Simulated Live Console Log Tracker */}
-            <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 font-mono space-y-1.5">
+            <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} font-mono space-y-1.5`}>
               <span className="text-[9px] uppercase text-zinc-505 font-bold block">Status Generator Log (Sensor Kompresor):</span>
               <div className="text-[10.5px] space-y-1 max-h-[110px] overflow-y-auto">
                 {testLog.map((log, idx) => {
@@ -1155,7 +1170,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
           <div className="lg:col-span-12 xl:col-span-4 flex flex-col gap-6">
             
             {/* Visual Combustion Chamber Box */}
-            <div className="bg-slate-900/35 border border-slate-900 rounded-2xl p-6 flex flex-col justify-between space-y-5 relative overflow-hidden min-h-[385px]">
+            <div className={`border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/35 border-slate-900' : 'bg-white border-slate-200'} p-6 flex flex-col justify-between space-y-5 relative overflow-hidden min-h-[385px]`}>
               
               <div className="space-y-1.5 text-center">
                 <span className="text-[9px] font-mono text-zinc-550 uppercase">Kamar Pembakaran • Silinder Piston</span>
@@ -1169,7 +1184,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
               <div className="w-full h-48 relative flex items-center justify-center">
                 
                 {/* Cylinder block frame */}
-                <div id="engine-cylinder-frame" className="w-44 h-40 border-l-4 border-r-4 border-t-2 border-slate-800 bg-slate-950/40 rounded-t-xl relative overflow-hidden flex flex-col justify-between">
+                <div id="engine-cylinder-frame" className={`w-44 h-40 border-l-4 border-r-4 border-t-2 rounded-t-xl relative overflow-hidden flex flex-col justify-between ${theme === 'dark' ? 'border-slate-800 bg-slate-950/40' : 'border-slate-300 bg-slate-100/40'}`}>
                   
                   {/* Spark Plug indicator at the top center */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-4 bg-zinc-800 border-b border-zinc-700 flex flex-col items-center flex-col">
@@ -1215,7 +1230,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                           }
                     }
                   >
-                    <div className="w-8 h-1 bg-slate-950 rounded-full mb-1 opacity-60" />
+                    <div className={`w-8 h-1 rounded-full mb-1 opacity-60 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`} />
                     <span className="text-[8.5px] font-mono text-zinc-300">PISTON</span>
                   </motion.div>
 
@@ -1238,7 +1253,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
               </div>
 
               {/* Status and Diagnostics Box */}
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-3.5 font-mono text-xs">
+              <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} space-y-3.5 font-mono text-xs`}>
                 <div className="flex justify-between items-center border-b border-slate-900 pb-2">
                   <span className="text-zinc-500">Merek Bahan Bakar:</span>
                   <span className={`font-black ${activeFuelInfo.color}`}>{activeFuelInfo.name}</span>
@@ -1261,13 +1276,13 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                   </span>
                 </div>
 
-                <div className="p-2.5 bg-slate-905 rounded-lg text-center leading-normal text-zinc-400 text-[10.5px]">
+                <div className={`p-2.5 rounded-lg text-center leading-normal text-[10.5px] ${theme === 'dark' ? 'bg-slate-905 text-zinc-400' : 'bg-slate-100 text-slate-600'}`}>
                   {activeFuelInfo.desc}
                 </div>
               </div>
 
               {/* Kalkulator Efisiensi Motor & Emisi Karbon (Kelas XI SMA) */}
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-3 font-sans">
+              <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} space-y-3 font-sans`}>
                 <span className="text-[9.5px] text-teal-400 font-extrabold font-mono uppercase tracking-wide block border-b border-slate-900 pb-1.5 flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5 text-yellow-500" />
                   Kalkulator Efisiensi Pembakaran &amp; Emisi
@@ -1324,7 +1339,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                         </strong>
                       </div>
 
-                      <div className="p-2 bg-slate-900/60 rounded-lg text-[9.5px] leading-relaxed text-zinc-400 font-sans border border-slate-905">
+                      <div className={`p-2 rounded-lg text-[9.5px] leading-relaxed font-sans border ${theme === 'dark' ? 'bg-slate-900/60 text-zinc-400 border-slate-905' : 'bg-slate-100/60 text-slate-600 border-slate-300'}`}>
                         {isKnocking ? (
                           <span className="text-rose-300">
                             💔 <strong>Gagal Pembakaran Sempurna!</strong> Karena Angka Oktan ({effectiveOctane}) tidak kuat menahan kompresi ({compressionRatio}:1), bensin meledak prematur menghasilkan gas racun CO tinggi dan menurunkan efisiensi termal.
@@ -1343,7 +1358,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
             </div>
 
             {/* Interactive Molecular Isomers Structure Comparator Card */}
-            <div className="bg-slate-900/35 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-4">
+            <div className={`border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/35 border-slate-900' : 'bg-white border-slate-200'} p-5 md:p-6 space-y-4`}>
               <div className="space-y-1">
                 <span className="text-[9px] font-mono text-zinc-550 uppercase">Struktur Isomer Alifatik • Kelas XI</span>
                 <h4 className="text-sm font-sans font-bold text-white flex items-center gap-1.5">
@@ -1353,7 +1368,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
               </div>
 
               {/* Selector Tabs for Isooktana vs n-Heptana 2D renderings */}
-              <div className="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl border border-slate-910">
+              <div className={`grid grid-cols-2 gap-2 p-1 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-910' : 'bg-slate-100 border-slate-200'}`}>
                 <button
                   type="button"
                   onClick={() => setSelectedStructure('isooctane')}
@@ -1379,7 +1394,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
               </div>
 
               {/* Molecule Display Canvas Render */}
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-910 flex flex-col justify-center items-center min-h-[160px] relative overflow-hidden">
+              <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} flex flex-col justify-center items-center min-h-[160px] relative overflow-hidden`}>
                 {selectedStructure === 'isooctane' ? (
                   <div className="space-y-4 w-full">
                     {/* Visual Carbon Map representing branched isomer */}
@@ -1391,23 +1406,23 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                       
                       {/* Main spine with bonds */}
                       <div className="flex items-center gap-2 font-mono text-xs text-zinc-300">
-                        <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800 text-teal-404">CH₃</span>
+                        <span className={`p-1 px-1.5 rounded border text-teal-404 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₃</span>
                         <span>—</span>
-                        <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800 font-bold text-white relative">
+                        <span className={`p-1 px-1.5 rounded border font-bold relative ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}>
                           C
                           {/* methyl down branch */}
                           <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-teal-400 text-[10px]">CH₃</span>
                         </span>
                         <span>—</span>
-                        <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800">CH₂</span>
+                        <span className={`p-1 px-1.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₂</span>
                         <span>—</span>
-                        <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800 font-bold text-white relative">
+                        <span className={`p-1 px-1.5 rounded border font-bold relative ${theme === 'dark' ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}>
                           CH
                           {/* methyl up branch code */}
                           <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-teal-400 text-[10px]">CH₃</span>
                         </span>
                         <span>—</span>
-                        <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800 text-teal-404">CH₃</span>
+                        <span className={`p-1 px-1.5 rounded border text-teal-404 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₃</span>
                       </div>
                       
                       <div className="h-6" /> {/* Spacer spacer down branch */}
@@ -1421,19 +1436,19 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                   <div className="space-y-4 w-full">
                     {/* Visual Carbon Map representing linear pentane */}
                     <div className="flex justify-center items-center gap-1.5 font-mono text-xs text-zinc-400 py-6">
-                      <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800 text-rose-404">CH₃</span>
+                      <span className={`p-1 px-1.5 rounded border text-rose-404 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₃</span>
                       <span>—</span>
-                      <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800">CH₂</span>
+                      <span className={`p-1 px-1.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₂</span>
                       <span>—</span>
-                      <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800">CH₂</span>
+                      <span className={`p-1 px-1.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₂</span>
                       <span>—</span>
-                      <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800">CH₂</span>
+                      <span className={`p-1 px-1.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₂</span>
                       <span>—</span>
-                      <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800">CH₂</span>
+                      <span className={`p-1 px-1.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₂</span>
                       <span>—</span>
-                      <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800">CH₂</span>
+                      <span className={`p-1 px-1.5 rounded border ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₂</span>
                       <span>—</span>
-                      <span className="p-1 px-1.5 bg-slate-900 rounded border border-slate-800 text-rose-404">CH₃</span>
+                      <span className={`p-1 px-1.5 rounded border text-rose-404 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>CH₃</span>
                     </div>
 
                     <div className="text-[11px] font-mono leading-relaxed text-zinc-405 text-center border-t border-slate-900 pt-3">
@@ -1454,7 +1469,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
         <div className="space-y-6">
           
           {/* Section banner */}
-          <div className="p-4 bg-slate-900/25 border border-slate-900 rounded-xl font-mono text-xs space-y-1">
+          <div className={`p-4 border ${theme === 'dark' ? 'bg-slate-900/25 border-slate-900' : 'bg-slate-50 border-slate-200'} rounded-xl font-mono text-xs space-y-1`}>
             <h3 className="text-xs font-sans font-bold text-teal-400">Pondasi Pabrik Kilang Minyak Bumi (Petroleum Refining Processes)</h3>
             <p className="text-[10px] text-zinc-500">Menyaring minyak mentah kotor tidaklah cukup; reaksi sekunder diperlukan untuk memaksimalkan daya bakar energi motor.</p>
           </div>
@@ -1497,7 +1512,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.98 }}
-                      className="bg-slate-900/25 border border-slate-900 rounded-2xl p-6 md:p-8 space-y-6 flex-1 flex flex-col justify-between"
+                      className={`border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/25 border-slate-900' : 'bg-white border-slate-200'} p-6 md:p-8 space-y-6 flex-1 flex flex-col justify-between`}
                     >
                       <div className="space-y-5">
                         <div className="flex items-center gap-2">
@@ -1513,7 +1528,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                         <p className="text-zinc-350 text-sm leading-relaxed">{tech.description}</p>
 
                         {/* Equation Box styled of hydrocarbon changes */}
-                        <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-2">
+                        <div className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} space-y-2`}>
                           <span className="text-[8.5px] font-mono text-zinc-550 uppercase tracking-widest block font-bold">Skema Persamaan Reaksi Kimia:</span>
                           <div className="font-mono text-[11.5px] md:text-xs text-yellow-400 break-all select-all font-bold">
                             {tech.chemicalEquation}
@@ -1553,7 +1568,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="bg-slate-900/25 border border-slate-900 rounded-2xl p-6 md:p-8 space-y-6"
+                className={`border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/25 border-slate-900' : 'bg-white border-slate-200'} p-6 md:p-8 space-y-6`}
               >
                 
                 {/* Visual Quiz progress bar */}
@@ -1562,7 +1577,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                     <span>Soal Latihan {quizIdx + 1} dari {QUIZ_QUESTIONS.length}</span>
                     <span className="font-black text-yellow-450">Poin Terkumpul: {quizScore} / 100</span>
                   </div>
-                  <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
+                  <div className={`w-full h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                     <div 
                       className="bg-yellow-505 h-full transition-all duration-300"
                       style={{ width: `${((quizIdx + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
@@ -1654,7 +1669,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="p-4 bg-slate-950 rounded-xl border border-slate-900 text-zinc-400 leading-relaxed font-sans text-xs md:text-sm space-y-1"
+                    className={`p-4 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} text-zinc-400 leading-relaxed font-sans text-xs md:text-sm space-y-1`}
                   >
                     <strong className="text-emerald-450 block font-mono text-[10.5px] uppercase">Penjelasan Guru (Pedagogi):</strong>
                     <p>{QUIZ_QUESTIONS[quizIdx].feedback}</p>
@@ -1666,7 +1681,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-slate-900/25 border border-slate-900 rounded-2xl p-6 md:p-8 text-center space-y-6"
+                className={`border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/25 border-slate-900' : 'bg-white border-slate-200'} p-6 md:p-8 text-center space-y-6`}
               >
                 <div className="w-16 h-16 bg-yellow-500/10 border border-yellow-500/20 text-yellow-450 rounded-full flex items-center justify-center text-3xl mx-auto animate-bounce">
                   🏆
@@ -1678,7 +1693,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                   <p className="text-4xl font-mono font-black text-teal-400">{quizScore} / 100</p>
                 </div>
 
-                <div className="p-4.5 bg-slate-950 rounded-xl border border-slate-900 max-w-md mx-auto text-xs md:text-sm text-zinc-400 font-sans leading-relaxed">
+                <div className={`p-4.5 rounded-xl border ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-200'} max-w-md mx-auto text-xs md:text-sm text-zinc-400 font-sans leading-relaxed`}>
                   {quizScore === 100 ? (
                     'Sempurna! Anda telah menguasai konsep distilasi bertingkat, fraksionasi hidrokarbon kilang kimia, dan penghitungan angka oktan dengan sangat gemilang.'
                   ) : quizScore >= 60 ? (
@@ -1691,7 +1706,7 @@ export default function PetroleumLab({ currentUser }: PetroleumLabProps) {
                 <div className="flex gap-3.5 justify-center pt-2">
                   <button
                     onClick={resetQuiz}
-                    className="px-5 py-2 bg-slate-950 border border-slate-900 hover:text-white text-zinc-400 text-xs font-mono font-bold uppercase rounded-lg transition-all flex items-center gap-1 cursor-pointer active:scale-98"
+                    className={`px-5 py-2 border text-xs font-mono font-bold uppercase rounded-lg transition-all flex items-center gap-1 cursor-pointer active:scale-98 ${theme === 'dark' ? 'bg-slate-950 border-slate-900 hover:text-white text-zinc-400' : 'bg-slate-100 border-slate-300 hover:text-slate-900 text-slate-600'}`}
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                     Ulangi Pembelajaran Kuis

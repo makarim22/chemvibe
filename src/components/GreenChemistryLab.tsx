@@ -38,6 +38,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { UserAccount } from '../types';
 
 interface GreenChemistryLabProps {
+  theme?: 'dark' | 'light';
   currentUser: UserAccount | null;
 }
 
@@ -416,7 +417,7 @@ const CHALLENGE_QUESTIONS = [
   }
 ];
 
-export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProps) {
+export default function GreenChemistryLab({ currentUser, theme = 'dark' }: GreenChemistryLabProps) {
   const [activeTab, setActiveTab] = useState<'principles' | 'simulator' | 'challenge' | 'calculator'>('principles');
   
   // Principles state
@@ -643,7 +644,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
   };
 
   return (
-    <div id="green-chemistry-supercharged-lab" className="w-full min-h-[calc(100vh-4rem)] p-4 md:p-8 space-y-6 bg-slate-950 text-slate-205 font-sans">
+    <div id="green-chemistry-supercharged-lab" className={`w-full min-h-[calc(100vh-4rem)] p-4 md:p-8 space-y-6 text-slate-205 font-sans ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
       
       {/* Premium Dynamic Header */}
       <div className="relative p-6 md:p-8 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-teal-950/20 to-slate-900 border border-emerald-900/40 overflow-hidden shadow-2xl">
@@ -670,7 +671,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
             </p>
           </div>
 
-          <div className="flex gap-2 p-1.5 bg-slate-950/90 rounded-xl border border-slate-900 overflow-x-auto self-start md:self-auto">
+          <div className={`flex gap-2 p-1.5 rounded-xl border overflow-x-auto self-start md:self-auto ${theme === 'dark' ? 'bg-slate-950/90 border-slate-900' : 'bg-slate-100/90 border-slate-300'}`}>
             <button
               onClick={() => { setActiveTab('principles'); setSelectedPrinciple(PRINCIPLES[0]); }}
               className={`px-3.5 py-2 rounded-lg text-xs font-mono font-bold uppercase transition-all tracking-wider cursor-pointer ${
@@ -723,7 +724,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Bento-styled list of 12 Principles */}
-          <div className="lg:col-span-5 bg-slate-900/30 border border-slate-900 rounded-2xl p-4 flex flex-col gap-3">
+          <div className={`lg:col-span-5 border rounded-2xl p-4 flex flex-col gap-3 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}>
             <div className="space-y-1 pb-2 border-b border-slate-900">
               <span className="text-[9px] font-mono text-emerald-450 uppercase font-black block">Kamus Teori &amp; Konseptual</span>
               <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
@@ -738,7 +739,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   placeholder="Cari kata kunci prinsip..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 bg-slate-955 border border-slate-900 rounded-xl text-xs text-white placeholder-zinc-650 focus:outline-none focus:border-emerald-500"
+                  className={`w-full pl-9 pr-3 py-1.5 border rounded-xl text-xs placeholder-zinc-650 focus:outline-none focus:border-emerald-500 ${theme === 'dark' ? 'bg-slate-955 border-slate-900 text-white' : 'bg-slate-100 border-slate-300 text-slate-900'}`}
                 />
               </div>
             </div>
@@ -783,7 +784,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
-                  className="bg-slate-905 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-5 shadow-xl flex flex-col justify-between"
+                  className={`border rounded-2xl p-5 md:p-6 space-y-5 shadow-xl flex flex-col justify-between ${theme === 'dark' ? 'bg-slate-905 border-slate-900' : 'bg-slate-100 border-slate-300'}`}
                 >
                   <div className="space-y-4">
                     <div className="flex items-center gap-3.5">
@@ -805,7 +806,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                       <p className="text-zinc-350 text-xs md:text-sm leading-relaxed">{selectedPrinciple.description}</p>
                     </div>
 
-                    <div className="p-3.5 bg-slate-950 rounded-xl border border-slate-900 space-y-1.5 shadow-inner">
+                    <div className={`p-3.5 rounded-xl border space-y-1.5 shadow-inner ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                       <h4 className="text-[10px] font-mono font-bold text-zinc-550 uppercase tracking-widest flex items-center gap-1.5">
                         <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
                         Penerapan Riil di Kehidupan/Sains:
@@ -815,7 +816,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
 
                     {/* INTERACTIVE MINI-EXPERIMENT PLAYGROUND INTEGRATION */}
                     {selectedPrinciple.playgroundType !== 'none' && (
-                      <div className="border border-emerald-500/10 rounded-xl overflow-hidden bg-slate-950/50">
+                      <div className={`border border-emerald-500/10 rounded-xl overflow-hidden ${theme === 'dark' ? 'bg-slate-950/50' : 'bg-slate-100/50'}`}>
                         <div className="p-3 bg-gradient-to-r from-emerald-950/40 to-teal-950/20 border-b border-emerald-500/10 flex justify-between items-center">
                           <span className="text-[10px] font-mono font-black text-emerald-400 uppercase flex items-center gap-1.5">
                             <Activity className="w-3.5 h-3.5 animate-pulse" />
@@ -833,12 +834,12 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                               Mari hitung jumlah timbunan limbah sampingan berdasarkan rute yang dipilih. Tekan tombol tindakan di bawah:
                             </p>
                             <div className="grid grid-cols-2 gap-4">
-                              <div className="p-3 bg-slate-900/60 rounded-lg border border-red-500/20 text-center">
+                              <div className={`p-3 rounded-lg border border-red-500/20 text-center ${theme === 'dark' ? 'bg-slate-900/60' : 'bg-slate-100/60'}`}>
                                 <span className="text-rose-400 font-extrabold block">Rute Lama (Stoikiometri)</span>
                                 <div className="text-lg font-black text-rose-500 mt-1">1500 gram</div>
                                 <span className="text-[8.5px] text-zinc-500 block mt-1">Limbah garam mengendap berat</span>
                               </div>
-                              <div className="p-3 bg-slate-905/80 rounded-lg border border-emerald-555/20 text-center">
+                              <div className={`p-3 rounded-lg border border-emerald-555/20 text-center ${theme === 'dark' ? 'bg-slate-905/80' : 'bg-slate-100/80'}`}>
                                 <span className="text-emerald-450 font-extrabold block">Rute Baru (Katalis Daur Ulang)</span>
                                 <div className="text-lg font-black text-emerald-400 mt-1">12 gram</div>
                                 <span className="text-[8.5px] text-zinc-500 block mt-1">Hanya cairan air pengembun</span>
@@ -859,7 +860,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                                   <span>Konstruksi Reaksi Adisi (Semua Atom masuk Ke Produk):</span>
                                   <strong className="text-emerald-400">100% Atom Efektif</strong>
                                 </div>
-                                <div className="h-2 bg-slate-900 rounded-full overflow-hidden">
+                                <div className={`h-2 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                   <div className="h-full bg-emerald-555 w-full" />
                                 </div>
                               </div>
@@ -868,7 +869,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                                   <span>Konstruksi Reaksi Substitusi (Banyak Atom Samping dibuang):</span>
                                   <strong className="text-rose-400">35% Atom Efektif</strong>
                                 </div>
-                                <div className="h-2 bg-slate-900 rounded-full overflow-hidden">
+                                <div className={`h-2 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                   <div className="h-full bg-rose-500 w-[35%]" />
                                 </div>
                               </div>
@@ -910,7 +911,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                                   {catalysisTimer} detik {isCatalystAdded ? "(Super Cepat!)" : "(Sangat Lambat)"}
                                 </span>
                               </div>
-                              <div className="h-2.5 bg-slate-900 rounded-full overflow-hidden relative">
+                              <div className={`h-2.5 rounded-full overflow-hidden relative ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                 <div 
                                   className={`h-full transition-all duration-200 ${isCatalystAdded ? 'bg-gradient-to-r from-emerald-500 to-cyan-550' : 'bg-amber-500'}`} 
                                   style={{ width: `${catalysisSpeed}%` }}
@@ -957,10 +958,10 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                                 max="180"
                                 value={degradationDays}
                                 onChange={(e) => setDegradationDays(parseInt(e.target.value))}
-                                className="w-full h-1 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                                className={`w-full h-1 rounded-lg appearance-none cursor-pointer accent-emerald-500 ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}
                               />
 
-                              <div className="p-3 bg-slate-900/40 rounded-lg flex items-center gap-3">
+                              <div className={`p-3 rounded-lg flex items-center gap-3 ${theme === 'dark' ? 'bg-slate-900/40' : 'bg-slate-100/40'}`}>
                                 <div className="text-lg">
                                   {degradationMaterial === 'pet' ? '🧱' : '🌱'}
                                 </div>
@@ -1020,7 +1021,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                                 </span>
                               </div>
 
-                              <div className="h-2 bg-slate-900 rounded-full overflow-hidden">
+                              <div className={`h-2 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                                 <div 
                                   className={`h-full transition-all duration-300 ${solventAirQuality < 70 ? 'bg-rose-500' : 'bg-emerald-500'}`}
                                   style={{ width: `${solventAirQuality}%` }}
@@ -1093,7 +1094,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
         <div className="space-y-6">
           
           {/* Reaction Case Selector Toolbar Grid */}
-          <div className="p-4 bg-slate-900/30 border border-slate-900 rounded-2xl flex flex-wrap gap-4 items-center justify-between">
+          <div className={`p-4 border rounded-2xl flex flex-wrap gap-4 items-center justify-between ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}>
             <div className="flex items-center gap-3">
               <span className="p-2.5 bg-emerald-500/10 border border-emerald-500/25 rounded-xl">
                 <Combine className="w-5 h-5 text-emerald-400" />
@@ -1128,19 +1129,19 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             {/* Left Side: Parameters and Route Toggle Card */}
-            <div className="lg:col-span-5 flex flex-col justify-between bg-slate-900/30 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-6">
+            <div className={`lg:col-span-5 flex flex-col justify-between border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}>
               
               <div className="space-y-4">
                 <div>
                   <span className="text-[9px] font-mono text-emerald-450 uppercase font-black block">Spesifikasi Target Senyawa</span>
                   <h2 className="text-lg md:text-xl font-bold font-sans text-white mt-1 leading-tight">{activeCase.title}</h2>
-                  <p className="text-[11px] font-mono text-zinc-405 mt-1">Formula Senyawa: <strong className="text-white bg-slate-950 px-2 py-0.5 rounded border border-slate-900">{activeCase.chemicalFormula}</strong></p>
+                  <p className="text-[11px] font-mono text-zinc-405 mt-1">Formula Senyawa: <strong className={`px-2 py-0.5 rounded border ${theme === 'dark' ? 'text-white bg-slate-950 border-slate-900' : 'text-slate-900 bg-slate-100 border-slate-300'}`}>{activeCase.chemicalFormula}</strong></p>
                 </div>
 
                 <p className="text-xs text-zinc-400 leading-relaxed font-sans">{activeCase.description}</p>
 
                 {/* Highly Visual Rute Selector Slider Segment */}
-                <div className="p-1 bg-slate-955 rounded-xl border border-slate-900/80 flex items-center relative">
+                <div className={`p-1 rounded-xl border flex items-center relative ${theme === 'dark' ? 'bg-slate-955 border-slate-900/80' : 'bg-slate-100 border-slate-300'}`}>
                   <button
                     onClick={() => {
                       if (reactorState === 'charging' || reactorState === 'reacting') return;
@@ -1173,7 +1174,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
               </div>
 
               {/* Operations Stats List */}
-              <div className="bg-slate-950 rounded-xl border border-slate-900 p-4 space-y-3 font-mono text-[11px]">
+              <div className={`rounded-xl border p-4 space-y-3 font-mono text-[11px] ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <h4 className="text-[9px] font-black text-zinc-555 uppercase tracking-widest pb-1 border-b border-slate-900">Operasional Logistik Reaksi:</h4>
                 <div className="flex justify-between items-center py-0.5">
                   <span className="text-zinc-500">1. Sediaan Baku:</span>
@@ -1218,7 +1219,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
 
                 <button
                   onClick={resetReactor}
-                  className="p-3 bg-slate-950 hover:bg-slate-900 border border-slate-900 text-zinc-400 rounded-xl transition-all cursor-pointer"
+                  className={`p-3 border rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'bg-slate-950 hover:bg-slate-900 border-slate-900 text-zinc-400' : 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-600'}`}
                   title="Bersihkan Reaktor"
                 >
                   <RotateCcw className="w-4 h-4" />
@@ -1228,7 +1229,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
             </div>
 
             {/* Right Side: Visual Glassware Simulator chamber and Live Gauges */}
-            <div className="lg:col-span-7 flex flex-col justify-between bg-slate-900/30 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-6">
+            <div className={`lg:col-span-7 flex flex-col justify-between border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}>
               
               <div className="flex justify-between items-start flex-wrap gap-2">
                 <div>
@@ -1285,7 +1286,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   )}
 
                   {/* Glass Reactor vessel */}
-                  <div className="w-48 h-52 border-b-8 border-x-4 border-slate-700 bg-slate-905/40 rounded-b-[40px] relative flex flex-col justify-end overflow-hidden shadow-2xl">
+                  <div className={`w-48 h-52 border-b-8 border-x-4 border-slate-700 rounded-b-[40px] relative flex flex-col justify-end overflow-hidden shadow-2xl ${theme === 'dark' ? 'bg-slate-905/40' : 'bg-slate-100/40'}`}>
                     
                     {/* Measurement markings ticks */}
                     <div className="absolute left-2.5 top-8 bottom-4 w-1.5 bg-zinc-650/15 flex flex-col justify-between text-[6px] font-mono text-zinc-650">
@@ -1350,7 +1351,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                 <div className="md:col-span-5 flex flex-col justify-center gap-3">
                   
                   {/* Gauge 1: Thermometer */}
-                  <div className="p-3 bg-slate-955 rounded-xl border border-slate-900 flex items-center gap-3">
+                  <div className={`p-3 rounded-xl border flex items-center gap-3 ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <div className={`p-2 rounded-lg ${reactorTemperature >= 100 ? 'bg-rose-500/10 text-rose-450' : 'bg-cyan-500/10 text-cyan-405 animate-pulse'}`}>
                       <Thermometer className="w-4 h-4" />
                     </div>
@@ -1363,7 +1364,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   </div>
 
                   {/* Gauge 2: Pressure vakum */}
-                  <div className="p-3 bg-slate-955 rounded-xl border border-slate-900 flex items-center gap-3">
+                  <div className={`p-3 rounded-xl border flex items-center gap-3 ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <div className="p-2 bg-amber-500/15 rounded-lg text-amber-400">
                       <Gauge className="w-4 h-4 animate-spin" style={{ animationDuration: reactorState === 'reacting' ? '1s' : '5s' }} />
                     </div>
@@ -1376,7 +1377,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   </div>
 
                   {/* Gauge 3: Atom Economy Percent Dial */}
-                  <div className="p-3 bg-slate-955 rounded-xl border border-slate-900 text-center relative overflow-hidden">
+                  <div className={`p-3 rounded-xl border text-center relative overflow-hidden ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     <span className="text-[9px] font-mono font-black text-zinc-505 block uppercase pb-1 border-b border-slate-905">INTEGRITAS EKONOMI ATOM</span>
                     <div className="flex items-center justify-between gap-4 mt-2">
                       <div className="text-left">
@@ -1385,7 +1386,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                           {activeAtomEconomy}%
                         </div>
                       </div>
-                      <div className="flex-1 max-w-[100px] h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                      <div className={`flex-1 max-w-[100px] h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                         <div 
                           className={`h-full transition-all duration-1000 ${useGreenRoute ? 'bg-emerald-500' : 'bg-rose-500'}`}
                           style={{ width: `${activeAtomEconomy}%` }}
@@ -1399,7 +1400,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
               </div>
 
               {/* Dynamic Typewriter Command line logs */}
-              <div className="bg-slate-955 rounded-xl border border-slate-900 p-3.5 space-y-1 text-[10px] font-mono text-zinc-400 select-none">
+              <div className={`rounded-xl border p-3.5 space-y-1 text-[10px] font-mono select-none ${theme === 'dark' ? 'bg-slate-955 border-slate-900 text-zinc-400' : 'bg-slate-100 border-slate-300 text-slate-600'}`}>
                 <div className="flex justify-between items-center text-[8.5px] text-zinc-655 uppercase pb-1.5 border-b border-slate-900 mb-1.5 font-bold">
                   <span>Reaktor Telemetry diagnostics</span>
                   <span className="animate-pulse text-emerald-400">● Live Feed</span>
@@ -1482,7 +1483,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-7xl mx-auto">
             
             {/* Left Inputs panel */}
-            <div className="lg:col-span-5 bg-slate-900/30 border border-slate-900 rounded-2xl p-5 md:p-6 space-y-6">
+            <div className={`lg:col-span-5 border rounded-2xl p-5 md:p-6 space-y-6 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}>
               <div className="space-y-1.5 pb-2 border-b border-slate-900">
                 <span className="text-[9px] font-mono text-emerald-450 uppercase font-black block">Kalkulator Simulasi Siswa</span>
                 <h3 className="text-sm font-bold text-white flex items-center gap-1.5 font-sans">
@@ -1497,7 +1498,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   1. Massa Atom / Molekul (g/mol):
                 </label>
                 
-                <div className="p-4 bg-slate-950/80 rounded-xl border border-slate-900 space-y-3">
+                <div className={`p-4 rounded-xl border space-y-3 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
                   <div>
                     <div className="flex justify-between items-center text-[10px] font-mono mb-1">
                       <span className="text-zinc-500">Massa Molar Produk Diinginkan (mol_des):</span>
@@ -1542,7 +1543,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   2. Sediaan Massa Riil Reaksi Sintesis (kg):
                 </label>
 
-                <div className="p-4 bg-slate-950/80 rounded-xl border border-slate-900 space-y-3">
+                <div className={`p-4 rounded-xl border space-y-3 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
                   <div>
                     <div className="flex justify-between items-center text-[10px] font-mono mb-1">
                       <span className="text-zinc-500">Massa Total Limbah Terbuang:</span>
@@ -1591,7 +1592,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
               </div>
 
               {/* Toggles */}
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-3 font-mono text-[10.5px]">
+              <div className={`p-4 rounded-xl border space-y-3 font-mono text-[10.5px] ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <div className="flex justify-between items-center">
                   <span className="text-zinc-450 uppercase">Gunakan Reagen Katalis Selektif (Enzim/Ni)?</span>
                   <button 
@@ -1608,7 +1609,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
             {/* Right scorecard analysis */}
             <div className="lg:col-span-7 flex flex-col gap-4">
               
-              <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[380px]">
+              <div className={`border rounded-2xl p-5 flex flex-col justify-between space-y-6 flex-1 min-h-[380px] ${theme === 'dark' ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-100/40 border-slate-300'}`}>
                 
                 {/* Header diagnostic summary */}
                 <div className="flex justify-between items-start flex-wrap gap-3 pb-3 border-b border-slate-900/60 w-full">
@@ -1647,7 +1648,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                       
                       <div className="space-y-1">
                         <span className="text-xs font-mono font-black text-white">{calculatedAtomEconomy}% EA</span>
-                        <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden">
+                        <div className={`w-full h-2.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                           <div 
                             className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500" 
                             style={{ width: `${calculatedAtomEconomy}%` }}
@@ -1672,7 +1673,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                       
                       <div className="space-y-1">
                         <span className="text-xs font-mono font-black text-white">{calculatedEFactor}x E-Factor</span>
-                        <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden">
+                        <div className={`w-full h-2.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                           <div 
                             className="h-full bg-gradient-to-r from-emerald-500 to-rose-500 transition-all duration-500" 
                             style={{ width: `${Math.min(100, calculatedEFactor * 40)}%` }}
@@ -1690,7 +1691,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                 </div>
 
                 {/* 12 principles recommendations diagnostic block representing your inputs */}
-                <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-3">
+                <div className={`p-4 rounded-xl border space-y-3 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                   <span className="text-[9.5px] text-teal-400 font-extrabold uppercase tracking-wide block font-mono border-b border-slate-900 pb-1 flex items-center gap-1.5">
                     <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
                     Kesesuaian dengan 12 Prinsip Kimia Hijau:
@@ -1766,7 +1767,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className="bg-slate-900/30 border border-slate-900 rounded-2xl p-5 md:p-8 space-y-6 shadow-2xl"
+                className={`border rounded-2xl p-5 md:p-8 space-y-6 shadow-2xl ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}
               >
                 
                 {/* Visual scorecard indicator */}
@@ -1784,7 +1785,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                       <span className="text-[8px] font-mono text-zinc-555 block uppercase">Akumulasi Kredit poin:</span>
                       <strong className="text-sm font-mono text-emerald-455 block">&bull; +{quizScore} Pts</strong>
                     </div>
-                    <div className="h-8 w-px bg-slate-900" />
+                    <div className={`h-8 w-px ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`} />
                     <div className="text-right">
                       <span className="text-[8px] font-mono text-zinc-555 block uppercase">Progress Audit:</span>
                       <strong className="text-xs font-mono text-white block">{currentQuestionIdx + 1} / {CHALLENGE_QUESTIONS.length}</strong>
@@ -1800,18 +1801,18 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   <h2 className="text-base md:text-lg font-bold text-white leading-relaxed font-sans">
                     {CHALLENGE_QUESTIONS[currentQuestionIdx].title}
                   </h2>
-                  <div className="p-4 bg-slate-955 rounded-xl border border-slate-900 font-sans text-xs md:text-sm text-zinc-350 leading-relaxed shadow-inner">
+                  <div className={`p-4 rounded-xl border font-sans text-xs md:text-sm text-zinc-350 leading-relaxed shadow-inner ${theme === 'dark' ? 'bg-slate-955 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                     {CHALLENGE_QUESTIONS[currentQuestionIdx].scenario}
                   </div>
                 </div>
 
                 {/* Dynamic Comparative radar/score card meters representing the currently selected answer hover/click state */}
                 {selectedAnswerIdx !== null && (
-                  <div className="p-4 bg-slate-950 rounded-xl border border-slate-900/80 grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-[10.5px]">
+                  <div className={`p-4 rounded-xl border grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-[10.5px] ${theme === 'dark' ? 'bg-slate-950 border-slate-900/80' : 'bg-slate-100 border-slate-300'}`}>
                     <div className="space-y-1">
                       <span className="text-zinc-555 uppercase text-[8px]">Integritas Keamanan:</span>
                       <div className="flex items-center gap-1.5">
-                        <div className="flex-1 h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                        <div className={`flex-1 h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                           <div 
                             className="h-full bg-emerald-500 transition-all duration-500" 
                             style={{ width: `${CHALLENGE_QUESTIONS[currentQuestionIdx].options[selectedAnswerIdx].safety || 50}%` }}
@@ -1823,7 +1824,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                     <div className="space-y-1">
                       <span className="text-zinc-555 uppercase text-[8px]">Profil Ekonomi:</span>
                       <div className="flex items-center gap-1.5">
-                        <div className="flex-1 h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                        <div className={`flex-1 h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                           <div 
                             className="h-full bg-teal-400 transition-all duration-500" 
                             style={{ width: `${CHALLENGE_QUESTIONS[currentQuestionIdx].options[selectedAnswerIdx].eco || 50}%` }}
@@ -1835,7 +1836,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                     <div className="space-y-1">
                       <span className="text-zinc-555 uppercase text-[8px]">Kandungan Toksisitas:</span>
                       <div className="flex items-center gap-1.5">
-                        <div className="flex-1 h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                        <div className={`flex-1 h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                           <div 
                             className="h-full bg-rose-500 transition-all duration-500" 
                             style={{ width: `${CHALLENGE_QUESTIONS[currentQuestionIdx].options[selectedAnswerIdx].toxic || 10}%` }}
@@ -1847,7 +1848,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                     <div className="space-y-1">
                       <span className="text-zinc-555 uppercase text-[8px]">Efisiensi Energi:</span>
                       <div className="flex items-center gap-1.5">
-                        <div className="flex-1 h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                        <div className={`flex-1 h-1.5 rounded-full overflow-hidden ${theme === 'dark' ? 'bg-slate-900' : 'bg-slate-100'}`}>
                           <div 
                             className="h-full bg-amber-400 transition-all duration-500" 
                             style={{ width: `${CHALLENGE_QUESTIONS[currentQuestionIdx].options[selectedAnswerIdx].energy || 50}%` }}
@@ -1948,7 +1949,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-slate-900/30 border border-slate-900 rounded-2xl p-8 text-center space-y-6"
+                className={`border rounded-2xl p-8 text-center space-y-6 ${theme === 'dark' ? 'bg-slate-900/30 border-slate-900' : 'bg-slate-100/30 border-slate-300'}`}
               >
                 <div className="w-20 h-20 bg-emerald-500/10 border-2 border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-emerald-400 animate-pulse">
                   <Award className="w-10 h-10" />
@@ -1961,7 +1962,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                   </p>
                 </div>
 
-                <div className="p-4 bg-slate-950 border border-slate-900 rounded-xl max-w-sm mx-auto flex justify-between items-center font-mono">
+                <div className={`p-4 border rounded-xl max-w-sm mx-auto flex justify-between items-center font-mono ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                   <div className="text-left">
                     <span className="text-zinc-505 text-[8px] uppercase font-black leading-none mb-1 block">Skor diperoleh:</span>
                     <strong className={`text-2xl font-black ${quizScore >= 66 ? "text-emerald-400" : "text-amber-500"}`}>{Math.min(100, quizScore + 1)} / 100</strong>
@@ -1987,7 +1988,7 @@ export default function GreenChemistryLab({ currentUser }: GreenChemistryLabProp
                       setQuizScore(0);
                       setQuizFinished(false);
                     }}
-                    className="px-5 py-2.5 bg-slate-955 border border-slate-900 hover:border-zinc-700 text-zinc-350 text-xs font-bold uppercase rounded-xl transition-all cursor-pointer"
+                    className={`px-5 py-2.5 border text-zinc-350 text-xs font-bold uppercase rounded-xl transition-all cursor-pointer ${theme === 'dark' ? 'bg-slate-955 border-slate-900 hover:border-zinc-700' : 'bg-slate-100 border-slate-300 hover:border-slate-400'}`}
                   >
                     Ulangi Audit Kasus
                   </button>

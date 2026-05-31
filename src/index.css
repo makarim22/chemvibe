@@ -1233,6 +1233,14 @@ body.light-mode div.min-h-screen.bg-slate-950 {
 /* ========================================================
    @MEDIA PRINT LAYOUT FOR VIRTUAL LAB REPORT TO PDF
    ======================================================== */
+body.light-mode .bg-slate-900\/65 {
+  background-color: rgba(241, 245, 249, 0.65) !important;
+}
+
+body.light-mode .border-slate-800\/80 {
+  border-color: #cbd5e1 !important;
+}
+
 @media print {
   /* Setup clean A4 layout pages */
   @page {

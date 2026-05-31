@@ -39,6 +39,7 @@ interface UserAccount {
 }
 
 interface BufferHydrolysisLabProps {
+  theme?: 'dark' | 'light';
   currentUser?: UserAccount | null;
 }
 
@@ -203,7 +204,7 @@ const HYDROLYSIS_SALTS: HydrolysisSalt[] = [
   }
 ];
 
-export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLabProps) {
+export default function BufferHydrolysisLab({ currentUser, theme = 'dark' }: BufferHydrolysisLabProps) {
   // Navigation active sub-tab
   const [activeSubView, setActiveSubView] = useState<'buffer' | 'hydrolysis' | 'quiz'>('buffer');
 
@@ -648,16 +649,16 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                     <div className="absolute inset-0 pt-6 flex flex-wrap gap-2 items-center justify-center pointer-events-none opacity-45 px-4 overflow-hidden">
                       {activeSubView === 'buffer' ? (
                         <>
-                          <span className="px-1 py-0.5 bg-slate-950/80 text-[7.5px] font-mono text-cyan-300 rounded border border-cyan-500/20">{selectedBuffer.componentWeak.split(' ')[0]}</span>
-                          <span className="px-1 py-0.5 bg-slate-950/80 text-[7.5px] font-mono text-purple-300 rounded border border-purple-500/20">{selectedBuffer.componentConj.split(' ')[0]}</span>
-                          <span className="px-1 py-0.5 bg-slate-950/80 text-[7.5px] font-mono text-emerald-400 rounded">H₂O</span>
-                          <span className="px-1 py-0.5 bg-slate-950/80 text-[7.5px] font-mono text-red-400 rounded">H⁺</span>
+                          <span className={`px-1 py-0.5 text-[7.5px] font-mono text-cyan-300 rounded border border-cyan-500/20 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>{selectedBuffer.componentWeak.split(' ')[0]}</span>
+                          <span className={`px-1 py-0.5 text-[7.5px] font-mono text-purple-300 rounded border border-purple-500/20 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>{selectedBuffer.componentConj.split(' ')[0]}</span>
+                          <span className={`px-1 py-0.5 text-[7.5px] font-mono text-emerald-400 rounded ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>H₂O</span>
+                          <span className={`px-1 py-0.5 text-[7.5px] font-mono text-red-400 rounded ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>H⁺</span>
                         </>
                       ) : (
                         <>
-                          <span className="px-1 py-0.5 bg-slate-950/80 text-[7.5px] font-mono text-cyan-300 rounded border border-cyan-500/20">{selectedSalt.formula}</span>
-                          <span className="px-1 py-0.5 bg-slate-950/80 text-[7.5px] font-mono text-yellow-300 rounded border border-yellow-500/20">H₂O</span>
-                          <span className="px-1 py-0.5 bg-slate-950/80 text-[7.5px] font-mono text-purple-400 rounded">OH⁻</span>
+                          <span className={`px-1 py-0.5 text-[7.5px] font-mono text-cyan-300 rounded border border-cyan-500/20 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>{selectedSalt.formula}</span>
+                          <span className={`px-1 py-0.5 text-[7.5px] font-mono text-yellow-300 rounded border border-yellow-500/20 ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>H₂O</span>
+                          <span className={`px-1 py-0.5 text-[7.5px] font-mono text-purple-400 rounded ${theme === 'dark' ? 'bg-slate-950/80' : 'bg-slate-100/80'}`}>OH⁻</span>
                         </>
                       )}
                     </div>
@@ -728,7 +729,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                 </div>
 
                 {/* Sub Description */}
-                <div className="p-4 bg-slate-955 bg-slate-950/80 rounded-xl border border-slate-900 space-y-1 text-xs">
+                <div className={`p-4 rounded-xl border space-y-1 text-xs ${theme === 'dark' ? 'bg-slate-955 bg-slate-950/80 border-slate-900' : 'bg-slate-100 bg-slate-100/80 border-slate-300'}`}>
                   <div className="flex justify-between items-center text-[11px]">
                     <span className="font-bold text-slate-200">{selectedBuffer.name}</span>
                     <span className="font-mono text-cyan-400 font-bold">{selectedBuffer.ka_kb_text}</span>
@@ -744,7 +745,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   
                   {/* Slider Acid constituent conc */}
-                  <div className="space-y-2 p-4 bg-slate-950/40 border border-slate-900 rounded-xl">
+                  <div className={`space-y-2 p-4 border rounded-xl ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-400 font-semibold">[ {selectedBuffer.componentWeak.split(' ')[0]} ]</span>
                       <span className="font-mono font-black text-white">{weakConc.toFixed(3)} M</span>
@@ -770,7 +771,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                   </div>
 
                   {/* Slider Salt constituent conc */}
-                  <div className="space-y-2 p-4 bg-slate-950/40 border border-slate-900 rounded-xl">
+                  <div className={`space-y-2 p-4 border rounded-xl ${theme === 'dark' ? 'bg-slate-950/40 border-slate-900' : 'bg-slate-100/40 border-slate-300'}`}>
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-400 font-semibold">[ {selectedBuffer.componentConj.split(' ')[0]} ]</span>
                       <span className="font-mono font-black text-white">{conjConc.toFixed(3)} M</span>
@@ -798,8 +799,8 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                 </div>
 
                 {/* Adding dynamic drop of strong acids / strong base to test buffer strength */}
-                <div className="p-4 bg-slate-950/80 border border-slate-900 rounded-2xl space-y-4">
-                  <div className="flex justify-between items-center bg-slate-900/60 p-2 rounded-xl">
+                <div className={`p-4 border rounded-2xl space-y-4 ${theme === 'dark' ? 'bg-slate-950/80 border-slate-900' : 'bg-slate-100/80 border-slate-300'}`}>
+                  <div className={`flex justify-between items-center p-2 rounded-xl ${theme === 'dark' ? 'bg-slate-900/60' : 'bg-slate-100/60'}`}>
                     <span className="text-xs font-black text-white">INTERVENSI KIMIA: TES TAHAN ASAM &amp; BASA</span>
                     <button 
                       onClick={resetBufferSimulator}
@@ -841,7 +842,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                     </button>
 
                     {/* Dilution Ml range input */}
-                    <div className="p-3 bg-slate-900/40 border border-slate-850 rounded-xl flex flex-col justify-between">
+                    <div className={`p-3 border rounded-xl flex flex-col justify-between ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                       <span className="text-[10.5px] text-slate-400 block mb-1">Pengenceran Akuades (H₂O)</span>
                       <div className="flex justify-between text-xs font-mono text-white">
                         <span>{addedWaterMl} mL</span>
@@ -860,7 +861,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                   </div>
 
                   {/* Buffer Action results show contrast compared to normal unbuffered liquid */}
-                  <div className="p-4 bg-slate-950 rounded-xl border border-cyan-900/20 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className={`p-4 rounded-xl border border-cyan-900/20 grid grid-cols-1 md:grid-cols-2 gap-4 ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                     <div>
                       <span className="text-[9px] uppercase font-mono text-slate-500 tracking-wider">Hasil pH Buffer Kerja:</span>
                       <p className="text-lg font-black text-cyan-400 font-mono">pH {calculateBufferPH()}</p>
@@ -900,7 +901,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                   </div>
 
                   {/* Interactive Henderson-Hasselbalch calculation equation text */}
-                  <div className="p-3 bg-slate-900/50 rounded-xl font-mono text-xs text-slate-300">
+                  <div className={`p-3 rounded-xl font-mono text-xs ${theme === 'dark' ? 'bg-slate-900/50 text-slate-300' : 'bg-slate-100/50 text-slate-600'}`}>
                     <span className="text-[9px] text-slate-500 block uppercase font-bold text-emerald-400 mb-1">Persamaan Henderson-Hasselbalch MIPA:</span>
                     {selectedBuffer.type === 'asam' ? (
                       <p className="leading-relaxed text-slate-400">
@@ -946,7 +947,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                 </div>
 
                 {/* Specific Salt Origins & Chemistry Breakdown */}
-                <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-4">
+                <div className={`p-4 rounded-xl border space-y-4 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                   <div className="flex justify-between items-center">
                     <div>
                       <span className="text-[10px] uppercase font-mono text-cyan-400 block">Silsilah Asal Pereaksi</span>
@@ -985,7 +986,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                     </div>
                   </div>
 
-                  <div className="p-3 bg-slate-900 text-[11.5px] font-mono text-slate-300 rounded-lg space-y-1">
+                  <div className={`p-3 text-[11.5px] font-mono rounded-lg space-y-1 ${theme === 'dark' ? 'bg-slate-900 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
                     <span className="text-[8px] text-emerald-400 block uppercase font-bold">Persamaan Hidrolisis Reaktif:</span>
                     <p>{selectedSalt.reactionEquation}</p>
                   </div>
@@ -994,7 +995,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                 </div>
 
                 {/* Salt Molarity range adjust slide */}
-                <div className="p-4 bg-slate-950/60 border border-slate-900 rounded-xl space-y-3">
+                <div className={`p-4 border rounded-xl space-y-3 ${theme === 'dark' ? 'bg-slate-950/60 border-slate-900' : 'bg-slate-100/60 border-slate-300'}`}>
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-slate-400 font-bold">Molaritas Garam Terlarut (M) :</span>
                     <span className="font-mono text-white font-black text-sm">{saltMolarity.toFixed(3)} M</span>
@@ -1018,10 +1019,10 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                 </div>
 
                 {/* Mathematical Theory calculations breakdown */}
-                <div className="p-4 bg-slate-950 border border-slate-900 rounded-xl space-y-3">
+                <div className={`p-4 border rounded-xl space-y-3 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                   <h4 className="text-xs font-mono font-bold uppercase text-slate-500">Formulasi Matematika Hidrolisis Kelas XI</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-                    <div className="p-3 bg-slate-900/50 rounded-lg space-y-1">
+                    <div className={`p-3 rounded-lg space-y-1 ${theme === 'dark' ? 'bg-slate-900/50' : 'bg-slate-100/50'}`}>
                       <span className="text-[8.5px] text-slate-400 uppercase block">Kalkulasi Mandiri [H⁺] / [OH⁻]:</span>
                       {selectedSalt.type === 'tidak' && (
                         <p className="text-slate-500">Tidak ada reaksi kesetimbangan hidrolisis gas.</p>
@@ -1043,7 +1044,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                       )}
                     </div>
 
-                    <div className="p-3 bg-slate-900/50 rounded-lg space-y-1">
+                    <div className={`p-3 rounded-lg space-y-1 ${theme === 'dark' ? 'bg-slate-900/50' : 'bg-slate-100/50'}`}>
                       <span className="text-[8.5px] text-slate-400 uppercase block">Nilai pH Output Eksak:</span>
                       <p className="text-lg font-black text-cyan-400">pH {calculateHydrolysisPH()}</p>
                       <p className="text-[9.5px] text-slate-500 italic">Disosiasi murni diredam buffer air.</p>
@@ -1088,7 +1089,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
               </div>
 
               {/* Score Display Card */}
-              <div className="bg-slate-950 border border-slate-900 rounded-2xl p-6 max-w-xs mx-auto space-y-1.5">
+              <div className={`border rounded-2xl p-6 max-w-xs mx-auto space-y-1.5 ${theme === 'dark' ? 'bg-slate-950 border-slate-900' : 'bg-slate-100 border-slate-300'}`}>
                 <span className="text-[9px] uppercase font-mono text-slate-500 tracking-wider block">SKOR PERSENTASE</span>
                 <p className="text-5xl font-black text-white font-mono">{Math.round((quizScore / QUIZ_QUESTIONS.length) * 100)} %</p>
                 <p className="text-xs text-emerald-400 font-semibold">{quizScore} Benar / {QUIZ_QUESTIONS.length} Soal</p>
@@ -1149,7 +1150,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
                         disabled={showExplanation}
                         className={`w-full p-3.5 rounded-xl border text-left text-xs font-medium cursor-pointer transition-all flex items-start gap-3 disabled:cursor-not-allowed ${btnStyle}`}
                       >
-                        <span className="w-5 h-5 rounded-full bg-slate-900 border border-slate-800 text-[10.5px] font-mono flex items-center justify-center shrink-0">
+                        <span className={`w-5 h-5 rounded-full border text-[10.5px] font-mono flex items-center justify-center shrink-0 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                           {String.fromCharCode(65 + idx)}
                         </span>
                         <span>{opt}</span>
@@ -1182,7 +1183,7 @@ export default function BufferHydrolysisLab({ currentUser }: BufferHydrolysisLab
 
               {/* Exp detailed panel when showed */}
               {showExplanation && (
-                <div className="p-4 bg-slate-950 border border-emerald-900/30 rounded-xl space-y-2 animate-fade-in text-xs leading-relaxed">
+                <div className={`p-4 border border-emerald-900/30 rounded-xl space-y-2 animate-fade-in text-xs leading-relaxed ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                   <div className="flex items-center gap-1.5 text-emerald-400 font-bold uppercase tracking-wider text-[9px]">
                     <CheckCircle className="w-3.5 h-3.5" />
                     Pembahasan Teori Eksak:

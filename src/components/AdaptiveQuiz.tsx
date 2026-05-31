@@ -23,6 +23,7 @@ import {
 import { ADAPTIVE_QUIZ_DATA, AdaptiveQuestion } from './AdaptiveQuizData';
 
 interface AdaptiveQuizProps {
+  theme?: 'dark' | 'light';
   activeView: string;
   currentUser: {
     id: string;
@@ -33,7 +34,7 @@ interface AdaptiveQuizProps {
   } | null;
 }
 
-export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizProps) {
+export default function AdaptiveQuiz({ activeView, currentUser, theme = 'dark' }: AdaptiveQuizProps) {
   // Only render widget in support lab views
   const labViews = [
     'periodic-table',
@@ -289,7 +290,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsSidebarOpen(false)}
-              className="absolute inset-0 bg-slate-950/70 backdrop-blur-xs cursor-zoom-out"
+              className={`absolute inset-0 backdrop-blur-xs cursor-zoom-out ${theme === 'dark' ? 'bg-slate-950/70' : 'bg-slate-100/70'}`}
             />
 
             {/* Sidebar content container */}
@@ -298,10 +299,10 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-              className="relative w-full sm:w-[480px] h-full bg-slate-950 border-l border-slate-850 shadow-2xl flex flex-col z-10"
+              className={`relative w-full sm:w-[480px] h-full border-l shadow-2xl flex flex-col z-10 ${theme === 'dark' ? 'bg-slate-950 border-slate-850' : 'bg-slate-100 border-slate-300'}`}
             >
               {/* Header */}
-              <div className="p-5 border-b border-slate-900 bg-slate-900/40 flex items-center justify-between">
+              <div className={`p-5 border-b flex items-center justify-between ${theme === 'dark' ? 'border-slate-900 bg-slate-900/40' : 'border-slate-300 bg-slate-100/40'}`}>
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 bg-pink-500/10 border border-pink-500/20 rounded-xl">
                     <BrainCircuit className="w-5 h-5 text-pink-400 animate-pulse" />
@@ -313,7 +314,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                 </div>
                 <button
                   onClick={() => setIsSidebarOpen(false)}
-                  className="p-1 px-2.5 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white rounded-lg text-xs font-mono font-bold cursor-pointer transition-all"
+                  className={`p-1 px-2.5 border rounded-lg text-xs font-mono font-bold cursor-pointer transition-all ${theme === 'dark' ? 'bg-slate-900 border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-300 hover:border-slate-400 text-slate-600 hover:text-slate-900'}`}
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -350,17 +351,17 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                     <div className="space-y-3">
                       <h5 className="text-[10px] font-mono font-black text-slate-400 uppercase tracking-widest">Sistem Penilaian Adaptif</h5>
                       <div className="grid grid-cols-3 gap-2.5">
-                        <div className="p-2.5 bg-slate-900/60 border border-slate-850 rounded-xl text-center space-y-1">
+                        <div className={`p-2.5 border rounded-xl text-center space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                           <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[8px] font-bold rounded">MUDAH</span>
                           <p className="text-sm font-black text-white font-mono">15 Pts</p>
                           <p className="text-[8px] text-slate-500">Konsep dasaran</p>
                         </div>
-                        <div className="p-2.5 bg-slate-900/60 border border-slate-850 rounded-xl text-center space-y-1">
+                        <div className={`p-2.5 border rounded-xl text-center space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                           <span className="px-1.5 py-0.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 font-mono text-[8px] font-bold rounded">SEDANG</span>
                           <p className="text-sm font-black text-white font-mono">30 Pts</p>
                           <p className="text-[8px] text-slate-500">Aplikasi rumus</p>
                         </div>
-                        <div className="p-2.5 bg-slate-900/60 border border-slate-850 rounded-xl text-center space-y-1">
+                        <div className={`p-2.5 border rounded-xl text-center space-y-1 ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                           <span className="px-1.5 py-0.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 font-mono text-[8px] font-bold rounded">SUKAR</span>
                           <p className="text-sm font-black text-white font-mono">60 Pts</p>
                           <p className="text-[8px] text-slate-500">Analisis kuantum</p>
@@ -370,7 +371,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
 
                     {/* Class context if any */}
                     {currentUser?.classCode && (
-                      <div className="p-3 bg-slate-900/40 border border-slate-850 rounded-xl flex items-center justify-between gap-3 text-xs">
+                      <div className={`p-3 border rounded-xl flex items-center justify-between gap-3 text-xs ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                         <div className="flex items-center gap-2">
                           <BookOpen className="w-4 h-4 text-indigo-400" />
                           <span className="text-slate-300 font-medium">Grup Kelas Terhubung:</span>
@@ -399,7 +400,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                   <div className="space-y-6 animate-fade-in">
                     
                     {/* Header stats bar */}
-                    <div className="flex items-center justify-between gap-4 bg-slate-900/40 border border-slate-850 p-3 rounded-2xl">
+                    <div className={`flex items-center justify-between gap-4 border p-3 rounded-2xl ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                       
                       <div className="space-y-0.5">
                         <p className="text-[9px] text-slate-500 font-mono font-bold">SOAL KE</p>
@@ -439,13 +440,13 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                     </div>
 
                     {/* Engine Adaptive Log */}
-                    <div className="p-2.5 bg-slate-950 border border-indigo-500/15 rounded-xl flex items-center gap-2 text-[10px] text-slate-400 font-mono leading-normal shadow-inner">
+                    <div className={`p-2.5 border border-indigo-500/15 rounded-xl flex items-center gap-2 text-[10px] font-mono leading-normal shadow-inner ${theme === 'dark' ? 'bg-slate-950 text-slate-400' : 'bg-slate-100 text-slate-600'}`}>
                       <div className="w-2 h-2 rounded-full bg-pink-500 animate-ping shrink-0" />
                       <p className="truncate"><span className="text-pink-400 font-bold">AutoPilot:</span> {systemLog}</p>
                     </div>
 
                     {/* Question text */}
-                    <div className="p-5 bg-slate-900/60 border border-slate-850 rounded-2xl">
+                    <div className={`p-5 border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                       <p className="text-sm text-white font-semibold leading-relaxed whitespace-pre-wrap">
                         {currentQuestion.text}
                       </p>
@@ -524,7 +525,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                       <div className="space-y-4 pt-3 border-t border-slate-900 animate-fade-in">
                         
                         {/* Explanation Box */}
-                        <div className="p-4.5 bg-slate-900/40 border border-slate-850 rounded-2xl space-y-2.5">
+                        <div className={`p-4.5 border rounded-2xl space-y-2.5 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                           <div className="flex items-center gap-2">
                             <BookOpen className="w-4 h-4 text-teal-400" />
                             <h5 className="text-[10px] font-mono font-black text-teal-400 uppercase tracking-wider">Pemahaman Konsep (Akurasi Adaptif)</h5>
@@ -560,7 +561,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                       
                       <div className="relative inline-block">
                         <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-indigo-500 rounded-full blur animate-pulse" />
-                        <div className="relative w-16 h-16 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center mx-auto text-pink-400">
+                        <div className={`relative w-16 h-16 border rounded-full flex items-center justify-center mx-auto text-pink-400 ${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-300'}`}>
                           <Award className="w-8 h-8 text-pink-400 animate-bounce" />
                         </div>
                       </div>
@@ -575,11 +576,11 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                       </p>
 
                       <div className="grid grid-cols-2 gap-3.5 pt-2">
-                        <div className="p-3 bg-slate-900/60 border border-slate-850 rounded-2xl">
+                        <div className={`p-3 border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                           <p className="text-[9px] text-slate-500 font-mono font-bold">TOTAL SKOR</p>
                           <p className="text-xl font-black text-teal-400 font-mono">{score} Pts</p>
                         </div>
-                        <div className="p-3 bg-slate-900/60 border border-slate-850 rounded-2xl">
+                        <div className={`p-3 border rounded-2xl ${theme === 'dark' ? 'bg-slate-900/60 border-slate-850' : 'bg-slate-100/60 border-slate-300'}`}>
                           <p className="text-[9px] text-slate-500 font-mono font-bold">AKURASI REKOR</p>
                           <p className="text-xl font-black text-pink-400 font-mono">
                             {Math.round((history.filter(h => h.isCorrect).length / 3) * 100)}%
@@ -589,7 +590,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                     </div>
 
                     {/* Learning Curve Graph Visualization (Adaptive Trajectory) */}
-                    <div className="p-5 bg-slate-900/40 border border-slate-850 rounded-2xl space-y-3.5">
+                    <div className={`p-5 border rounded-2xl space-y-3.5 ${theme === 'dark' ? 'bg-slate-900/40 border-slate-850' : 'bg-slate-100/40 border-slate-300'}`}>
                       <div className="flex items-center gap-2">
                         <TrendingUp className="w-4 h-4 text-indigo-400" />
                         <h5 className="text-[10px] font-mono font-black text-white uppercase tracking-wider">
@@ -632,7 +633,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                         })}
                       </div>
 
-                      <div className="p-3 bg-slate-950 rounded-xl">
+                      <div className={`p-3 rounded-xl ${theme === 'dark' ? 'bg-slate-950' : 'bg-slate-100'}`}>
                         <p className="text-[9.5px] text-slate-400 font-mono leading-relaxed text-center">
                           ℹ️ Grafik merefleksikan perubahan bobot nalar Anda. Berhasil menjawab tingkat <span className="text-amber-400">Sedang</span> meluncurkan Anda ke tingkat <span className="text-rose-400">Sukar</span>!
                         </p>
@@ -643,7 +644,7 @@ export default function AdaptiveQuiz({ activeView, currentUser }: AdaptiveQuizPr
                     <div className="pt-3 border-t border-slate-900 flex gap-3">
                       <button
                         onClick={startQuiz}
-                        className="flex-1 py-3 bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-slate-750 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 cursor-pointer transition-all"
+                        className={`flex-1 py-3 hover:bg-slate-850 border font-mono font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 cursor-pointer transition-all ${theme === 'dark' ? 'bg-slate-900 border-slate-800 hover:border-slate-750 text-white' : 'bg-slate-100 border-slate-300 hover:border-slate-400 text-slate-900'}`}
                       >
                         <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
                         <span>Mulai Lagi</span>
